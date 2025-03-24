@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { BookOpen, Search, Tag as TagIcon } from "lucide-react";
@@ -16,7 +17,7 @@ export interface BookType {
   pages: string;
   description: string;
   tags: string[];
-  fullDescription?: string; // Add this optional property
+  fullDescription?: string;
 }
 
 // Export booksData so it can be used in other components
@@ -80,7 +81,7 @@ export const booksData: BookType[] = [
     id: 6,
     title: "من الشواهد الشرعية والنماذج التاريخية على مشروعية الإضرابات والاعتصامات والمظاهرات السلمية",
     author: "الشيخ علي بن حاج",
-    cover: "https://images.unsplash.com/photo-1617575521317-d2974f3b56d2?q=80&w=1374&auto=format&fit=crop",
+    cover: "/lovable-uploads/cea782ab-8305-4831-b397-509e71c99d94.png",
     year: "2012",
     publicationDate: "٢٢ أبريل ٢٠١٢",
     downloadUrl: "https://web.archive.org/web/20121013114015/http://alibenhadj.net/upload/ebook/chawahide1.rar",

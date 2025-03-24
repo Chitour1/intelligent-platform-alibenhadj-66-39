@@ -17,11 +17,11 @@ const BookCard = ({ id, title, cover, year, publicationDate, pages, description 
   return (
     <Link to={`/publications/books/${id}`} className="card group">
       <div className="relative overflow-hidden rounded-md">
-        <AspectRatio ratio={3/4} className="w-full">
+        <AspectRatio ratio={3/4} className="w-full bg-gray-100">
           <img 
             src={cover} 
             alt={title} 
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.src = "/placeholder.svg";

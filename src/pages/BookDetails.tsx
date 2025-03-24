@@ -1,6 +1,6 @@
 
 import { useParams, Link } from "react-router-dom";
-import { ArrowRight, BookOpen, CalendarDays, FileText, Download, Tag, ChevronLeft } from "lucide-react";
+import { ArrowRight, BookOpen, CalendarDays, FileText, Download, Tag, ChevronLeft, BookText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface BookType {
@@ -14,6 +14,7 @@ interface BookType {
   description: string;
   tags: string[];
   fullDescription?: string;
+  readableOnline?: boolean;
 }
 
 // Sample books data with added full descriptions
@@ -25,6 +26,7 @@ const booksData: BookType[] = [
     cover: "/lovable-uploads/1c7632ee-4853-4921-b4bb-5ebc916df3c6.png",
     downloadUrl: "https://down.ketabpedia.com/files/gsh/gsh14120.rar",
     year: "٢٠١٥",
+    publicationDate: "٢٤ مارس ٢٠٢٥",
     pages: "٦٢",
     description: "يطرح الشيخ علي بن حاج في هذا الكتاب رؤية شرعية وفكرية ناقدة للعلاقة بين الحاكم والمحكوم تجاه القرآن الكريم، ويتناول بالتفصيل الواجبات الدينية والسياسية التي ينبغي أن يلتزم بها كل من الراعي (الحاكم) والرعية (الشعب) تجاه كتاب الله عز وجل، مع تسليط الضوء على مظاهر الانحراف عن هذه الواجبات في الواقع المعاصر.",
     tags: ["الفكر الإسلامي", "السياسة الشرعية", "الإصلاح"],
@@ -38,7 +40,8 @@ const booksData: BookType[] = [
 
 يضم الكتاب أيضًا فقرات تتعلق بنقد الأوضاع السياسية في الجزائر والعالم الإسلامي عمومًا، مع عرض مفصّل لما يعتبره كبار انحرافات الحكام، مثل تعطيل الشريعة، وتضييع أموال الأمة، وخذلان القضايا الإسلامية، واغتصاب الحكم.
 
-ويخلص الكاتب إلى أن طريق الخلاص يكمن في العودة إلى القرآن الكريم مرجعية عليا للدولة والمجتمع، وتحقيق الإصلاح الحقيقي من خلال إقامة أحكام الله في الأرض.`
+ويخلص الكاتب إلى أن طريق الخلاص يكمن في العودة إلى القرآن الكريم مرجعية عليا للدولة والمجتمع، وتحقيق الإصلاح الحقيقي من خلال إقامة أحكام الله في الأرض.`,
+    readableOnline: true
   },
   {
     id: 2,
@@ -47,22 +50,11 @@ const booksData: BookType[] = [
     cover: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=1200&auto=format&fit=crop",
     downloadUrl: "#",
     year: "٢٠٢٢",
+    publicationDate: "١٠ مارس ٢٠٢٥",
     pages: "٣٢٠",
     description: "كتاب يناقش التحديات السياسية المعاصرة في العالم العربي ويطرح رؤية إصلاحية شاملة للتعامل معها...",
     tags: ["السياسة الشرعية", "الإصلاح"],
     fullDescription: "كتاب يناقش التحديات السياسية المعاصرة في العالم العربي ويطرح رؤية إصلاحية شاملة للتعامل معها. يستعرض المؤلف مجموعة من القضايا المعاصرة التي تواجه العالم الإسلامي، ويقدم تحليلاً عميقاً لجذورها وتداعياتها، مع طرح حلول عملية مستمدة من الشريعة الإسلامية والتجارب الإنسانية الناجحة."
-  },
-  {
-    id: 3,
-    title: "المشروع الإصلاحي الشامل",
-    author: "أبو عبد الفتاح علي بن حاج",
-    cover: "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=1200&auto=format&fit=crop",
-    downloadUrl: "#",
-    year: "٢٠٢٠",
-    pages: "٢٨٠",
-    description: "دراسة تحليلية شاملة حول متطلبات وآليات الإصلاح السياسي والاجتماعي في المجتمعات العربية المعاصرة...",
-    tags: ["الإصلاح", "الفكر الإسلامي"],
-    fullDescription: "دراسة تحليلية شاملة حول متطلبات وآليات الإصلاح السياسي والاجتماعي في المجتمعات العربية المعاصرة. يقدم الكتاب رؤية متكاملة للإصلاح الشامل في مختلف مجالات الحياة: السياسية والاقتصادية والاجتماعية والتربوية، ويطرح خارطة طريق عملية للخروج من الأزمات المتراكمة التي تعيشها الأمة الإسلامية."
   },
   {
     id: 4,
@@ -71,6 +63,7 @@ const booksData: BookType[] = [
     cover: "https://images.unsplash.com/photo-1589998059171-988d887df646?q=80&w=1200&auto=format&fit=crop",
     downloadUrl: "#",
     year: "٢٠١٩",
+    publicationDate: "٢٠ فبراير ٢٠٢٥",
     pages: "٢٥٠",
     description: "دراسة في مفهوم الدولة المدنية وآليات تطبيقها في السياق العربي المعاصر مع استعراض للتجارب العالمية...",
     tags: ["السياسة الشرعية", "الفكر الإسلامي"],
@@ -83,6 +76,7 @@ const booksData: BookType[] = [
     cover: "https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?q=80&w=1200&auto=format&fit=crop",
     downloadUrl: "#",
     year: "٢٠١٧",
+    publicationDate: "١ فبراير ٢٠٢٥",
     pages: "٢٣٠",
     description: "بحث في إشكاليات الهوية والانتماء في ظل تحديات العولمة وكيفية الحفاظ على الخصوصية الثقافية...",
     tags: ["الفكر الإسلامي", "التربية"],
@@ -136,6 +130,14 @@ const BookDetails = () => {
                 <img src={book.cover} alt={book.title} className="w-full h-full object-cover" />
               </div>
               <div className="space-y-3">
+                {book.readableOnline && (
+                  <Button className="w-full bg-navy" asChild>
+                    <Link to={`/publications/books/${book.id}/read`}>
+                      <BookText size={16} className="ml-2" />
+                      تصفح الكتاب
+                    </Link>
+                  </Button>
+                )}
                 <Button className="w-full" asChild>
                   <a href={book.downloadUrl} target="_blank" rel="noopener noreferrer">
                     <Download size={16} className="ml-2" />

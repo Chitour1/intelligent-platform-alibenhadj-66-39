@@ -1,26 +1,63 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { fetchVideoDetails } from '../utils/youtubeUtils';
 
 const FridayMeetingsVideo = () => {
   const [currentVideo, setCurrentVideo] = useState("XS7jF85h9TY");
+  const [videoDetails, setVideoDetails] = useState({
+    title: "",
+    description: "",
+    date: ""
+  });
   
-  // Featured video data
-  const featuredVideo = {
-    id: "XS7jF85h9TY",
-    title: "كلمة الشيخ علي بن حاج ليوم 22 مارس 2025",
-    date: "٢٢ مارس ٢٠٢٥",
-    description: "لقاء الجمعة الأسبوعي مع الشيخ علي بن حاج يناقش فيه أهم القضايا الراهنة والمستجدات السياسية والاجتماعية والدينية في الجزائر والعالم الإسلامي."
-  };
-
   // Sample recent videos list (you can replace with actual data)
   const recentVideos = [
-    { id: "XS7jF85h9TY", title: "كلمة الشيخ علي بن حاج ليوم 22 مارس 2025", date: "٢٢ مارس ٢٠٢٥" },
-    { id: "-8OtW7dPaJU", title: "وهذه", date: "١٥ مارس ٢٠٢٥" },
-    { id: "XS7jF85h9TY", title: "تحليل الأحداث الجارية في العالم الإسلامي", date: "١٧ مارس ٢٠٢٥" },
-    { id: "XS7jF85h9TY", title: "الشيخ علي بن حاج يتحدث عن مستجدات الساحة السياسية", date: "١٠ مارس ٢٠٢٥" },
-    { id: "XS7jF85h9TY", title: "رؤية الشيخ علي بن حاج حول قضايا الشباب المسلم", date: "٣ مارس ٢٠٢٥" },
+    { id: "XS7jF85h9TY", title: "", date: "٢٢ مارس ٢٠٢٥" },
+    { id: "-8OtW7dPaJU", title: "", date: "١٥ مارس ٢٠٢٥" },
+    { id: "XS7jF85h9TY", title: "", date: "١٧ مارس ٢٠٢٥" },
+    { id: "XS7jF85h9TY", title: "", date: "١٠ مارس ٢٠٢٥" },
+    { id: "XS7jF85h9TY", title: "", date: "٣ مارس ٢٠٢٥" },
   ];
+
+  useEffect(() => {
+    const loadVideoDetails = async () => {
+      try {
+        const details = await fetchVideoDetails(currentVideo);
+        setVideoDetails({
+          title: details.title,
+          description: details.description || "لا يوجد وصف متاح.",
+          date: details.publishedAt ? formatDate(details.publishedAt) : ""
+        });
+      } catch (error) {
+        console.error("Error fetching video details:", error);
+        setVideoDetails({
+          title: "كلمة الشيخ علي بن حاج",
+          description: "لقاء الجمعة الأسبوعي مع الشيخ علي بن حاج يناقش فيه أهم القضايا الراهنة والمستجدات السياسية والاجتماعية والدينية في الجزائر والعالم الإسلامي.",
+          date: "٢٢ مارس ٢٠٢٥"
+        });
+      }
+    };
+
+    loadVideoDetails();
+  }, [currentVideo]);
+
+  // Helper function to format date to Arabic format
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = getArabicMonth(date.getMonth());
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
+  };
+
+  // Convert month number to Arabic month name
+  const getArabicMonth = (monthIndex) => {
+    const arabicMonths = [
+      "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
+      "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+    ];
+    return arabicMonths[monthIndex];
+  };
 
   return (
     <div className="section-container">
@@ -41,9 +78,9 @@ const FridayMeetingsVideo = () => {
           </div>
           
           <div className="space-y-2">
-            <h2 className="text-2xl font-bold text-navy-dark">{featuredVideo.title}</h2>
-            <p className="text-sm text-gray-500">{featuredVideo.date}</p>
-            <p className="text-gray-700 leading-relaxed">{featuredVideo.description}</p>
+            <h2 className="text-2xl font-bold text-navy-dark">{videoDetails.title}</h2>
+            <p className="text-sm text-gray-500">{videoDetails.date}</p>
+            <p className="text-gray-700 leading-relaxed">{videoDetails.description}</p>
           </div>
         </div>
         
@@ -64,27 +101,56 @@ const FridayMeetingsVideo = () => {
             
             <div className="space-y-4 max-h-[600px] overflow-y-auto custom-scrollbar">
               {recentVideos.map((video, index) => (
-                <div 
+                <VideoListItem 
                   key={index}
-                  className="flex gap-3 p-2 rounded-md cursor-pointer hover:bg-gray-100 transition-colors"
+                  video={video} 
                   onClick={() => setCurrentVideo(video.id)}
-                >
-                  <div className="flex-shrink-0 relative w-24 h-16 rounded overflow-hidden">
-                    <img 
-                      src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}
-                      alt={video.title}
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-sm text-navy-dark line-clamp-2">{video.title}</h4>
-                    <p className="text-xs text-gray-500 mt-1">{video.date}</p>
-                  </div>
-                </div>
+                />
               ))}
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  );
+};
+
+// Separate component for video list items
+const VideoListItem = ({ video, onClick }) => {
+  const [title, setTitle] = useState(video.title || "جاري تحميل العنوان...");
+
+  useEffect(() => {
+    const getVideoTitle = async () => {
+      try {
+        const details = await fetchVideoDetails(video.id);
+        setTitle(details.title);
+      } catch (error) {
+        console.error(`Error fetching details for video ${video.id}:`, error);
+        // Keep the existing title if provided, otherwise show error
+        setTitle(video.title || "عنوان غير متاح");
+      }
+    };
+
+    if (!video.title) {
+      getVideoTitle();
+    }
+  }, [video.id, video.title]);
+
+  return (
+    <div 
+      className="flex gap-3 p-2 rounded-md cursor-pointer hover:bg-gray-100 transition-colors"
+      onClick={onClick}
+    >
+      <div className="flex-shrink-0 relative w-24 h-16 rounded overflow-hidden">
+        <img 
+          src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}
+          alt={title}
+          className="object-cover w-full h-full"
+        />
+      </div>
+      <div className="flex-1 min-w-0">
+        <h4 className="font-medium text-sm text-navy-dark line-clamp-2">{title}</h4>
+        <p className="text-xs text-gray-500 mt-1">{video.date}</p>
       </div>
     </div>
   );

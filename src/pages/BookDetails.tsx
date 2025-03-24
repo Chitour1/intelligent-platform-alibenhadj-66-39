@@ -1,6 +1,6 @@
 
 import { useParams, Link } from "react-router-dom";
-import { ArrowRight, BookOpen, CalendarDays, FileText, Download, Tag, ChevronLeft, Book } from "lucide-react";
+import { ArrowRight, BookOpen, CalendarDays, FileText, Download, Tag, ChevronLeft, BookText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface BookType {
@@ -14,7 +14,7 @@ interface BookType {
   description: string;
   tags: string[];
   fullDescription?: string;
-  publicationDate?: string;
+  readableOnline?: boolean;
 }
 
 // Sample books data with added full descriptions
@@ -26,10 +26,10 @@ const booksData: BookType[] = [
     cover: "/lovable-uploads/1c7632ee-4853-4921-b4bb-5ebc916df3c6.png",
     downloadUrl: "https://down.ketabpedia.com/files/gsh/gsh14120.rar",
     year: "٢٠١٥",
+    publicationDate: "٢٤ مارس ٢٠٢٥",
     pages: "٦٢",
     description: "يطرح الشيخ علي بن حاج في هذا الكتاب رؤية شرعية وفكرية ناقدة للعلاقة بين الحاكم والمحكوم تجاه القرآن الكريم، ويتناول بالتفصيل الواجبات الدينية والسياسية التي ينبغي أن يلتزم بها كل من الراعي (الحاكم) والرعية (الشعب) تجاه كتاب الله عز وجل، مع تسليط الضوء على مظاهر الانحراف عن هذه الواجبات في الواقع المعاصر.",
     tags: ["الفكر الإسلامي", "السياسة الشرعية", "الإصلاح"],
-    publicationDate: "٢٤ مارس ٢٠٢٥",
     fullDescription: `يطرح الشيخ علي بن حاج في هذا الكتاب، الذي يقع في 62 صفحة، رؤية شرعية وفكرية ناقدة للعلاقة بين الحاكم والمحكوم تجاه القرآن الكريم، ويتناول بالتفصيل الواجبات الدينية والسياسية التي ينبغي أن يلتزم بها كل من الراعي (الحاكم) والرعية (الشعب) تجاه كتاب الله عز وجل، مع تسليط الضوء على مظاهر الانحراف عن هذه الواجبات في الواقع المعاصر.
 
 ينطلق المؤلف من واقع يُكرَّم فيه القرآن في المناسبات الاحتفالية، بينما تُعطَّل أحكامه في الواقع العملي والتشريعي، معتبرًا أن هذا السلوك يمثل "كارثة الكوارث" في حياة المسلمين اليوم. ويعرض المؤلف نقدًا شديدًا للحكام الذين يحصرون علاقتهم بالقرآن في التلاوة والتكريم الموسمي، متجاهلين تطبيق الشريعة وإقامة الحدود، ويحمّل المسؤولية كذلك لعلماء السلطة الذين يسكتون عن هذا الواقع.
@@ -40,7 +40,8 @@ const booksData: BookType[] = [
 
 يضم الكتاب أيضًا فقرات تتعلق بنقد الأوضاع السياسية في الجزائر والعالم الإسلامي عمومًا، مع عرض مفصّل لما يعتبره كبار انحرافات الحكام، مثل تعطيل الشريعة، وتضييع أموال الأمة، وخذلان القضايا الإسلامية، واغتصاب الحكم.
 
-ويخلص الكاتب إلى أن طريق الخلاص يكمن في العودة إلى القرآن الكريم مرجعية عليا للدولة والمجتمع، وتحقيق الإصلاح الحقيقي من خلال إقامة أحكام الله في الأرض.`
+ويخلص الكاتب إلى أن طريق الخلاص يكمن في العودة إلى القرآن الكريم مرجعية عليا للدولة والمجتمع، وتحقيق الإصلاح الحقيقي من خلال إقامة أحكام الله في الأرض.`,
+    readableOnline: true
   },
   {
     id: 2,
@@ -49,10 +50,10 @@ const booksData: BookType[] = [
     cover: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=1200&auto=format&fit=crop",
     downloadUrl: "#",
     year: "٢٠٢٢",
+    publicationDate: "١٠ مارس ٢٠٢٥",
     pages: "٣٢٠",
     description: "كتاب يناقش التحديات السياسية المعاصرة في العالم العربي ويطرح رؤية إصلاحية شاملة للتعامل معها...",
     tags: ["السياسة الشرعية", "الإصلاح"],
-    publicationDate: "١٠ مارس ٢٠٢٥",
     fullDescription: "كتاب يناقش التحديات السياسية المعاصرة في العالم العربي ويطرح رؤية إصلاحية شاملة للتعامل معها. يستعرض المؤلف مجموعة من القضايا المعاصرة التي تواجه العالم الإسلامي، ويقدم تحليلاً عميقاً لجذورها وتداعياتها، مع طرح حلول عملية مستمدة من الشريعة الإسلامية والتجارب الإنسانية الناجحة."
   },
   {
@@ -62,10 +63,10 @@ const booksData: BookType[] = [
     cover: "https://images.unsplash.com/photo-1589998059171-988d887df646?q=80&w=1200&auto=format&fit=crop",
     downloadUrl: "#",
     year: "٢٠١٩",
+    publicationDate: "٢٠ فبراير ٢٠٢٥",
     pages: "٢٥٠",
     description: "دراسة في مفهوم الدولة المدنية وآليات تطبيقها في السياق العربي المعاصر مع استعراض للتجارب العالمية...",
     tags: ["السياسة الشرعية", "الفكر الإسلامي"],
-    publicationDate: "٢٠ فبراير ٢٠٢٥",
     fullDescription: "دراسة في مفهوم الدولة المدنية وآليات تطبيقها في السياق العربي المعاصر مع استعراض للتجارب العالمية. يناقش الكتاب إشكالية العلاقة بين الدين والدولة، ويميز بين مفهوم الدولة المدنية ذات المرجعية الإسلامية والدولة العلمانية، كما يستعرض نماذج مختلفة من الدول المعاصرة وعلاقتها بالدين."
   },
   {
@@ -75,10 +76,10 @@ const booksData: BookType[] = [
     cover: "https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?q=80&w=1200&auto=format&fit=crop",
     downloadUrl: "#",
     year: "٢٠١٧",
+    publicationDate: "١ فبراير ٢٠٢٥",
     pages: "٢٣٠",
     description: "بحث في إشكاليات الهوية والانتماء في ظل تحديات العولمة وكيفية الحفاظ على الخصوصية الثقافية...",
     tags: ["الفكر الإسلامي", "التربية"],
-    publicationDate: "١ فبراير ٢٠٢٥",
     fullDescription: "بحث في إشكاليات الهوية والانتماء في ظل تحديات العولمة وكيفية الحفاظ على الخصوصية الثقافية. يتناول الكتاب تحديات العولمة الثقافية والفكرية وتأثيرها على الهوية الإسلامية، ويطرح آليات للحفاظ على الأصالة مع الانفتاح الواعي على الآخر، ويؤكد على دور التربية والتعليم في تعزيز الهوية وبناء الشخصية المتوازنة."
   }
 ];
@@ -129,16 +130,14 @@ const BookDetails = () => {
                 <img src={book.cover} alt={book.title} className="w-full h-full object-cover" />
               </div>
               <div className="space-y-3">
-                {/* Read Book Button - Only for "البرهان" book */}
-                {book.id === 1 && (
-                  <Button className="w-full bg-navy hover:bg-navy-dark" asChild>
+                {book.readableOnline && (
+                  <Button className="w-full bg-navy" asChild>
                     <Link to={`/publications/books/${book.id}/read`}>
-                      <Book size={16} className="ml-2" />
-                      قراءة الكتاب
+                      <BookText size={16} className="ml-2" />
+                      تصفح الكتاب
                     </Link>
                   </Button>
                 )}
-                
                 <Button className="w-full" asChild>
                   <a href={book.downloadUrl} target="_blank" rel="noopener noreferrer">
                     <Download size={16} className="ml-2" />

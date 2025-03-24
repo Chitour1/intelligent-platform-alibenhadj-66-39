@@ -1,198 +1,229 @@
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { ChevronRight, ChevronLeft, Book, ArrowRight, Menu } from "lucide-react";
+import { ChevronLeft, ChevronRight, List, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
-} from "@/components/ui/table";
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 interface BookReaderProps {
-  title: string;
-  author: string;
-  content: string[];
+  bookId: number;
+  initialPage?: number;
 }
 
-const BookReader = ({ title, author, content }: BookReaderProps) => {
-  const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useState(0);
-  const [isIndexOpen, setIsIndexOpen] = useState(false);
-  
-  const chapters = [
-    { title: "البرهان فيما يجب على الراعي والرعية نحو القرآن", page: 0 },
-    { title: "من نباهة وفطانة السلف الصالح", page: 4 },
-    { title: "القرآن وواجب الشعب نحوه", page: 8 },
-    { title: "تذكير الخلف بسيرة السلف مع القرآن العظيم", page: 8 },
-    { title: "تحذيرات نبوية شريفة", page: 15 },
-    { title: "التحذير من التكسب بالقرآن الكريم", page: 15 },
-    { title: "التحذير من قراءة التطريب والألحان", page: 17 },
-    { title: "التحذير من حفظ الحروف وتضييع الحدود والأحكام", page: 18 },
-    { title: "وجوب التمييز بين أصناف القرّاء", page: 19 },
-    { title: "التحذير من الاشتغال بزخرفة المساجد وتزيين المصاحف", page: 21 },
+// This would typically come from an API or database
+const getBookContent = (bookId: number, page: number) => {
+  // For demonstration purposes, we're hardcoding content from the requested book
+  const pages = [
+    { id: 1, content: "بسم الله الرحمن الرحيم\n\nالحمد لله رب العالمين، والصلاة والسلام على أشرف المرسلين، سيدنا محمد وعلى آله وصحبه أجمعين.\n\nأما بعد،\n\nفإن كتاب الله عز وجل هو المصدر الأول للتشريع الإسلامي، وهو الذي يجب أن يكون المرجع الأساسي لكل مسلم في شؤون حياته كلها، وعلى رأسها علاقته بالحاكم والمحكوم." },
+    { id: 2, content: "إن العلاقة بين الراعي والرعية في الإسلام محكومة بكتاب الله عز وجل، فهو الذي يحدد واجبات كل منهما تجاه الآخر، ويبين الحقوق والواجبات التي تترتب على هذه العلاقة.\n\nوقد جاء هذا الكتاب ليبين بالتفصيل ما يجب على الراعي والرعية نحو القرآن الكريم، وكيف يكون التعامل الصحيح مع كتاب الله عز وجل." },
+    { id: 3, content: "الفصل الأول: واجبات الراعي نحو القرآن الكريم\n\nإن من أول واجبات الحاكم نحو القرآن الكريم هو التمسك به والعمل بأحكامه، وتطبيق شريعته في كل مجالات الحياة، وعدم مخالفته في أي أمر من الأمور.\n\nقال تعالى: {وَمَنْ لَمْ يَحْكُمْ بِمَا أَنْزَلَ اللَّهُ فَأُولَئِكَ هُمُ الْكَافِرُونَ} [المائدة: 44]." },
+    { id: 4, content: "ومن واجبات الحاكم أيضاً نشر علوم القرآن بين الناس، وتشجيعهم على حفظه وتدبره والعمل به، وتوفير كل ما يلزم لتحقيق ذلك من مدارس ومعاهد ومساجد ووسائل إعلام.\n\nكما يجب عليه أن يكون قدوة للناس في الالتزام بأحكام القرآن الكريم، والتمسك بأخلاقه وآدابه، ليكون مثلاً يُحتذى به في المجتمع." },
+    { id: 5, content: "ومن أهم واجبات الحاكم نحو القرآن الكريم أن يحكم بما أنزل الله، وأن يقيم شرع الله في الأرض، وأن يطبق أحكام القرآن في كل مجالات الحياة، السياسية والاقتصادية والاجتماعية وغيرها.\n\nقال تعالى: {وَأَنِ احْكُمْ بَيْنَهُمْ بِمَا أَنْزَلَ اللَّهُ وَلَا تَتَّبِعْ أَهْوَاءَهُمْ وَاحْذَرْهُمْ أَنْ يَفْتِنُوكَ عَنْ بَعْضِ مَا أَنْزَلَ اللَّهُ إِلَيْكَ} [المائدة: 49]." },
   ];
+  
+  // Page indexing starts from 1 in the UI but arrays start from 0
+  return pages[page - 1] || { id: page, content: "هذه الصفحة غير متوفرة" };
+};
 
-  const handlePrevPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-      window.scrollTo(0, 0);
+// Book chapters index
+const bookIndex = [
+  { id: 1, title: "المقدمة", page: 1 },
+  { id: 2, title: "الفصل الأول: واجبات الراعي نحو القرآن", page: 3 },
+  { id: 3, title: "الفصل الثاني: واجبات الرعية نحو القرآن", page: 10 },
+  { id: 4, title: "الفصل الثالث: العلاقة بين الحاكم والمحكوم في ضوء القرآن", page: 15 },
+  { id: 5, title: "الفصل الرابع: فساد العلاقة بين الراعي والرعية وأثره على الأمة", page: 20 },
+  { id: 6, title: "الفصل الخامس: كيفية إصلاح العلاقة بين الراعي والرعية", page: 25 },
+  { id: 7, title: "الخاتمة", page: 30 },
+];
+
+const BookReader = ({ bookId, initialPage = 1 }: BookReaderProps) => {
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [isIndexOpen, setIsIndexOpen] = useState(false);
+  const totalPages = 30; // For demonstration purposes
+  
+  const pageContent = getBookContent(bookId, currentPage);
+  
+  const goToPage = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
     }
   };
-
-  const handleNextPage = () => {
-    if (currentPage < content.length - 1) {
-      setCurrentPage(currentPage + 1);
-      window.scrollTo(0, 0);
+  
+  const goToPreviousPage = () => goToPage(currentPage - 1);
+  const goToNextPage = () => goToPage(currentPage + 1);
+  
+  const generatePaginationItems = () => {
+    const items = [];
+    const displayPages = 5; // Number of page links to show
+    
+    let startPage = Math.max(1, currentPage - Math.floor(displayPages / 2));
+    let endPage = Math.min(totalPages, startPage + displayPages - 1);
+    
+    // Adjust if we're near the end
+    if (endPage - startPage + 1 < displayPages) {
+      startPage = Math.max(1, endPage - displayPages + 1);
     }
+    
+    // First page
+    if (startPage > 1) {
+      items.push(
+        <PaginationItem key="first">
+          <PaginationLink onClick={() => goToPage(1)}>١</PaginationLink>
+        </PaginationItem>
+      );
+      
+      if (startPage > 2) {
+        items.push(
+          <PaginationItem key="ellipsis-start">
+            <PaginationEllipsis />
+          </PaginationItem>
+        );
+      }
+    }
+    
+    // Page numbers
+    for (let i = startPage; i <= endPage; i++) {
+      const arabicNumber = i.toLocaleString('ar-EG');
+      items.push(
+        <PaginationItem key={i}>
+          <PaginationLink 
+            isActive={i === currentPage} 
+            onClick={() => goToPage(i)}
+          >
+            {arabicNumber}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    }
+    
+    // Last page
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        items.push(
+          <PaginationItem key="ellipsis-end">
+            <PaginationEllipsis />
+          </PaginationItem>
+        );
+      }
+      
+      items.push(
+        <PaginationItem key="last">
+          <PaginationLink onClick={() => goToPage(totalPages)}>
+            {totalPages.toLocaleString('ar-EG')}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    }
+    
+    return items;
   };
-
-  const goToChapter = (pageIndex: number) => {
-    setCurrentPage(pageIndex);
-    setIsIndexOpen(false);
-    window.scrollTo(0, 0);
-  };
-
-  const totalPages = content.length;
-
-  // Check if the content array is valid and has the current page
-  const currentPageContent = content && currentPage < content.length ? content[currentPage] : "";
-
+  
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="sticky top-0 z-10 bg-white border-b shadow-sm">
-        <div className="flex items-center justify-between p-4 max-w-5xl mx-auto">
-          <Button 
-            variant="ghost" 
-            onClick={() => navigate(-1)} 
-            className="text-navy hover:text-gold"
-          >
-            <ArrowRight className="ml-2 h-4 w-4" />
-            العودة
-          </Button>
-          
-          <div className="text-center">
-            <h1 className="text-lg font-bold text-navy">{title}</h1>
-            <p className="text-sm text-gray-500">{author}</p>
-          </div>
-          
-          <Button
-            variant="outline"
-            onClick={() => setIsIndexOpen(!isIndexOpen)}
-            className="text-navy border-navy hover:bg-navy/10"
-          >
-            <Menu className="ml-2 h-4 w-4" />
-            الفهرس
-          </Button>
+    <div className="border rounded-lg shadow-sm flex flex-col h-full">
+      {/* Reader Header */}
+      <div className="flex items-center justify-between p-4 border-b">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setIsIndexOpen(!isIndexOpen)}
+        >
+          <List size={16} className="ml-2" />
+          الفهرس
+        </Button>
+        <div className="text-sm text-gray-500">
+          الصفحة {currentPage.toLocaleString('ar-EG')} من {totalPages.toLocaleString('ar-EG')}
         </div>
       </div>
       
-      {/* Book Content */}
-      <div className="flex relative">
-        {/* Table of Contents (Mobile Collapsible) */}
-        <div className="lg:hidden w-full px-4 py-2">
-          <Collapsible open={isIndexOpen} onOpenChange={setIsIndexOpen}>
-            <CollapsibleTrigger asChild>
-              <Button 
-                variant="outline" 
-                className="w-full mb-4 flex items-center justify-between"
-              >
-                <span className="flex items-center">
-                  <Book className="ml-2 h-4 w-4" />
-                  فهرس الكتاب
-                </span>
-                <ChevronLeft className={`h-4 w-4 transition-transform ${isIndexOpen ? 'rotate-90' : ''}`} />
-              </Button>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <div className="border rounded-md p-4 mb-6 bg-gray-50">
-                <ul className="space-y-2">
-                  {chapters.map((chapter, idx) => (
-                    <li key={idx}>
-                      <Button
-                        variant="ghost"
-                        className={`w-full justify-start text-right ${currentPage === chapter.page ? 'text-gold font-bold' : 'text-navy'}`}
-                        onClick={() => goToChapter(chapter.page)}
-                      >
-                        {chapter.title}
-                      </Button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </CollapsibleContent>
-          </Collapsible>
-        </div>
-        
-        {/* Table of Contents (Desktop) */}
-        <div className="hidden lg:block lg:w-1/4 p-4 sticky top-20 self-start h-[calc(100vh-5rem)] overflow-y-auto">
-          <div className="border rounded-md p-4 bg-gray-50">
-            <h3 className="text-lg font-bold mb-4 text-navy flex items-center">
-              <Book className="ml-2 h-5 w-5" />
-              فهرس الكتاب
-            </h3>
-            <ul className="space-y-2">
-              {chapters.map((chapter, idx) => (
-                <li key={idx}>
-                  <Button
-                    variant="ghost"
-                    className={`w-full justify-start text-right ${currentPage === chapter.page ? 'text-gold font-bold' : 'text-navy'}`}
-                    onClick={() => goToChapter(chapter.page)}
+      {/* Reader Content */}
+      <div className="flex flex-1 min-h-0">
+        {/* Index Sidebar */}
+        <Collapsible
+          open={isIndexOpen}
+          onOpenChange={setIsIndexOpen}
+          className={`border-l transition-all duration-300 ${isIndexOpen ? 'w-64' : 'w-0'}`}
+        >
+          <CollapsibleContent className="h-full overflow-y-auto p-4">
+            <h3 className="font-bold text-lg mb-4">فهرس الكتاب</h3>
+            <ul className="space-y-3">
+              {bookIndex.map((chapter) => (
+                <li key={chapter.id}>
+                  <button
+                    onClick={() => {
+                      goToPage(chapter.page);
+                      if (window.innerWidth < 768) {
+                        setIsIndexOpen(false);
+                      }
+                    }}
+                    className={`text-right w-full px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors ${
+                      currentPage === chapter.page ? 'bg-navy/10 text-navy font-medium' : ''
+                    }`}
                   >
                     {chapter.title}
-                  </Button>
+                  </button>
                 </li>
               ))}
             </ul>
-          </div>
-        </div>
+          </CollapsibleContent>
+        </Collapsible>
         
-        {/* Content */}
-        <div className="w-full lg:w-3/4 max-w-3xl mx-auto p-6">
-          <div className="prose prose-lg max-w-none">
-            <div 
-              className="leading-relaxed text-gray-800" 
-              dir="rtl"
-            >
-              {currentPageContent && currentPageContent.split('\n\n').map((paragraph, idx) => (
-                <p key={idx} className="mb-6 text-lg">
+        {/* Main Content */}
+        <div className="flex-1 overflow-y-auto p-6 md:p-10">
+          {pageContent ? (
+            <div className="prose prose-lg max-w-none">
+              {pageContent.content.split('\n\n').map((paragraph, index) => (
+                <p key={index} className="text-gray-800 leading-relaxed mb-4">
                   {paragraph}
                 </p>
               ))}
             </div>
-          </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full">
+              <BookOpen size={64} className="text-gray-300 mb-4" />
+              <p className="text-gray-500">محتوى الصفحة غير متوفر</p>
+            </div>
+          )}
+        </div>
+      </div>
+      
+      {/* Reader Footer */}
+      <div className="border-t p-4">
+        <div className="flex items-center justify-between">
+          <Button
+            variant="outline"
+            onClick={goToPreviousPage}
+            disabled={currentPage <= 1}
+          >
+            <ChevronRight size={16} className="ml-1" />
+            السابق
+          </Button>
           
-          {/* Pagination */}
-          <div className="flex justify-between items-center mt-12 pb-8">
-            <Button
-              onClick={handlePrevPage}
-              disabled={currentPage === 0}
-              variant="outline"
-              className="text-navy"
-            >
-              <ChevronRight className="ml-2 h-4 w-4" />
-              الصفحة السابقة
-            </Button>
-            
-            <span className="text-sm text-gray-500">
-              صفحة {currentPage + 1} من {totalPages}
-            </span>
-            
-            <Button
-              onClick={handleNextPage}
-              disabled={currentPage === content.length - 1}
-              variant="outline"
-              className="text-navy"
-            >
-              الصفحة التالية
-              <ChevronLeft className="mr-2 h-4 w-4" />
-            </Button>
-          </div>
+          <Pagination>
+            <PaginationContent>
+              {generatePaginationItems()}
+            </PaginationContent>
+          </Pagination>
+          
+          <Button
+            variant="outline"
+            onClick={goToNextPage}
+            disabled={currentPage >= totalPages}
+          >
+            التالي
+            <ChevronLeft size={16} className="mr-1" />
+          </Button>
         </div>
       </div>
     </div>

@@ -6,16 +6,15 @@ interface BookCardProps {
   id: number;
   title: string;
   cover: string;
-  year: string; // Release year
-  publicationDate?: string; // Publication date
+  year: string;
   pages: string;
   description: string;
 }
 
-const BookCard = ({ id, title, cover, year, publicationDate, pages, description }: BookCardProps) => {
+const BookCard = ({ id, title, cover, year, pages, description }: BookCardProps) => {
   return (
     <Link to={`/publications/books/${id}`} className="card group">
-      <div className="relative aspect-[3/4] overflow-hidden rounded-md">
+      <div className="relative aspect-[2/3] overflow-hidden rounded-md">
         <img 
           src={cover} 
           alt={title} 
@@ -32,20 +31,13 @@ const BookCard = ({ id, title, cover, year, publicationDate, pages, description 
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center text-gray-500 text-sm">
             <Calendar size={14} className="ml-1" />
-            <span>
-              {year}
-            </span>
+            {year}
           </div>
           <div className="flex items-center text-gray-500 text-sm">
             <BookOpen size={14} className="ml-1" />
             {pages} صفحة
           </div>
         </div>
-        {publicationDate && (
-          <div className="text-xs text-gold mb-2">
-            تاريخ النشر: {publicationDate}
-          </div>
-        )}
         <p className="text-gray-600 text-sm line-clamp-3">{description}</p>
       </div>
     </Link>

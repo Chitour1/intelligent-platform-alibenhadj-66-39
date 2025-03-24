@@ -13,14 +13,13 @@ interface BookType {
   cover: string;
   downloadUrl: string;
   year: string;
-  publicationDate?: string;
   pages: string;
   description: string;
   tags: string[];
 }
 
-// Export booksData so it can be used in other components
-export const booksData: BookType[] = [
+// Sample books data
+const booksData: BookType[] = [
   {
     id: 1,
     title: "البرهان فيما يجب على الراعي والرعية نحو القرآن",
@@ -28,7 +27,6 @@ export const booksData: BookType[] = [
     cover: "/lovable-uploads/1c7632ee-4853-4921-b4bb-5ebc916df3c6.png",
     downloadUrl: "https://down.ketabpedia.com/files/gsh/gsh14120.rar",
     year: "٢٠١٥",
-    publicationDate: "٢٤ مارس ٢٠٢٥",
     pages: "٦٢",
     description: "يطرح الشيخ علي بن حاج في هذا الكتاب رؤية شرعية وفكرية ناقدة للعلاقة بين الحاكم والمحكوم تجاه القرآن الكريم، ويتناول بالتفصيل الواجبات الدينية والسياسية التي ينبغي أن يلتزم بها كل من الراعي (الحاكم) والرعية (الشعب) تجاه كتاب الله عز وجل، مع تسليط الضوء على مظاهر الانحراف عن هذه الواجبات في الواقع المعاصر.",
     tags: ["الفكر الإسلامي", "السياسة الشرعية", "الإصلاح"]
@@ -40,7 +38,6 @@ export const booksData: BookType[] = [
     cover: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=1200&auto=format&fit=crop",
     downloadUrl: "#",
     year: "٢٠٢٢",
-    publicationDate: "١٠ مارس ٢٠٢٥",
     pages: "٣٢٠",
     description: "كتاب يناقش التحديات السياسية المعاصرة في العالم العربي ويطرح رؤية إصلاحية شاملة للتعامل معها...",
     tags: ["السياسة الشرعية", "الإصلاح"]
@@ -52,7 +49,6 @@ export const booksData: BookType[] = [
     cover: "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=1200&auto=format&fit=crop",
     downloadUrl: "#",
     year: "٢٠٢٠",
-    publicationDate: "٥ مارس ٢٠٢٥",
     pages: "٢٨٠",
     description: "دراسة تحليلية شاملة حول متطلبات وآليات الإصلاح السياسي والاجتماعي في المجتمعات العربية المعاصرة...",
     tags: ["الإصلاح", "الفكر الإسلامي"]
@@ -64,7 +60,6 @@ export const booksData: BookType[] = [
     cover: "https://images.unsplash.com/photo-1589998059171-988d887df646?q=80&w=1200&auto=format&fit=crop",
     downloadUrl: "#",
     year: "٢٠١٩",
-    publicationDate: "٢٠ فبراير ٢٠٢٥",
     pages: "٢٥٠",
     description: "دراسة في مفهوم الدولة المدنية وآليات تطبيقها في السياق العربي المعاصر مع استعراض للتجارب العالمية...",
     tags: ["السياسة الشرعية", "الفكر الإسلامي"]
@@ -76,7 +71,6 @@ export const booksData: BookType[] = [
     cover: "https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?q=80&w=1200&auto=format&fit=crop",
     downloadUrl: "#",
     year: "٢٠١٧",
-    publicationDate: "١ فبراير ٢٠٢٥",
     pages: "٢٣٠",
     description: "بحث في إشكاليات الهوية والانتماء في ظل تحديات العولمة وكيفية الحفاظ على الخصوصية الثقافية...",
     tags: ["الفكر الإسلامي", "التربية"]
@@ -87,18 +81,7 @@ const Books = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
-  // Sort books by publication date (most recent first)
-  const sortedBooks = [...booksData].sort((a, b) => {
-    // If publication date exists, sort by it, otherwise use ID as fallback
-    if (a.publicationDate && b.publicationDate) {
-      // Simple string comparison for Arabic dates (since they're formatted consistently)
-      return a.publicationDate > b.publicationDate ? -1 : 1;
-    }
-    // Sort by ID (most recent first) as fallback
-    return b.id - a.id;
-  });
-
-  const filteredBooks = sortedBooks.filter((book) => {
+  const filteredBooks = booksData.filter((book) => {
     const matchesSearch = book.title.includes(searchQuery) || 
                          book.author.includes(searchQuery) || 
                          book.description.includes(searchQuery);
@@ -194,19 +177,14 @@ const Books = () => {
                     <p className="text-sm text-gray-500 mb-2">{book.author}</p>
                     <div className="flex items-center gap-3 text-gray-500 text-sm mb-2">
                       <div className="flex items-center">
-                        <CalendarDays size={14} className="ml-1" aria-label="سنة الإصدار" />
-                        <span>{book.year}</span>
+                        <CalendarDays size={14} className="ml-1" />
+                        {book.year}
                       </div>
                       <div className="flex items-center">
                         <FileText size={14} className="ml-1" />
                         {book.pages} صفحة
                       </div>
                     </div>
-                    {book.publicationDate && (
-                      <div className="text-xs text-gold mb-2">
-                        تاريخ النشر: {book.publicationDate}
-                      </div>
-                    )}
                     <p className="text-sm text-gray-600 line-clamp-2">{book.description}</p>
                   </div>
                 </div>

@@ -2,13 +2,9 @@ import { useState, useEffect } from 'react';
 import Hero from '../components/Hero';
 import NewsCard from '../components/NewsCard';
 import ArticleCard from '../components/ArticleCard';
-import BookCard from '../components/BookCard';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, BookOpen, Video, Mic, Calendar, FileText, Book } from 'lucide-react';
 import { recentMediaItems } from '../utils/youtubeUtils';
-
-// Import the books data from the Books page
-import { booksData } from '../pages/Books';
 
 const Index = () => {
   const [isVisible, setIsVisible] = useState({
@@ -89,9 +85,9 @@ const Index = () => {
     {
       id: 3,
       title: "الهوية الإسلامية في ظل العولمة",
-      date: "٢٢ مايو ٢٠٢٣",
+      date: "٣ مايو ٢٠٢٣",
       readTime: "١٢ دقيقة",
-      excerpt: "يستعرض المقال التحديات التي تواجه الهوية الإسلامية في ظل تيارا�� العولمة، وكيفية الحفاظ على الأصالة مع الانفتاح على الآخر...",
+      excerpt: "يستعرض المقال التحديات التي تواجه الهوية الإسلامية في ظل تيارات العولمة، وكيفية الحفاظ على الأصالة مع الانفتاح على الآخر...",
     },
     {
       id: 4,
@@ -102,8 +98,41 @@ const Index = () => {
     }
   ];
   
-  // Get the latest 4 books from booksData
-  const books = [...booksData].sort((a, b) => b.id - a.id).slice(0, 4);
+  // Books data
+  const books = [
+    {
+      id: 1,
+      title: "التحديات السياسية المعاصرة",
+      cover: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=1200&auto=format&fit=crop",
+      year: "٢٠٢٢",
+      pages: "٣٢٠",
+      description: "كتاب يناقش التحديات السياسية المعاصرة في العالم العربي ويطرح رؤية إصلاحية شاملة للتعامل معها..."
+    },
+    {
+      id: 2,
+      title: "المشروع الإصلاحي الشامل",
+      cover: "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=1200&auto=format&fit=crop",
+      year: "٢٠٢٠",
+      pages: "٢٨٠",
+      description: "دراسة تحليلية شاملة حول متطلبات وآليات الإصلاح السياسي والاجتماعي في المجتمعات العربية المعاصرة..."
+    },
+    {
+      id: 3,
+      title: "الدولة المدنية: المفهوم والتطبيق",
+      cover: "https://images.unsplash.com/photo-1589998059171-988d887df646?q=80&w=1200&auto=format&fit=crop",
+      year: "٢٠١٩",
+      pages: "٢٥٠",
+      description: "دراسة في مفهوم الدولة المدنية وآليات تطبيقها في السياق العربي المعاصر مع استعراض للتجارب العالمية..."
+    },
+    {
+      id: 4,
+      title: "الهوية والانتماء في عصر العولمة",
+      cover: "https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?q=80&w=1200&auto=format&fit=crop",
+      year: "٢٠١٧",
+      pages: "٢٣٠",
+      description: "بحث في إشكاليات الهوية والانتماء في ظل تحديات العولمة وكيفية الحفاظ على الخصوصية الثقافية..."
+    }
+  ];
   
   const mediaItems = recentMediaItems.slice(0, 4);
   
@@ -241,15 +270,34 @@ const Index = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {books.map(book => (
-            <BookCard 
-              key={book.id}
-              id={book.id}
-              title={book.title}
-              cover={book.cover}
-              year={book.year}
-              pages={book.pages}
-              description={book.description}
-            />
+            <div key={book.id} className="card group">
+              <div className="relative aspect-[2/3] overflow-hidden rounded-md">
+                <img 
+                  src={book.cover} 
+                  alt={book.title} 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <h3 className="text-white font-bold group-hover:text-gold transition-colors duration-300">
+                    {book.title}
+                  </h3>
+                </div>
+              </div>
+              <div className="p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center text-gray-500 text-sm">
+                    <Calendar size={14} className="ml-1" />
+                    {book.year}
+                  </div>
+                  <div className="flex items-center text-gray-500 text-sm">
+                    <BookOpen size={14} className="ml-1" />
+                    {book.pages} صفحة
+                  </div>
+                </div>
+                <p className="text-gray-600 text-sm line-clamp-3">{book.description}</p>
+              </div>
+            </div>
           ))}
         </div>
       </section>
@@ -340,4 +388,3 @@ const Index = () => {
 };
 
 export default Index;
-

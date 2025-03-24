@@ -1,24 +1,16 @@
+
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { fetchVideoDetails } from '../utils/youtubeUtils';
+import { fetchVideoDetails, recentVideos, formatDate } from '../utils/youtubeUtils';
 
 const FridayMeetingsVideo = () => {
-  const [currentVideo, setCurrentVideo] = useState("XS7jF85h9TY");
+  const [currentVideo, setCurrentVideo] = useState(recentVideos[0].id);
   const [videoDetails, setVideoDetails] = useState({
     title: "",
     description: "",
     date: ""
   });
   
-  // Sample recent videos list (you can replace with actual data)
-  const recentVideos = [
-    { id: "XS7jF85h9TY", title: "", date: "٢٢ مارس ٢٠٢٥" },
-    { id: "-8OtW7dPaJU", title: "", date: "١٥ مارس ٢٠٢٥" },
-    { id: "XS7jF85h9TY", title: "", date: "١٧ مارس ٢٠٢٥" },
-    { id: "XS7jF85h9TY", title: "", date: "١٠ مارس ٢٠٢٥" },
-    { id: "XS7jF85h9TY", title: "", date: "٣ مارس ٢٠٢٥" },
-  ];
-
   useEffect(() => {
     const loadVideoDetails = async () => {
       try {
@@ -40,24 +32,6 @@ const FridayMeetingsVideo = () => {
 
     loadVideoDetails();
   }, [currentVideo]);
-
-  // Helper function to format date to Arabic format
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = getArabicMonth(date.getMonth());
-    const year = date.getFullYear();
-    return `${day} ${month} ${year}`;
-  };
-
-  // Convert month number to Arabic month name
-  const getArabicMonth = (monthIndex) => {
-    const arabicMonths = [
-      "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
-      "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
-    ];
-    return arabicMonths[monthIndex];
-  };
 
   return (
     <div className="section-container">
@@ -105,6 +79,7 @@ const FridayMeetingsVideo = () => {
                   key={index}
                   video={video} 
                   onClick={() => setCurrentVideo(video.id)}
+                  isActive={currentVideo === video.id}
                 />
               ))}
             </div>
@@ -116,40 +91,21 @@ const FridayMeetingsVideo = () => {
 };
 
 // Separate component for video list items
-const VideoListItem = ({ video, onClick }) => {
-  const [title, setTitle] = useState(video.title || "جاري تحميل العنوان...");
-
-  useEffect(() => {
-    const getVideoTitle = async () => {
-      try {
-        const details = await fetchVideoDetails(video.id);
-        setTitle(details.title);
-      } catch (error) {
-        console.error(`Error fetching details for video ${video.id}:`, error);
-        // Keep the existing title if provided, otherwise show error
-        setTitle(video.title || "عنوان غير متاح");
-      }
-    };
-
-    if (!video.title) {
-      getVideoTitle();
-    }
-  }, [video.id, video.title]);
-
+const VideoListItem = ({ video, onClick, isActive = false }) => {
   return (
     <div 
-      className="flex gap-3 p-2 rounded-md cursor-pointer hover:bg-gray-100 transition-colors"
+      className={`flex gap-3 p-2 rounded-md cursor-pointer hover:bg-gray-100 transition-colors ${isActive ? 'bg-navy/5' : ''}`}
       onClick={onClick}
     >
       <div className="flex-shrink-0 relative w-24 h-16 rounded overflow-hidden">
         <img 
           src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}
-          alt={title}
+          alt={video.title}
           className="object-cover w-full h-full"
         />
       </div>
       <div className="flex-1 min-w-0">
-        <h4 className="font-medium text-sm text-navy-dark line-clamp-2">{title}</h4>
+        <h4 className="font-medium text-sm text-navy-dark line-clamp-2">{video.title}</h4>
         <p className="text-xs text-gray-500 mt-1">{video.date}</p>
       </div>
     </div>

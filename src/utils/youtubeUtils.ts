@@ -35,6 +35,23 @@ export const fetchVideoDetails = async (videoId: string) => {
   }
 };
 
+// Define a type for video items
+export interface VideoItem {
+  id: string;
+  title: string;
+  date: string;
+  type: 'video' | 'audio';
+}
+
+// Recent videos list - these will be shown on the homepage and FridayMeetingsVideo page
+export const recentVideos: VideoItem[] = [
+  { id: "XS7jF85h9TY", title: "كلمة الشيخ علي بن حاج ليوم 22 مارس 2025", date: "٢٢ مارس ٢٠٢٥", type: 'video' },
+  { id: "-8OtW7dPaJU", title: "كلمة الشيخ علي بن حاج ليوم 17 مارس 2025", date: "١٧ مارس ٢٠٢٥", type: 'video' },
+  { id: "XS7jF85h9TY", title: "كلمة الشيخ علي بن حاج ليوم 15 مارس 2025", date: "١٥ مارس ٢٠٢٥", type: 'video' },
+  { id: "XS7jF85h9TY", title: "كلمة الشيخ علي بن حاج ليوم 10 مارس 2025", date: "١٠ مارس ٢٠٢٥", type: 'video' },
+  { id: "XS7jF85h9TY", title: "كلمة الشيخ علي بن حاج ليوم 3 مارس 2025", date: "٣ مارس ٢٠٢٥", type: 'video' },
+];
+
 // Helper function to get Arabic month names
 const getArabicMonth = (monthIndex: number): string => {
   const arabicMonths = [
@@ -42,4 +59,13 @@ const getArabicMonth = (monthIndex: number): string => {
     "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
   ];
   return arabicMonths[monthIndex];
+};
+
+// Format date to Arabic format
+export const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  const day = date.getDate();
+  const month = getArabicMonth(date.getMonth());
+  const year = date.getFullYear();
+  return `${day} ${month} ${year}`;
 };

@@ -1,3 +1,4 @@
+
 import { useParams, Link } from "react-router-dom";
 import { ArrowRight, BookOpen, CalendarDays, FileText, Download, Tag, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -22,21 +23,14 @@ const BookDetails = () => {
     );
   }
 
+  // Related books (excluding current book)
   const relatedBooks = booksData
     .filter((b) => b.id !== book.id && b.tags.some((tag) => book.tags.includes(tag)))
     .slice(0, 3);
 
-  const formatDescription = (text: string) => {
-    if (!text) return [];
-    return text.split('\n\n').filter(p => p.trim() !== '');
-  };
-
-  const descriptionParagraphs = book.fullDescription 
-    ? formatDescription(book.fullDescription) 
-    : [book.description];
-
   return (
     <div className="min-h-screen">
+      {/* Back Button */}
       <div className="bg-gray-50 border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <Link to="/publications/books" className="inline-flex items-center text-navy hover:text-gold transition-colors">
@@ -46,20 +40,14 @@ const BookDetails = () => {
         </div>
       </div>
 
+      {/* Book Details */}
       <div className="section-container">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Book Cover */}
           <div className="md:col-span-1">
             <div className="sticky top-8">
-              <div className="relative aspect-[3/4] rounded-lg overflow-hidden shadow-lg mb-4 bg-gray-100">
-                <img 
-                  src={book.cover} 
-                  alt={book.title} 
-                  className="w-full h-full object-contain"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = "/placeholder.svg";
-                  }}
-                />
+              <div className="relative aspect-[3/4] rounded-lg overflow-hidden shadow-lg mb-4">
+                <img src={book.cover} alt={book.title} className="w-full h-full object-cover" />
               </div>
               <div className="space-y-3">
                 <Button className="w-full" asChild>
@@ -84,6 +72,7 @@ const BookDetails = () => {
             </div>
           </div>
 
+          {/* Book Info */}
           <div className="md:col-span-2">
             <h1 className="text-3xl font-bold text-navy-dark mb-2">{book.title}</h1>
             <p className="text-xl text-gray-600 mb-4">{book.author}</p>
@@ -97,13 +86,14 @@ const BookDetails = () => {
             </div>
             
             <div className="prose prose-lg max-w-none">
-              {descriptionParagraphs.map((paragraph, index) => (
+              {book.fullDescription?.split('\n\n').map((paragraph, index) => (
                 <p key={index} className="mb-4 text-gray-700 leading-relaxed">
                   {paragraph}
                 </p>
               ))}
             </div>
             
+            {/* Related Books */}
             {relatedBooks.length > 0 && (
               <div className="mt-12">
                 <h3 className="text-xl font-bold mb-6">كتب ذات صلة</h3>
@@ -111,11 +101,11 @@ const BookDetails = () => {
                   {relatedBooks.map((relatedBook) => (
                     <Link to={`/publications/books/${relatedBook.id}`} key={relatedBook.id} className="card group hover:shadow-md transition-all">
                       <div className="flex items-start p-3">
-                        <div className="relative w-16 h-20 flex-shrink-0 overflow-hidden rounded mr-3 bg-gray-100">
+                        <div className="relative w-16 h-20 flex-shrink-0 overflow-hidden rounded mr-3">
                           <img 
                             src={relatedBook.cover} 
                             alt={relatedBook.title} 
-                            className="w-full h-full object-contain"
+                            className="w-full h-full object-cover"
                           />
                         </div>
                         <div>

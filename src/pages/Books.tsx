@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, Search, BookOpen, CalendarDays, FileText } from "lucide-react";
@@ -27,7 +26,7 @@ export const booksData: BookType[] = [
     title: "البرهان فيما يجب على الراعي والرعية نحو القرآن",
     author: "أبو عبد الفتاح علي بن حاج",
     cover: "/lovable-uploads/1c7632ee-4853-4921-b4bb-5ebc916df3c6.png",
-    downloadUrl: "https://web.archive.org/web/20121013114024/http://alibenhadj.net/ebooks/elbourhane.rar",
+    downloadUrl: "https://down.ketabpedia.com/files/gsh/gsh14120.rar",
     year: "٢٠١٥",
     publicationDate: "٢٤ مارس ٢٠٢٥",
     pages: "٦٢",

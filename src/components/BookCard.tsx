@@ -32,7 +32,7 @@ const BookCard = ({ id, title, cover, year, publicationDate, pages, description 
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center text-gray-500 text-sm">
             <Calendar size={14} className="ml-1" />
-            <span title="سنة الإصدار">
+            <span>
               {year}
             </span>
           </div>

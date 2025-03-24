@@ -194,8 +194,8 @@ const Books = () => {
                     <p className="text-sm text-gray-500 mb-2">{book.author}</p>
                     <div className="flex items-center gap-3 text-gray-500 text-sm mb-2">
                       <div className="flex items-center">
-                        <CalendarDays size={14} className="ml-1" title="سنة الإصدار" />
-                        <span title="سنة الإصدار">{book.year}</span>
+                        <CalendarDays size={14} className="ml-1" aria-label="سنة الإصدار" />
+                        <span>{book.year}</span>
                       </div>
                       <div className="flex items-center">
                         <FileText size={14} className="ml-1" />

@@ -1,10 +1,10 @@
+
 import { useState, useEffect } from 'react';
 import Hero from '../components/Hero';
 import NewsCard from '../components/NewsCard';
 import ArticleCard from '../components/ArticleCard';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, BookOpen, Video, Mic, Calendar, FileText } from 'lucide-react';
-import { recentVideos } from '../utils/youtubeUtils';
 
 const Index = () => {
   const [isVisible, setIsVisible] = useState({
@@ -97,8 +97,36 @@ const Index = () => {
     }
   ];
   
-  // Get latest 4 videos for homepage display
-  const latestMediaItems = recentVideos.slice(0, 4);
+  const mediaItems = [
+    {
+      id: 1,
+      title: "لقاء الجمعة: مستقبل الإصلاح السياسي في الجزائر",
+      type: "video",
+      date: "١٢ مايو ٢٠٢٣",
+      imageUrl: "https://images.unsplash.com/photo-1577722422778-3671a437826f?q=80&w=1980&auto=format&fit=crop"
+    },
+    {
+      id: 2,
+      title: "كلمة في وليمة: أهمية التكافل الاجتماعي",
+      type: "video",
+      date: "٥ مايو ٢٠٢٣",
+      imageUrl: "https://images.unsplash.com/photo-1614680376739-414d95ff43df?q=80&w=1974&auto=format&fit=crop"
+    },
+    {
+      id: 3,
+      title: "لقاء الجمعة: دور المسجد في بناء المجتمع",
+      type: "audio",
+      date: "٢٨ أبريل ٢٠٢٣",
+      imageUrl: "https://images.unsplash.com/photo-1615820346289-9581ad2a8bf7?q=80&w=2070&auto=format&fit=crop"
+    },
+    {
+      id: 4,
+      title: "موعظة في جنازة: الاستعداد للآخرة",
+      type: "audio",
+      date: "٢٠ أبريل ٢٠٢٣",
+      imageUrl: "https://images.unsplash.com/photo-1650372078205-e8cd3e132af1?q=80&w=1980&auto=format&fit=crop"
+    }
+  ];
   
   return (
     <div className="min-h-screen">
@@ -130,7 +158,7 @@ const Index = () => {
           
           <div className="lg:col-span-2 grid grid-cols-1 gap-4">
             <div className="bg-gradient-to-r from-gold/10 to-gold/5 p-6 rounded-xl border border-gold/20">
-              <h3 className="text-xl font-bold mb-4 text-navy">أحدث الإص��ارات</h3>
+              <h3 className="text-xl font-bold mb-4 text-navy">أحدث الإصدارات</h3>
               <div className="space-y-4">
                 <div className="flex items-start">
                   <div className="ml-3 rounded-lg overflow-hidden flex-shrink-0">
@@ -226,22 +254,18 @@ const Index = () => {
       <section id="media" className={`section-container observe-section transition-all duration-1000 ${isVisible.media ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         <div className="mb-8 flex justify-between items-center">
           <h2 className="section-title">المكتبة الإعلامية</h2>
-          <Link to="/media/friday-meetings-video" className="text-gold hover:text-gold-dark inline-flex items-center">
+          <Link to="/media" className="text-gold hover:text-gold-dark inline-flex items-center">
             عرض المكتبة الكاملة
             <ArrowLeft size={16} className="mr-1" />
           </Link>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {latestMediaItems.map((item) => (
-            <Link 
-              key={item.id} 
-              to={`/media/friday-meetings-video`} 
-              className="card group"
-            >
+          {mediaItems.map(item => (
+            <div key={item.id} className="card group">
               <div className="relative overflow-hidden aspect-video">
                 <img 
-                  src={`https://img.youtube.com/vi/${item.id}/mqdefault.jpg`} 
+                  src={item.imageUrl} 
                   alt={item.title} 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
@@ -271,7 +295,7 @@ const Index = () => {
                   {item.date}
                 </div>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </section>

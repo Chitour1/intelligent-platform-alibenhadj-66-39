@@ -17,6 +17,7 @@ interface BookType {
   pages: string;
   description: string;
   tags: string[];
+  fullDescription?: string; // Add this optional property
 }
 
 // Export booksData so it can be used in other components

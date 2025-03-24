@@ -86,11 +86,17 @@ const BookDetails = () => {
             </div>
             
             <div className="prose prose-lg max-w-none">
-              {book.fullDescription?.split('\n\n').map((paragraph, index) => (
-                <p key={index} className="mb-4 text-gray-700 leading-relaxed">
-                  {paragraph}
+              {book.fullDescription ? (
+                book.fullDescription.split('\n\n').map((paragraph, index) => (
+                  <p key={index} className="mb-4 text-gray-700 leading-relaxed">
+                    {paragraph}
+                  </p>
+                ))
+              ) : (
+                <p className="mb-4 text-gray-700 leading-relaxed">
+                  {book.description}
                 </p>
-              ))}
+              )}
             </div>
             
             {/* Related Books */}

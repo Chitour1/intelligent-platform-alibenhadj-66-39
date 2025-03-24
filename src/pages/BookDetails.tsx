@@ -1,6 +1,6 @@
 
 import { useParams, Link } from "react-router-dom";
-import { ArrowRight, BookOpen, CalendarDays, FileText, Download, Tag, ChevronLeft } from "lucide-react";
+import { ArrowRight, BookOpen, CalendarDays, FileText, Download, Tag, ChevronLeft, Book } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface BookType {
@@ -150,6 +150,9 @@ const BookDetails = () => {
     .filter((b) => b.id !== book.id && b.tags.some((tag) => book.tags.includes(tag)))
     .slice(0, 3);
 
+  // Check if the book has detailed content available
+  const hasDetailedContent = book.title === "فصل الكلام في مواجهة ظلم الحكام";
+
   return (
     <div className="min-h-screen">
       {/* Back Button */}
@@ -178,6 +181,16 @@ const BookDetails = () => {
                     تحميل الكتاب
                   </a>
                 </Button>
+
+                {hasDetailedContent && (
+                  <Button className="w-full bg-green-600 hover:bg-green-700" asChild>
+                    <Link to={`/publications/books/content/${encodeURIComponent(book.title)}`}>
+                      <Book size={16} className="ml-2" />
+                      تصفح محتوى الكتاب
+                    </Link>
+                  </Button>
+                )}
+                
                 <div className="grid grid-cols-2 gap-3">
                   <div className="bg-gray-50 rounded-lg p-3 text-center">
                     <CalendarDays size={20} className="mx-auto text-gold mb-1" />

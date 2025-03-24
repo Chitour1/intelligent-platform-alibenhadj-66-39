@@ -3,13 +3,14 @@ import Hero from '../components/Hero';
 import NewsCard from '../components/NewsCard';
 import ArticleCard from '../components/ArticleCard';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, BookOpen, Video, Mic, Calendar, FileText } from 'lucide-react';
+import { ArrowLeft, BookOpen, Video, Mic, Calendar, FileText, Book } from 'lucide-react';
 import { recentMediaItems } from '../utils/youtubeUtils';
 
 const Index = () => {
   const [isVisible, setIsVisible] = useState({
     news: false,
     articles: false,
+    books: false,
     media: false,
     interviews: false
   });
@@ -94,6 +95,42 @@ const Index = () => {
       date: "٢٩ أبريل ٢٠٢٣",
       readTime: "٨ دقائق",
       excerpt: "يقدم المقال تحليلاً معمقاً للأحداث السياسية الجارية في المنطقة، ويستشرف الآفاق المستقبلية في ضوء المتغيرات الحالية...",
+    }
+  ];
+  
+  // Books data
+  const books = [
+    {
+      id: 1,
+      title: "التحديات السياسية المعاصرة",
+      cover: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=1200&auto=format&fit=crop",
+      year: "٢٠٢٢",
+      pages: "٣٢٠",
+      description: "كتاب يناقش التحديات السياسية المعاصرة في العالم العربي ويطرح رؤية إصلاحية شاملة للتعامل معها..."
+    },
+    {
+      id: 2,
+      title: "المشروع الإصلاحي الشامل",
+      cover: "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=1200&auto=format&fit=crop",
+      year: "٢٠٢٠",
+      pages: "٢٨٠",
+      description: "دراسة تحليلية شاملة حول متطلبات وآليات الإصلاح السياسي والاجتماعي في المجتمعات العربية المعاصرة..."
+    },
+    {
+      id: 3,
+      title: "الدولة المدنية: المفهوم والتطبيق",
+      cover: "https://images.unsplash.com/photo-1589998059171-988d887df646?q=80&w=1200&auto=format&fit=crop",
+      year: "٢٠١٩",
+      pages: "٢٥٠",
+      description: "دراسة في مفهوم الدولة المدنية وآليات تطبيقها في السياق العربي المعاصر مع استعراض للتجارب العالمية..."
+    },
+    {
+      id: 4,
+      title: "الهوية والانتماء في عصر العولمة",
+      cover: "https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?q=80&w=1200&auto=format&fit=crop",
+      year: "٢٠١٧",
+      pages: "٢٣٠",
+      description: "بحث في إشكاليات الهوية والانتماء في ظل تحديات العولمة وكيفية الحفاظ على الخصوصية الثقافية..."
     }
   ];
   
@@ -217,6 +254,50 @@ const Index = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {articles.map(article => (
             <ArticleCard key={article.id} {...article} />
+          ))}
+        </div>
+      </section>
+      
+      {/* Books Section */}
+      <section id="books" className={`section-container observe-section transition-all duration-1000 ${isVisible.books ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className="mb-8 flex justify-between items-center">
+          <h2 className="section-title">كتب الشيخ</h2>
+          <Link to="/publications/books" className="text-gold hover:text-gold-dark inline-flex items-center">
+            جميع الكتب
+            <ArrowLeft size={16} className="mr-1" />
+          </Link>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {books.map(book => (
+            <div key={book.id} className="card group">
+              <div className="relative aspect-[2/3] overflow-hidden rounded-md">
+                <img 
+                  src={book.cover} 
+                  alt={book.title} 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <h3 className="text-white font-bold group-hover:text-gold transition-colors duration-300">
+                    {book.title}
+                  </h3>
+                </div>
+              </div>
+              <div className="p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center text-gray-500 text-sm">
+                    <Calendar size={14} className="ml-1" />
+                    {book.year}
+                  </div>
+                  <div className="flex items-center text-gray-500 text-sm">
+                    <BookOpen size={14} className="ml-1" />
+                    {book.pages} صفحة
+                  </div>
+                </div>
+                <p className="text-gray-600 text-sm line-clamp-3">{book.description}</p>
+              </div>
+            </div>
           ))}
         </div>
       </section>

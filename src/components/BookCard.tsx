@@ -17,11 +17,11 @@ const BookCard = ({ id, title, cover, year, publicationDate, pages, description 
   return (
     <Link to={`/publications/books/${id}`} className="card group">
       <div className="relative overflow-hidden rounded-md">
-        <AspectRatio ratio={3/4} className="w-full">
+        <AspectRatio ratio={3/4} className="w-full bg-gray-100">
           <img 
             src={cover} 
             alt={title} 
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent"></div>
           <div className="absolute bottom-0 left-0 right-0 p-4">

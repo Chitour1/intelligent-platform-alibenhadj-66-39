@@ -46,8 +46,8 @@ const BookDetails = () => {
           {/* Book Cover */}
           <div className="md:col-span-1">
             <div className="sticky top-8">
-              <div className="relative aspect-[3/4] rounded-lg overflow-hidden shadow-lg mb-4">
-                <img src={book.cover} alt={book.title} className="w-full h-full object-cover" />
+              <div className="relative aspect-[3/4] rounded-lg overflow-hidden shadow-lg mb-4 bg-gray-100">
+                <img src={book.cover} alt={book.title} className="w-full h-full object-contain" />
               </div>
               <div className="space-y-3">
                 <Button className="w-full" asChild>
@@ -86,11 +86,15 @@ const BookDetails = () => {
             </div>
             
             <div className="prose prose-lg max-w-none">
-              {book.fullDescription?.split('\n\n').map((paragraph, index) => (
-                <p key={index} className="mb-4 text-gray-700 leading-relaxed">
-                  {paragraph}
-                </p>
-              ))}
+              {book.fullDescription ? 
+                book.fullDescription.split('\n\n').map((paragraph, index) => (
+                  <p key={index} className="mb-4 text-gray-700 leading-relaxed">
+                    {paragraph}
+                  </p>
+                ))
+                :
+                <p className="mb-4 text-gray-700 leading-relaxed">{book.description}</p>
+              }
             </div>
             
             {/* Related Books */}
@@ -101,11 +105,11 @@ const BookDetails = () => {
                   {relatedBooks.map((relatedBook) => (
                     <Link to={`/publications/books/${relatedBook.id}`} key={relatedBook.id} className="card group hover:shadow-md transition-all">
                       <div className="flex items-start p-3">
-                        <div className="relative w-16 h-20 flex-shrink-0 overflow-hidden rounded mr-3">
+                        <div className="relative w-16 h-20 flex-shrink-0 overflow-hidden rounded mr-3 bg-gray-100">
                           <img 
                             src={relatedBook.cover} 
                             alt={relatedBook.title} 
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain"
                           />
                         </div>
                         <div>

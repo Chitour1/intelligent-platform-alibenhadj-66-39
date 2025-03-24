@@ -6,7 +6,9 @@ import BookCard from '../components/BookCard';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, BookOpen, Video, Mic, Calendar, FileText, Book } from 'lucide-react';
 import { recentMediaItems } from '../utils/youtubeUtils';
-import { booksData } from './Books';
+
+// Import the books data from the Books page
+import { booksData } from '../pages/Books';
 
 const Index = () => {
   const [isVisible, setIsVisible] = useState({
@@ -40,11 +42,6 @@ const Index = () => {
       });
     };
   }, []);
-
-  // Sort books by newest first and take only the first 4
-  const latestBooks = [...booksData]
-    .sort((a, b) => b.id - a.id)
-    .slice(0, 4);
 
   // Sample data
   const newsItems = [
@@ -92,9 +89,9 @@ const Index = () => {
     {
       id: 3,
       title: "الهوية الإسلامية في ظل العولمة",
-      date: "٣ مايو ٢٠٢٣",
+      date: "٢٢ مايو ٢٠٢٣",
       readTime: "١٢ دقيقة",
-      excerpt: "يستعرض المقال التحديات التي تواجه الهوية الإسلامية في ظل تيارات العولمة، وكيفية الحفاظ على الأصالة مع الانفتاح على الآخر...",
+      excerpt: "يستعرض المقال التحديات التي تواجه الهوية الإسلامية في ظل تيارا�� العولمة، وكيفية الحفاظ على الأصالة مع الانفتاح على الآخر...",
     },
     {
       id: 4,
@@ -104,6 +101,9 @@ const Index = () => {
       excerpt: "يقدم المقال تحليلاً معمقاً للأحداث السياسية الجارية في المنطقة، ويستشرف الآفاق المستقبلية في ضوء المتغيرات الحالية...",
     }
   ];
+  
+  // Get the latest 4 books from booksData
+  const books = [...booksData].sort((a, b) => b.id - a.id).slice(0, 4);
   
   const mediaItems = recentMediaItems.slice(0, 4);
   
@@ -154,7 +154,7 @@ const Index = () => {
                   </div>
                   <div>
                     <h4 className="font-medium text-navy-dark">المشروع الإصلاحي الشامل</h4>
-                    <p className="text-sm text-gray-600">دراسة تحليلية شاملة حول متطلبات وآليات الإصلاح السياسي والاجتماعي في المجتمعات العربية المعاصرة...</p>
+                    <p className="text-sm text-gray-600">دراسة تحليلية حول سبل الإصلاح في المجتمع</p>
                   </div>
                 </div>
               </div>
@@ -240,7 +240,7 @@ const Index = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {latestBooks.map((book) => (
+          {books.map(book => (
             <BookCard 
               key={book.id}
               id={book.id}
@@ -249,7 +249,6 @@ const Index = () => {
               year={book.year}
               pages={book.pages}
               description={book.description}
-              publishDate={book.publishDate}
             />
           ))}
         </div>

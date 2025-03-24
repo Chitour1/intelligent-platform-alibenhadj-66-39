@@ -17,6 +17,15 @@ export interface MediaItem {
 // A shared array of recent media items that will be used across the application
 export const recentMediaItems: MediaItem[] = [
   { 
+    id: "0", 
+    type: "video", 
+    videoId: "v3-xRViU3MM",
+    title: "كلمة الشيخ علي بن حاج ليوم ١٢ مارس ٢٠٢٥",
+    date: "١٢ مارس ٢٠٢٥",
+    imageUrl: "https://img.youtube.com/vi/v3-xRViU3MM/mqdefault.jpg",
+    description: "لقاء الجمعة الأسبوعي مع الشيخ علي بن حاج يناقش فيه أهم القضايا الراهنة"
+  },
+  { 
     id: "1", 
     type: "video", 
     videoId: "XS7jF85h9TY",

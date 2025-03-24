@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, Search, BookOpen, CalendarDays, FileText } from "lucide-react";
@@ -44,18 +43,6 @@ export const booksData: BookType[] = [
     pages: "٣٢٠",
     description: "كتاب يناقش التحديات السياسية المعاصرة في العالم العربي ويطرح رؤية إصلاحية شاملة للتعامل معها...",
     tags: ["السياسة الشرعية", "الإصلاح"]
-  },
-  {
-    id: 3,
-    title: "المشروع الإصلاحي الشامل",
-    author: "أبو عبد الفتاح علي بن حاج",
-    cover: "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=1200&auto=format&fit=crop",
-    downloadUrl: "#",
-    year: "٢٠٢٠",
-    publicationDate: "٥ مارس ٢٠٢٥",
-    pages: "٢٨٠",
-    description: "دراسة تحليلية شاملة حول متطلبات وآليات الإصلاح السياسي والاجتماعي في المجتمعات العربية المعاصرة...",
-    tags: ["الإصلاح", "الفكر الإسلامي"]
   },
   {
     id: 4,

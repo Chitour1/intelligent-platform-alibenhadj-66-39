@@ -3,10 +3,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, Search, BookOpen, CalendarDays, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
+import BookCard from "../components/BookCard";
 
 const bookTags = ["الفكر الإسلامي", "السياسة الشرعية", "الفقه", "العقيدة", "الإصلاح", "التربية", "التاريخ"];
 
-interface BookType {
+export interface BookType {
   id: number;
   title: string;
   author: string;
@@ -16,10 +17,11 @@ interface BookType {
   pages: string;
   description: string;
   tags: string[];
+  publishDate: string;
 }
 
 // Sample books data
-const booksData: BookType[] = [
+export const booksData: BookType[] = [
   {
     id: 1,
     title: "البرهان فيما يجب على الراعي والرعية نحو القرآن",
@@ -29,7 +31,8 @@ const booksData: BookType[] = [
     year: "٢٠١٥",
     pages: "٦٢",
     description: "يطرح الشيخ علي بن حاج في هذا الكتاب رؤية شرعية وفكرية ناقدة للعلاقة بين الحاكم والمحكوم تجاه القرآن الكريم، ويتناول بالتفصيل الواجبات الدينية والسياسية التي ينبغي أن يلتزم بها كل من الراعي (الحاكم) والرعية (الشعب) تجاه كتاب الله عز وجل، مع تسليط الضوء على مظاهر الانحراف عن هذه الواجبات في الواقع المعاصر.",
-    tags: ["الفكر الإسلامي", "السياسة الشرعية", "الإصلاح"]
+    tags: ["الفكر الإسلامي", "السياسة الشرعية", "الإصلاح"],
+    publishDate: "٢٤ مارس ٢٠٢٥"
   },
   {
     id: 2,
@@ -40,7 +43,8 @@ const booksData: BookType[] = [
     year: "٢٠٢٢",
     pages: "٣٢٠",
     description: "كتاب يناقش التحديات السياسية المعاصرة في العالم العربي ويطرح رؤية إصلاحية شاملة للتعامل معها...",
-    tags: ["السياسة الشرعية", "الإصلاح"]
+    tags: ["السياسة الشرعية", "الإصلاح"],
+    publishDate: "١٢ يناير ٢٠٢٢"
   },
   {
     id: 3,
@@ -51,7 +55,8 @@ const booksData: BookType[] = [
     year: "٢٠٢٠",
     pages: "٢٨٠",
     description: "دراسة تحليلية شاملة حول متطلبات وآليات الإصلاح السياسي والاجتماعي في المجتمعات العربية المعاصرة...",
-    tags: ["الإصلاح", "الفكر الإسلامي"]
+    tags: ["الإصلاح", "الفكر الإسلامي"],
+    publishDate: "٨ مارس ٢٠٢٠"
   },
   {
     id: 4,
@@ -62,7 +67,8 @@ const booksData: BookType[] = [
     year: "٢٠١٩",
     pages: "٢٥٠",
     description: "دراسة في مفهوم الدولة المدنية وآليات تطبيقها في السياق العربي المعاصر مع استعراض للتجارب العالمية...",
-    tags: ["السياسة الشرعية", "الفكر الإسلامي"]
+    tags: ["السياسة الشرعية", "الفكر الإسلامي"],
+    publishDate: "١٥ أبريل ٢٠١٩"
   },
   {
     id: 5,
@@ -73,7 +79,8 @@ const booksData: BookType[] = [
     year: "٢٠١٧",
     pages: "٢٣٠",
     description: "بحث في إشكاليات الهوية والانتماء في ظل تحديات العولمة وكيفية الحفاظ على الخصوصية الثقافية...",
-    tags: ["الفكر الإسلامي", "التربية"]
+    tags: ["الفكر الإسلامي", "التربية"],
+    publishDate: "٢٠ يوليو ٢٠١٧"
   }
 ];
 
@@ -81,7 +88,12 @@ const Books = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
-  const filteredBooks = booksData.filter((book) => {
+  // Sort books by newest first (based on publishDate)
+  const sortedBooks = [...booksData].sort((a, b) => {
+    return b.id - a.id; // Simple sort by ID for now (higher ID means newer)
+  });
+
+  const filteredBooks = sortedBooks.filter((book) => {
     const matchesSearch = book.title.includes(searchQuery) || 
                          book.author.includes(searchQuery) || 
                          book.description.includes(searchQuery);
@@ -161,39 +173,21 @@ const Books = () => {
         {filteredBooks.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredBooks.map((book) => (
-              <Link to={`/publications/books/${book.id}`} key={book.id} className="card group hover:shadow-lg transition-all">
-                <div className="flex md:flex-col lg:flex-row gap-4 p-4">
-                  <div className="relative w-1/3 md:w-full lg:w-1/3 aspect-[3/4] overflow-hidden rounded-md shadow-md">
-                    <img 
-                      src={book.cover} 
-                      alt={book.title} 
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="w-2/3 md:w-full lg:w-2/3">
-                    <h3 className="text-lg font-bold text-navy-dark mb-2 group-hover:text-gold transition-colors">
-                      {book.title}
-                    </h3>
-                    <p className="text-sm text-gray-500 mb-2">{book.author}</p>
-                    <div className="flex items-center gap-3 text-gray-500 text-sm mb-2">
-                      <div className="flex items-center">
-                        <CalendarDays size={14} className="ml-1" />
-                        {book.year}
-                      </div>
-                      <div className="flex items-center">
-                        <FileText size={14} className="ml-1" />
-                        {book.pages} صفحة
-                      </div>
-                    </div>
-                    <p className="text-sm text-gray-600 line-clamp-2">{book.description}</p>
-                  </div>
-                </div>
-              </Link>
+              <BookCard 
+                key={book.id}
+                id={book.id}
+                title={book.title}
+                cover={book.cover}
+                year={book.year}
+                pages={book.pages}
+                description={book.description}
+                publishDate={book.publishDate}
+              />
             ))}
           </div>
         ) : (
           <div className="text-center py-12">
-            <BookOpen size={64} className="mx-auto text-gray-300 mb-4" />
+            <BookOpen size={64} className="mx-auto text-gray-300 mb-4" aria-label="لا توجد كتب" />
             <h3 className="text-xl font-bold text-gray-700 mb-2">لا توجد نتائج</h3>
             <p className="text-gray-500">لم يتم العثور على كتب تطابق معايير البحث</p>
           </div>

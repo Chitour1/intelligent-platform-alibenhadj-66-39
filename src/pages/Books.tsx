@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, Search, BookOpen, CalendarDays, FileText } from "lucide-react";
@@ -43,6 +44,17 @@ export const booksData: BookType[] = [
     pages: "٣٢٠",
     description: "كتاب يناقش التحديات السياسية المعاصرة في العالم العربي ويطرح رؤية إصلاحية شاملة للتعامل معها...",
     tags: ["السياسة الشرعية", "الإصلاح"]
+  },
+  {
+    id: 3,
+    title: "فصل الكلام في مواجهة ظلم الحكام",
+    author: "أبو عبد الفتاح علي بن حاج",
+    cover: "/lovable-uploads/8347189a-231d-4ccb-88ce-5b1e21808013.png",
+    downloadUrl: "https://archive.org/download/faslalkalamfemuwajahathulmalhukkam/%D9%81%D8%B5%D9%84%20%D8%A7%D9%84%D9%83%D9%84%D8%A7%D9%85%20%D9%81%D9%89%20%D9%85%D9%88%D8%A7%D8%AC%D9%87%D8%A9%20%D8%B8%D9%84%D9%85%20%D8%A7%D9%84%D8%AD%D9%83%D8%A7%D9%85%20%D9%84%D9%84%D8%B4%D9%8A%D8%AE%20%D8%B9%D9%84%D9%8A%20%D8%A8%D9%84%D8%AD%D8%A7%D8%AC.pdf",
+    year: "١٩٩٢",
+    pages: "٢٢٦",
+    description: "وثيقة فكرية سياسية شرعية، كُتبت من داخل سجن البليدة العسكري، تتناول العلاقة بين الحاكم والمحكوم من منظور إسلامي، وتعرض بالنقد الجريء لما يعتبره المؤلف انحرافًا خطيرًا عن مبادئ الحكم الرشيد في الإسلام.",
+    tags: ["السياسة الشرعية", "الفكر الإسلامي", "الإصلاح"]
   },
   {
     id: 4,

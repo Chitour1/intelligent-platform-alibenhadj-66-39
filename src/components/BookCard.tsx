@@ -14,7 +14,7 @@ interface BookCardProps {
 const BookCard = ({ id, title, cover, year, pages, description }: BookCardProps) => {
   return (
     <Link to={`/publications/books/${id}`} className="card group">
-      <div className="relative aspect-[2/3] overflow-hidden rounded-md">
+      <div className="relative aspect-[3/4] overflow-hidden rounded-md">
         <img 
           src={cover} 
           alt={title} 

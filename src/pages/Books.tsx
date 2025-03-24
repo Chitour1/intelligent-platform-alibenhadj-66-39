@@ -18,8 +18,8 @@ interface BookType {
   tags: string[];
 }
 
-// Sample books data
-const booksData: BookType[] = [
+// Export booksData so it can be used in other components
+export const booksData: BookType[] = [
   {
     id: 1,
     title: "البرهان فيما يجب على الراعي والرعية نحو القرآن",

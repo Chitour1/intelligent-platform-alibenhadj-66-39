@@ -13,6 +13,8 @@ import LecturesSermons from "./pages/LecturesSermons";
 import Interviews from "./pages/Interviews";
 import FridayMeetingsVideo from "./pages/FridayMeetingsVideo";
 import MediaLibrary from "./pages/MediaLibrary"; 
+import Books from "./pages/Books";
+import BookDetails from "./pages/BookDetails";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +36,8 @@ const App = () => (
               <Route path="/interviews" element={<Interviews />} />
               <Route path="/media" element={<MediaLibrary />} />
               <Route path="/media/friday-meetings-video" element={<FridayMeetingsVideo />} />
+              <Route path="/publications/books" element={<Books />} />
+              <Route path="/publications/books/:bookId" element={<BookDetails />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

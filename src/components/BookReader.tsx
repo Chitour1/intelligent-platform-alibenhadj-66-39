@@ -26,9 +26,9 @@ const BookReader = ({ title, author, content }: BookReaderProps) => {
   
   const chapters = [
     { title: "البرهان فيما يجب على الراعي والرعية نحو القرآن", page: 0 },
-    { title: "من نباهة وفطانة السلف الصالح", page: 5 },
-    { title: "القرآن وواجب الشعب نحوه", page: 9 },
-    { title: "تذكير الخلف بسيرة السلف مع القرآن العظيم", page: 9 },
+    { title: "من نباهة وفطانة السلف الصالح", page: 4 },
+    { title: "القرآن وواجب الشعب نحوه", page: 8 },
+    { title: "تذكير الخلف بسيرة السلف مع القرآن العظيم", page: 8 },
     { title: "تحذيرات نبوية شريفة", page: 15 },
     { title: "التحذير من التكسب بالقرآن الكريم", page: 15 },
     { title: "التحذير من قراءة التطريب والألحان", page: 17 },
@@ -58,6 +58,9 @@ const BookReader = ({ title, author, content }: BookReaderProps) => {
   };
 
   const totalPages = content.length;
+
+  // Check if the content array is valid and has the current page
+  const currentPageContent = content && currentPage < content.length ? content[currentPage] : "";
 
   return (
     <div className="min-h-screen bg-white">
@@ -156,7 +159,7 @@ const BookReader = ({ title, author, content }: BookReaderProps) => {
               className="leading-relaxed text-gray-800" 
               dir="rtl"
             >
-              {content[currentPage].split('\n\n').map((paragraph, idx) => (
+              {currentPageContent && currentPageContent.split('\n\n').map((paragraph, idx) => (
                 <p key={idx} className="mb-6 text-lg">
                   {paragraph}
                 </p>

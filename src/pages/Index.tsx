@@ -1,10 +1,10 @@
-
 import { useState, useEffect } from 'react';
 import Hero from '../components/Hero';
 import NewsCard from '../components/NewsCard';
 import ArticleCard from '../components/ArticleCard';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, BookOpen, Video, Mic, Calendar, FileText } from 'lucide-react';
+import { recentMediaItems } from '../utils/youtubeUtils';
 
 const Index = () => {
   const [isVisible, setIsVisible] = useState({
@@ -97,36 +97,7 @@ const Index = () => {
     }
   ];
   
-  const mediaItems = [
-    {
-      id: 1,
-      title: "لقاء الجمعة: مستقبل الإصلاح السياسي في الجزائر",
-      type: "video",
-      date: "١٢ مايو ٢٠٢٣",
-      imageUrl: "https://images.unsplash.com/photo-1577722422778-3671a437826f?q=80&w=1980&auto=format&fit=crop"
-    },
-    {
-      id: 2,
-      title: "كلمة في وليمة: أهمية التكافل الاجتماعي",
-      type: "video",
-      date: "٥ مايو ٢٠٢٣",
-      imageUrl: "https://images.unsplash.com/photo-1614680376739-414d95ff43df?q=80&w=1974&auto=format&fit=crop"
-    },
-    {
-      id: 3,
-      title: "لقاء الجمعة: دور المسجد في بناء المجتمع",
-      type: "audio",
-      date: "٢٨ أبريل ٢٠٢٣",
-      imageUrl: "https://images.unsplash.com/photo-1615820346289-9581ad2a8bf7?q=80&w=2070&auto=format&fit=crop"
-    },
-    {
-      id: 4,
-      title: "موعظة في جنازة: الاستعداد للآخرة",
-      type: "audio",
-      date: "٢٠ أبريل ٢٠٢٣",
-      imageUrl: "https://images.unsplash.com/photo-1650372078205-e8cd3e132af1?q=80&w=1980&auto=format&fit=crop"
-    }
-  ];
+  const mediaItems = recentMediaItems.slice(0, 4);
   
   return (
     <div className="min-h-screen">
@@ -265,7 +236,7 @@ const Index = () => {
             <div key={item.id} className="card group">
               <div className="relative overflow-hidden aspect-video">
                 <img 
-                  src={item.imageUrl} 
+                  src={item.imageUrl || `https://img.youtube.com/vi/${item.videoId}/mqdefault.jpg`} 
                   alt={item.title} 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />

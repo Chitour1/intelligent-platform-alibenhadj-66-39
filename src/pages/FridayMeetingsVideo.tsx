@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { fetchVideoDetails } from '../utils/youtubeUtils';
+import { recentMediaItems, fetchVideoDetails } from '../utils/youtubeUtils';
+import { useSearchParams } from 'react-router-dom';
 
 const FridayMeetingsVideo = () => {
-  const [currentVideo, setCurrentVideo] = useState("XS7jF85h9TY");
+  const [searchParams] = useSearchParams();
+  const videoIdParam = searchParams.get('videoId');
+  
+  // Filter only video items
+  const videoItems = recentMediaItems.filter(item => item.type === 'video' && item.videoId);
+  
+  // Set currentVideo from URL param or use the first video in the list
+  const [currentVideo, setCurrentVideo] = useState(videoIdParam || (videoItems.length > 0 ? videoItems[0].videoId : "XS7jF85h9TY"));
+  
   const [videoDetails, setVideoDetails] = useState({
     title: "",
     description: "",
     date: ""
   });
   
-  // Sample recent videos list (you can replace with actual data)
-  const recentVideos = [
-    { id: "XS7jF85h9TY", title: "", date: "٢٢ مارس ٢٠٢٥" },
-    { id: "-8OtW7dPaJU", title: "", date: "١٥ مارس ٢٠٢٥" },
-    { id: "XS7jF85h9TY", title: "", date: "١٧ مارس ٢٠٢٥" },
-    { id: "XS7jF85h9TY", title: "", date: "١٠ مارس ٢٠٢٥" },
-    { id: "XS7jF85h9TY", title: "", date: "٣ مارس ٢٠٢٥" },
-  ];
-
   useEffect(() => {
     const loadVideoDetails = async () => {
       try {
@@ -100,11 +100,11 @@ const FridayMeetingsVideo = () => {
             </div>
             
             <div className="space-y-4 max-h-[600px] overflow-y-auto custom-scrollbar">
-              {recentVideos.map((video, index) => (
+              {videoItems.map((video, index) => (
                 <VideoListItem 
                   key={index}
                   video={video} 
-                  onClick={() => setCurrentVideo(video.id)}
+                  onClick={() => setCurrentVideo(video.videoId)}
                 />
               ))}
             </div>
@@ -122,10 +122,10 @@ const VideoListItem = ({ video, onClick }) => {
   useEffect(() => {
     const getVideoTitle = async () => {
       try {
-        const details = await fetchVideoDetails(video.id);
+        const details = await fetchVideoDetails(video.videoId);
         setTitle(details.title);
       } catch (error) {
-        console.error(`Error fetching details for video ${video.id}:`, error);
+        console.error(`Error fetching details for video ${video.videoId}:`, error);
         // Keep the existing title if provided, otherwise show error
         setTitle(video.title || "عنوان غير متاح");
       }
@@ -134,7 +134,7 @@ const VideoListItem = ({ video, onClick }) => {
     if (!video.title) {
       getVideoTitle();
     }
-  }, [video.id, video.title]);
+  }, [video.videoId, video.title]);
 
   return (
     <div 
@@ -143,7 +143,7 @@ const VideoListItem = ({ video, onClick }) => {
     >
       <div className="flex-shrink-0 relative w-24 h-16 rounded overflow-hidden">
         <img 
-          src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}
+          src={`https://img.youtube.com/vi/${video.videoId}/mqdefault.jpg`}
           alt={title}
           className="object-cover w-full h-full"
         />

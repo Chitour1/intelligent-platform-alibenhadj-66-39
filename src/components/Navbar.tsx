@@ -37,7 +37,7 @@ const Navbar = () => {
     { name: 'حــوارات الشـيخ', path: '/interviews' },
     {
       name: 'المكتبة الإعلامية',
-      path: '#',
+      path: '/media',
       submenu: [
         { name: 'لقاء الجمعة مرئي', path: '/media/friday-meetings-video' },
         { name: 'قناة الهيئة الاعلامية', path: '/media/media-channel' },

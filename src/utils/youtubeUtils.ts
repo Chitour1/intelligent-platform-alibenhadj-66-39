@@ -3,6 +3,75 @@
 // Since we can't use external API keys directly, we'll implement a workaround
 // to extract information from the video page
 
+// Define an interface for media items
+export interface MediaItem {
+  id: string;
+  title: string; 
+  type: 'video' | 'audio';
+  date: string;
+  imageUrl?: string;
+  videoId?: string;
+  description?: string;
+}
+
+// A shared array of recent media items that will be used across the application
+export const recentMediaItems: MediaItem[] = [
+  { 
+    id: "1", 
+    type: "video", 
+    videoId: "XS7jF85h9TY",
+    title: "كلمة الشيخ علي بن حاج ليوم ٢٢ مارس ٢٠٢٥",
+    date: "٢٢ مارس ٢٠٢٥",
+    imageUrl: "https://img.youtube.com/vi/XS7jF85h9TY/mqdefault.jpg",
+    description: "لقاء الجمعة الأسبوعي مع الشيخ علي بن حاج يناقش فيه أهم القضايا الراهنة"
+  },
+  { 
+    id: "2", 
+    type: "video", 
+    videoId: "-8OtW7dPaJU",
+    title: "كلمة الشيخ علي بن حاج ليوم ١٧ مارس ٢٠٢٥", 
+    date: "١٧ مارس ٢٠٢٥",
+    imageUrl: "https://img.youtube.com/vi/-8OtW7dPaJU/mqdefault.jpg",
+    description: "لقاء الجمعة الأسبوعي مع الشيخ علي بن حاج يناقش فيه أهم القضايا الراهنة"
+  },
+  { 
+    id: "3", 
+    type: "video", 
+    videoId: "XS7jF85h9TY",
+    title: "كلمة الشيخ علي بن حاج ليوم ١٥ مارس ٢٠٢٥", 
+    date: "١٥ مارس ٢٠٢٥",
+    imageUrl: "https://img.youtube.com/vi/XS7jF85h9TY/mqdefault.jpg",
+    description: "لقاء الجمعة الأسبوعي مع الشيخ علي بن حاج يناقش فيه أهم القضايا الراهنة"
+  },
+  { 
+    id: "4", 
+    type: "audio", 
+    title: "لقاء الجمعة: دور المسجد في بناء المجتمع", 
+    date: "٢٨ أبريل ٢٠٢٣",
+    imageUrl: "https://images.unsplash.com/photo-1615820346289-9581ad2a8bf7?q=80&w=2070&auto=format&fit=crop",
+    description: "لقاء الجمعة الأسبوعي مع الشيخ علي بن حاج يناقش فيه أهمية دور المسجد في بناء المجتمع"
+  },
+  { 
+    id: "5", 
+    type: "audio", 
+    title: "موعظة في جنازة: الاستعداد للآخرة", 
+    date: "٢٠ أبريل ٢٠٢٣",
+    imageUrl: "https://images.unsplash.com/photo-1650372078205-e8cd3e132af1?q=80&w=1980&auto=format&fit=crop",
+    description: "موعظة قيمة للشيخ علي بن حاج حول الاستعداد للآخرة والتذكير بالموت"
+  }
+];
+
+// Function to add a new media item to the collection
+export const addMediaItem = (item: MediaItem) => {
+  // Add to the beginning of the array to show newest first
+  recentMediaItems.unshift(item);
+  
+  // Optionally limit the size of the array to prevent it from growing too large
+  if (recentMediaItems.length > 20) {
+    recentMediaItems.pop();
+  }
+};
+
 export const fetchVideoDetails = async (videoId: string) => {
   try {
     // In a real implementation, you would use the YouTube API with an API key

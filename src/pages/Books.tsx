@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, Search, BookOpen, CalendarDays, FileText } from "lucide-react";
@@ -6,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 const bookTags = ["الفكر الإسلامي", "السياسة الشرعية", "الفقه", "العقيدة", "الإصلاح", "التربية", "التاريخ"];
 
-export interface BookType {
+interface BookType {
   id: number;
   title: string;
   author: string;
@@ -17,7 +16,6 @@ export interface BookType {
   pages: string;
   description: string;
   tags: string[];
-  readableOnline?: boolean;
 }
 
 // Export booksData so it can be used in other components
@@ -32,8 +30,7 @@ export const booksData: BookType[] = [
     publicationDate: "٢٤ مارس ٢٠٢٥",
     pages: "٦٢",
     description: "يطرح الشيخ علي بن حاج في هذا الكتاب رؤية شرعية وفكرية ناقدة للعلاقة بين الحاكم والمحكوم تجاه القرآن الكريم، ويتناول بالتفصيل الواجبات الدينية والسياسية التي ينبغي أن يلتزم بها كل من الراعي (الحاكم) والرعية (الشعب) تجاه كتاب الله عز وجل، مع تسليط الضوء على مظاهر الانحراف عن هذه الواجبات في الواقع المعاصر.",
-    tags: ["الفكر الإسلامي", "السياسة الشرعية", "الإصلاح"],
-    readableOnline: true
+    tags: ["الفكر الإسلامي", "السياسة الشرعية", "الإصلاح"]
   },
   {
     id: 2,

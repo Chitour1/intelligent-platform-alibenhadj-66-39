@@ -102,8 +102,18 @@ const Index = () => {
     }
   ];
   
-  // Get the latest 4 books from booksData
-  const books = [...booksData].sort((a, b) => b.id - a.id).slice(0, 4);
+  // Sort books by publication date (most recent first) then take the latest 4
+  const books = [...booksData]
+    .sort((a, b) => {
+      // If publication date exists, sort by it, otherwise use ID as fallback
+      if (a.publicationDate && b.publicationDate) {
+        // Simple string comparison for Arabic dates (since they're formatted consistently)
+        return a.publicationDate > b.publicationDate ? -1 : 1;
+      }
+      // Sort by ID (most recent first) as fallback
+      return b.id - a.id;
+    })
+    .slice(0, 4);
   
   const mediaItems = recentMediaItems.slice(0, 4);
   
@@ -247,6 +257,7 @@ const Index = () => {
               title={book.title}
               cover={book.cover}
               year={book.year}
+              publicationDate={book.publicationDate}
               pages={book.pages}
               description={book.description}
             />
@@ -340,4 +351,3 @@ const Index = () => {
 };
 
 export default Index;
-

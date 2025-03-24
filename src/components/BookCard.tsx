@@ -1,6 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { BookOpen, Calendar } from "lucide-react";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 interface BookCardProps {
   id: number;
@@ -15,18 +16,20 @@ interface BookCardProps {
 const BookCard = ({ id, title, cover, year, publicationDate, pages, description }: BookCardProps) => {
   return (
     <Link to={`/publications/books/${id}`} className="card group">
-      <div className="relative aspect-[3/4] overflow-hidden rounded-md">
-        <img 
-          src={cover} 
-          alt={title} 
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent"></div>
-        <div className="absolute bottom-0 left-0 right-0 p-4">
-          <h3 className="text-white font-bold group-hover:text-gold transition-colors duration-300">
-            {title}
-          </h3>
-        </div>
+      <div className="relative overflow-hidden rounded-md">
+        <AspectRatio ratio={3/4} className="w-full">
+          <img 
+            src={cover} 
+            alt={title} 
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent"></div>
+          <div className="absolute bottom-0 left-0 right-0 p-4">
+            <h3 className="text-white font-bold group-hover:text-gold transition-colors duration-300">
+              {title}
+            </h3>
+          </div>
+        </AspectRatio>
       </div>
       <div className="p-4">
         <div className="flex items-center justify-between mb-2">

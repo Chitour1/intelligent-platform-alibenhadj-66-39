@@ -16,6 +16,7 @@ const FridayMeetingsVideo = () => {
   // Sample recent videos list (you can replace with actual data)
   const recentVideos = [
     { id: "XS7jF85h9TY", title: "كلمة الشيخ علي بن حاج ليوم 22 مارس 2025", date: "٢٢ مارس ٢٠٢٥" },
+    { id: "-8OtW7dPaJU", title: "وهذه", date: "١٥ مارس ٢٠٢٥" },
     { id: "XS7jF85h9TY", title: "تحليل الأحداث الجارية في العالم الإسلامي", date: "١٧ مارس ٢٠٢٥" },
     { id: "XS7jF85h9TY", title: "الشيخ علي بن حاج يتحدث عن مستجدات الساحة السياسية", date: "١٠ مارس ٢٠٢٥" },
     { id: "XS7jF85h9TY", title: "رؤية الشيخ علي بن حاج حول قضايا الشباب المسلم", date: "٣ مارس ٢٠٢٥" },

@@ -28,6 +28,17 @@ const BookDetails = () => {
     .filter((b) => b.id !== book.id && b.tags.some((tag) => book.tags.includes(tag)))
     .slice(0, 3);
 
+  // Function to format description with proper paragraphs
+  const formatDescription = (text: string) => {
+    if (!text) return [];
+    // Split by double newlines to separate paragraphs properly
+    return text.split('\n\n').filter(p => p.trim() !== '');
+  };
+
+  const descriptionParagraphs = book.fullDescription 
+    ? formatDescription(book.fullDescription) 
+    : [book.description];
+
   return (
     <div className="min-h-screen">
       {/* Back Button */}
@@ -47,7 +58,15 @@ const BookDetails = () => {
           <div className="md:col-span-1">
             <div className="sticky top-8">
               <div className="relative aspect-[3/4] rounded-lg overflow-hidden shadow-lg mb-4">
-                <img src={book.cover} alt={book.title} className="w-full h-full object-cover" />
+                <img 
+                  src={book.cover} 
+                  alt={book.title} 
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = "/placeholder.svg";
+                  }}
+                />
               </div>
               <div className="space-y-3">
                 <Button className="w-full" asChild>
@@ -86,17 +105,11 @@ const BookDetails = () => {
             </div>
             
             <div className="prose prose-lg max-w-none">
-              {book.fullDescription ? (
-                book.fullDescription.split('\n\n').map((paragraph, index) => (
-                  <p key={index} className="mb-4 text-gray-700 leading-relaxed">
-                    {paragraph}
-                  </p>
-                ))
-              ) : (
-                <p className="mb-4 text-gray-700 leading-relaxed">
-                  {book.description}
+              {descriptionParagraphs.map((paragraph, index) => (
+                <p key={index} className="mb-4 text-gray-700 leading-relaxed">
+                  {paragraph}
                 </p>
-              )}
+              ))}
             </div>
             
             {/* Related Books */}

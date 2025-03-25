@@ -81,7 +81,7 @@ const Login = () => {
 
         <div className="mt-6 text-center text-sm text-gray-500">
           <p>للوصول للتجربة، استخدم:</p>
-          <p className="mt-1 font-medium text-gray-700 dir="ltr">admin@example.com / admin123</p>
+          <p className="mt-1 font-medium text-gray-700" dir="ltr">admin@example.com / admin123</p>
         </div>
       </div>
     </div>

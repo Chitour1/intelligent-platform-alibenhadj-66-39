@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
@@ -37,13 +36,11 @@ const Navbar = () => {
     { name: 'حــوارات الشـيخ', path: '/interviews' },
     {
       name: 'المكتبة الإعلامية',
-      path: '/media',
+      path: '/media/friday-meetings-video',
       submenu: [
         { name: 'لقاء الجمعة مرئي', path: '/media/friday-meetings-video' },
         { name: 'قناة الهيئة الاعلامية', path: '/media/media-channel' },
         { name: 'كلمة في وليمة', path: '/media/banquet-speech' },
-        { name: 'موعظة في جنازة', path: '/media/funeral-sermon' },
-        { name: 'لقاء الجمعة صوتي', path: '/media/friday-meetings-audio' },
       ]
     },
     {

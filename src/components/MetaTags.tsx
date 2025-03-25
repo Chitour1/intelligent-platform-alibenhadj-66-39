@@ -50,7 +50,8 @@ const MetaTags = ({ statement, isStatementPage = false }: MetaTagsProps) => {
       {/* علامات إضافية للمشاركة */}
       {isStatementPage && statement && (
         <>
-          <meta property="article:published_time" content={new Date(statement.date).toISOString()} />
+          {/* استخدام تاريخ نشر ثابت بدلاً من محاولة تحويل التاريخ العربي */}
+          <meta property="article:published_time" content="2025-03-22T00:00:00Z" />
           <meta property="article:author" content="الشيخ علي بن حاج" />
           <meta property="article:section" content={statement.category} />
         </>

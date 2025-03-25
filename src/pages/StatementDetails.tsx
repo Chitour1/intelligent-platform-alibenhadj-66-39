@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import MetaTags from '../components/MetaTags';
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { toast } from "@/components/ui/use-toast";
 
 // قائمة المواضيع الزمنية للفيديو ليوم 22 مارس 2025
 const videoTimelineMarch22 = [
@@ -457,7 +458,7 @@ const videoTimelineMarch23 = [
     id: 29, 
     startTime: "1:21:36", 
     endTime: "1:27:46", 
-    title: "استخدام العشرية السوداء لتبييض النظام الحالي، واستمرار القمع",
+    title: "استخدام العش��ية السوداء لتبييض النظام الحالي، واستمرار القمع",
     description: "انتقاد استخدام أحداث العشرية السوداء لتبييض النظام الحالي، والإشارة إلى استمرار القمع"
   },
   { 
@@ -545,7 +546,6 @@ const StatementDetails = () => {
   const [timelineOpen, setTimelineOpen] = useState(true);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   
-  // تحويل الوقت من النص إلى ثواني
   const timeToSeconds = (timeStr: string) => {
     const parts = timeStr.split(':').map(Number);
     if (parts.length === 3) {
@@ -556,41 +556,61 @@ const StatementDetails = () => {
     return 0;
   };
 
-  // الحصول على فهرس المحتويات المناسب للفيديو الحالي
   const getVideoTimeline = () => {
     if (!statement || !statement.videoId) return [];
     
-    // تحديد الفهرس بناءً على معرف الفيديو
     if (statement.videoId === "XS7jF85h9TY") {
       return videoTimelineMarch22;
     } else if (statement.videoId === "57X7fzssUQY") {
       return videoTimelineMarch23;
     }
     
-    // إذا لم يكن هناك فهرس متاح للفيديو
     return [];
   };
 
-  // التحقق مما إذا كان الفيديو الحالي له فهرس محتوى
   const hasTimeline = () => {
     return getVideoTimeline().length > 0;
   };
 
-  // الانتقال إلى وقت محدد في الفيديو
   const jumpToTime = (timeStr: string) => {
     const seconds = timeToSeconds(timeStr);
     if (iframeRef.current && iframeRef.current.src) {
-      // تحديث src للـ iframe مع وقت البداية
       const currentSrc = iframeRef.current.src;
       const baseUrl = currentSrc.split('?')[0];
       iframeRef.current.src = `${baseUrl}?start=${seconds}&autoplay=1`;
     }
   };
-  
-  // If statement not found, redirect to not found page
+
+  const copyPageUrl = () => {
+    navigator.clipboard.writeText(window.location.href)
+      .then(() => {
+        toast({
+          title: "تم نسخ الرابط",
+          description: "تم نسخ رابط الصفحة بنجاح",
+        });
+      })
+      .catch(err => {
+        console.error('حدث خطأ أثناء نسخ الرابط:', err);
+      });
+  };
+
+  const sharePage = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: statement?.title || 'كلمة الشيخ علي بن حاج',
+        text: statement?.excerpt || '',
+        url: window.location.href,
+      }).catch(err => {
+        console.error('حدث خطأ أثناء المشاركة:', err);
+        copyPageUrl();
+      });
+    } else {
+      copyPageUrl();
+    }
+  };
+
   useEffect(() => {
     if (!statement) {
-      // You could redirect to a not found page here
       console.log('Statement not found');
     }
   }, [statement]);
@@ -611,10 +631,8 @@ const StatementDetails = () => {
 
   return (
     <div className="min-h-screen">
-      {/* إضافة العلامات الوصفية */}
       <MetaTags statement={statement} isStatementPage={true} />
       
-      {/* Hero Section */}
       <div className="relative bg-navy text-white py-16 overflow-hidden">
         <div className="absolute inset-0 opacity-30">
           <img 
@@ -647,7 +665,6 @@ const StatementDetails = () => {
         </div>
       </div>
       
-      {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
           <img 
@@ -657,14 +674,12 @@ const StatementDetails = () => {
           />
         </div>
         
-        {/* Content */}
         <div className="prose prose-lg max-w-none">
           {statement.content.split('\n\n').map((paragraph, index) => (
             <p key={index} className="mb-4 leading-relaxed md:leading-9 text-gray-800 text-base md:text-lg font-droid-kufi tracking-normal" style={{ lineHeight: '2.2' }}>{paragraph}</p>
           ))}
         </div>
         
-        {/* Video Embed */}
         {statement.videoId && (
           <div className="mt-12">
             <h3 className="text-xl font-bold mb-4 flex items-center leading-relaxed">
@@ -684,7 +699,6 @@ const StatementDetails = () => {
               ></iframe>
             </div>
             
-            {/* Video Timeline Section */}
             {hasTimeline() ? (
               <div className="mt-8 bg-gray-50 rounded-lg p-4">
                 <div 
@@ -735,28 +749,10 @@ const StatementDetails = () => {
           </div>
         )}
         
-        {/* Share Links */}
         <div className="mt-12 flex justify-between items-center border-t border-gray-200 pt-6">
           <button 
             className="flex items-center text-navy hover:text-gold transition-colors"
-            onClick={() => {
-              if (navigator.share) {
-                navigator.share({
-                  title: statement.title,
-                  text: statement.excerpt,
-                  url: window.location.href,
-                }).catch(err => {
-                  console.error('Error sharing:', err);
-                });
-              } else {
-                // الخيار البديل: نسخ الرابط إلى الحافظة
-                navigator.clipboard.writeText(window.location.href).then(() => {
-                  alert('تم نسخ الرابط بنجاح!');
-                }).catch(err => {
-                  console.error('Error copying to clipboard:', err);
-                });
-              }
-            }}
+            onClick={sharePage}
           >
             <Share2 size={18} className="ml-2" />
             مشاركة هذه الكلمة

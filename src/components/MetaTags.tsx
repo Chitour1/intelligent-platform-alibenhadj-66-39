@@ -9,13 +9,17 @@ interface MetaTagsProps {
 
 const MetaTags = ({ statement, isStatementPage = false }: MetaTagsProps) => {
   // القيم الإفتراضية
-  const defaultTitle = "مقالات وأخبار الشيخ علي بن حاج";
+  const defaultTitle = "الشيخ علي بن حاج";
   const defaultDescription = "آخر أخبار وكلمات وبيانات الشيخ علي بن حاج";
   const defaultImage = "/lovable-uploads/b70984a3-8bb6-413d-8e5d-d0647fb60cb6.png";
   const baseUrl = window.location.origin;
 
-  // إذا كنا في صفحة تفاصيل الخبر واستطعنا الحصول على بيانات الخبر
-  const title = isStatementPage && statement ? statement.title : defaultTitle;
+  // إذا كنا في صفحة تفاصيل الخبر نستخدم بيانات المقال لتحسين عنوان الصفحة
+  let title = defaultTitle;
+  if (isStatementPage && statement) {
+    title = `الشيخ علي بن حاج: ${statement.title}`;
+  }
+  
   const description = isStatementPage && statement ? statement.excerpt : defaultDescription;
   const image = isStatementPage && statement && statement.imageUrl ? statement.imageUrl : defaultImage;
   const url = isStatementPage && statement ? `${baseUrl}/statements/${statement.id}` : baseUrl;
@@ -41,7 +45,7 @@ const MetaTags = ({ statement, isStatementPage = false }: MetaTagsProps) => {
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:locale" content="ar_SA" />
-      <meta property="og:site_name" content="مقالات وأخبار الشيخ علي بن حاج" />
+      <meta property="og:site_name" content="الشيخ علي بن حاج" />
 
       {/* علامات Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />

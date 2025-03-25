@@ -1,3 +1,4 @@
+
 import { useParams, Link } from 'react-router-dom';
 import { statementsData } from '../utils/statementsData';
 import { ArrowLeft, Calendar, Clock, Share2, BookOpen, Video } from 'lucide-react';
@@ -7,8 +8,10 @@ const StatementDetails = () => {
   const { statementId } = useParams<{ statementId: string }>();
   const [statement, setStatement] = useState(statementsData.find(s => s.id === statementId));
   
+  // If statement not found, redirect to not found page
   useEffect(() => {
     if (!statement) {
+      // You could redirect to a not found page here
       console.log('Statement not found');
     }
   }, [statement]);
@@ -44,7 +47,7 @@ const StatementDetails = () => {
             <ArrowLeft size={16} className="ml-1" />
             العودة إلى أحدث كلمات الشيخ
           </Link>
-          <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-relaxed">{statement.title}</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">{statement.title}</h1>
           <div className="flex flex-wrap items-center text-gray-300 gap-4 mb-6">
             <div className="flex items-center">
               <Calendar size={16} className="ml-1" />

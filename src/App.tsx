@@ -5,7 +5,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
-import { AudioPlayerProvider } from "./contexts/AudioPlayerContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Index from "./pages/Index";
@@ -27,33 +26,31 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <HelmetProvider>
       <TooltipProvider>
-        <AudioPlayerProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <div className="flex flex-col min-h-screen">
-              <Navbar />
-              <main className="flex-grow">
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/news" element={<News />} />
-                  <Route path="/articles" element={<Articles />} />
-                  <Route path="/lectures-sermons" element={<LecturesSermons />} />
-                  <Route path="/interviews" element={<Interviews />} />
-                  <Route path="/media" element={<MediaLibrary />} />
-                  <Route path="/media/friday-meetings-video" element={<FridayMeetingsVideo />} />
-                  <Route path="/publications/books" element={<Books />} />
-                  <Route path="/publications/books/:bookId" element={<BookDetails />} />
-                  <Route path="/statements" element={<LatestStatements />} />
-                  <Route path="/statements/:statementId" element={<StatementDetails />} />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </main>
-              <Footer />
-            </div>
-          </BrowserRouter>
-        </AudioPlayerProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <main className="flex-grow">
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/news" element={<News />} />
+                <Route path="/articles" element={<Articles />} />
+                <Route path="/lectures-sermons" element={<LecturesSermons />} />
+                <Route path="/interviews" element={<Interviews />} />
+                <Route path="/media" element={<MediaLibrary />} />
+                <Route path="/media/friday-meetings-video" element={<FridayMeetingsVideo />} />
+                <Route path="/publications/books" element={<Books />} />
+                <Route path="/publications/books/:bookId" element={<BookDetails />} />
+                <Route path="/statements" element={<LatestStatements />} />
+                <Route path="/statements/:statementId" element={<StatementDetails />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </BrowserRouter>
       </TooltipProvider>
     </HelmetProvider>
   </QueryClientProvider>

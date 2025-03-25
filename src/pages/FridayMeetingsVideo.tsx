@@ -1,11 +1,12 @@
+
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, ArrowRight, Calendar, Clock, ChevronDown, ChevronRight, Volume2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Calendar, Clock, ChevronDown, ChevronRight } from 'lucide-react';
 import { recentMediaItems, fetchVideoDetails } from '../utils/youtubeUtils';
 import { useSearchParams } from 'react-router-dom';
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
-import { useAudioPlayer } from '../contexts/AudioPlayerContext';
 
+// Timeline for the March 22, 2025 video
 const videoTimelineMarch22 = [
   { 
     id: 1, 
@@ -67,7 +68,7 @@ const videoTimelineMarch22 = [
     id: 9, 
     startTime: "00:28:55", 
     endTime: "00:32:04", 
-    title: "ازدواجية المعايير وفكك الأمة الإسلامية",
+    title: "ازدواجية المعايير وتفكك الأمة الإسلامية",
     description: "سقوط مفهوم الأمة الواحدة وحلول الوطنية الضيقة مكانها"
   },
   { 
@@ -254,6 +255,7 @@ const videoTimelineMarch22 = [
   },
 ];
 
+// Timeline for the March 23, 2025 video
 const videoTimelineMarch23 = [
   { 
     id: 1, 
@@ -555,7 +557,6 @@ const FridayMeetingsVideo = () => {
   
   const [timelineOpen, setTimelineOpen] = useState(true);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const { playAudio } = useAudioPlayer();
 
   useEffect(() => {
     const loadVideoDetails = async () => {
@@ -600,19 +601,6 @@ const FridayMeetingsVideo = () => {
       const baseUrl = currentSrc.split('?')[0];
       iframeRef.current.src = `${baseUrl}?start=${seconds}&autoplay=1`;
     }
-  };
-  
-  // Play audio only version of the video
-  const playAudioOnly = () => {
-    // Create audio URL from YouTube video ID
-    const audioUrl = `https://www.youtube.com/embed/${currentVideo}?autoplay=1`;
-    // Play the audio
-    playAudio(
-      currentVideo,
-      videoDetails.title || "كلمة الشيخ علي بن حاج",
-      "علي بن حاج",
-      audioUrl
-    );
   };
 
   // Helper function to format date to Arabic format
@@ -672,18 +660,7 @@ const FridayMeetingsVideo = () => {
           </div>
           
           <div className="space-y-2">
-            <div className="flex justify-between items-start">
-              <h2 className="text-2xl font-bold text-navy-dark">{videoDetails.title}</h2>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="flex items-center gap-2 text-navy"
-                onClick={playAudioOnly}
-              >
-                <Volume2 size={16} />
-                استمع للكلمة (صوت فقط)
-              </Button>
-            </div>
+            <h2 className="text-2xl font-bold text-navy-dark">{videoDetails.title}</h2>
             <p className="text-sm text-gray-500">{videoDetails.date}</p>
             <p className="text-gray-700 leading-relaxed font-droid-kufi">{videoDetails.description}</p>
           </div>
@@ -759,6 +736,7 @@ const FridayMeetingsVideo = () => {
   );
 };
 
+// Separate component for video list items
 const VideoListItem = ({ video, onClick, isActive = false }) => {
   const [title, setTitle] = useState(video.title || "جاري تحميل العنوان...");
 

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
@@ -35,10 +36,21 @@ const Navbar = () => {
     { name: 'دروس و خـطب', path: '/lectures-sermons' },
     { name: 'حــوارات الشـيخ', path: '/interviews' },
     {
+      name: 'المكتبة الإعلامية',
+      path: '/media',
+      submenu: [
+        { name: 'لقاء الجمعة مرئي', path: '/media/friday-meetings-video' },
+        { name: 'قناة الهيئة الاعلامية', path: '/media/media-channel' },
+        { name: 'كلمة في وليمة', path: '/media/banquet-speech' },
+        { name: 'موعظة في جنازة', path: '/media/funeral-sermon' },
+        { name: 'لقاء الجمعة صوتي', path: '/media/friday-meetings-audio' },
+      ]
+    },
+    {
       name: 'الإصدارات',
       path: '#',
       submenu: [
-        { name: 'بيـــانات الشـيخ', path: '/statements' },
+        { name: 'بيـــانات الشـيخ', path: '/publications/statements' },
         { name: 'المداخلات التلفزيونية', path: '/publications/tv-appearances' },
         { name: 'ملخص لقاءات الجمعة', path: '/publications/friday-summaries' },
         { name: 'مقتطفات مع الشيخ', path: '/publications/excerpts' },
@@ -51,7 +63,6 @@ const Navbar = () => {
 
   const NavItem = ({ item }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const location = useLocation();
 
     if (item.submenu) {
       return (

@@ -1,13 +1,14 @@
+
 import { useParams, Link } from 'react-router-dom';
 import { statementsData } from '../utils/statementsData';
-import { ArrowLeft, Calendar, Clock, Share2, BookOpen, Video, ChevronDown, ChevronRight, Headphones } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, Share2, BookOpen, Video, ChevronDown, ChevronRight } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import MetaTags from '../components/MetaTags';
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/components/ui/use-toast";
-import { useAudioPlayer } from '../contexts/AudioPlayerContext';
 
+// قائمة المواضيع الزمنية للفيديو ليوم 22 مارس 2025
 const videoTimelineMarch22 = [
   { 
     id: 1, 
@@ -189,7 +190,7 @@ const videoTimelineMarch22 = [
     startTime: "01:23:20", 
     endTime: "01:24:23", 
     title: "رفض سب الصحابة والدعوة لفقه الخلاف",
-    description: "الدعوة للتمييز بين نقد الأف��ال وسب الصحابة"
+    description: "الدعوة للتمييز بين نقد الأفعال وسب الصحابة"
   },
   { 
     id: 27, 
@@ -256,6 +257,7 @@ const videoTimelineMarch22 = [
   },
 ];
 
+// قائمة المواضيع الزمنية للفيديو ليوم 23 مارس 2025
 const videoTimelineMarch23 = [
   { 
     id: 1, 
@@ -535,7 +537,7 @@ const videoTimelineMarch23 = [
     startTime: "2:02:23", 
     endTime: "2:05:00", 
     title: "دعوة للتوثيق الشخصي للانتهاكات، ونقد سياسات الصمت والتطبيع",
-    description: "تقديم دعوة للتوثيق الشخصي للانتهاك��ت، وانتقاد سياسات الصمت والتطبيع"
+    description: "تقديم دعوة للتوثيق الشخصي للانتهاكات، وانتقاد سياسات الصمت والتطبيع"
   }
 ];
 
@@ -544,7 +546,6 @@ const StatementDetails = () => {
   const [statement, setStatement] = useState(statementsData.find(s => s.id === statementId));
   const [timelineOpen, setTimelineOpen] = useState(true);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const { playAudio } = useAudioPlayer();
   
   const timeToSeconds = (timeStr: string) => {
     const parts = timeStr.split(':').map(Number);
@@ -609,29 +610,12 @@ const StatementDetails = () => {
     }
   };
 
-  const playAudioOnly = () => {
-    if (statement && statement.videoId) {
-      const audioSource = `https://youtubeaudio.lovabledev.com/api/audio/${statement.videoId}`;
-      
-      playAudio({
-        id: statement.videoId,
-        title: statement.title,
-        source: audioSource,
-        thumbnail: `https://img.youtube.com/vi/${statement.videoId}/mqdefault.jpg`
-      });
-      
-      toast({
-        title: "تم تشغيل الصوت",
-        description: "جاري تشغيل الكلمة بدون فيديو، يمكنك الاستماع حتى مع تصفح الصفحات الأخرى",
-      });
-    }
-  };
-
   useEffect(() => {
     if (!statement) {
       console.log('Statement not found');
     }
     
+    // Scroll to top when component mounts
     window.scrollTo(0, 0);
   }, [statement]);
 
@@ -651,6 +635,7 @@ const StatementDetails = () => {
 
   return (
     <div className="min-h-screen">
+      {/* استخدام مكون MetaTags مع تمرير البيانات الضرورية */}
       <MetaTags statement={statement} isStatementPage={true} />
       
       <div className="relative bg-navy text-white py-16 overflow-hidden">
@@ -702,23 +687,10 @@ const StatementDetails = () => {
         
         {statement.videoId && (
           <div className="mt-12">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-bold flex items-center leading-relaxed">
-                <Video size={20} className="ml-2 text-gold" />
-                شاهد الكلمة كاملة
-              </h3>
-              
-              <Button 
-                variant="outline" 
-                size="sm"
-                className="flex items-center gap-2 bg-navy text-white hover:bg-navy-dark"
-                onClick={playAudioOnly}
-              >
-                <Headphones size={16} />
-                <span>استمع للكلمة (صوت فقط)</span>
-              </Button>
-            </div>
-            
+            <h3 className="text-xl font-bold mb-4 flex items-center leading-relaxed">
+              <Video size={20} className="ml-2 text-gold" />
+              شاهد الكلمة كاملة
+            </h3>
             <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
               <iframe
                 ref={iframeRef}

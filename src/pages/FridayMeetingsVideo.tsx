@@ -1,12 +1,10 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, ArrowRight, Calendar, Clock, Headphones, ChevronDown, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Calendar, Clock, ChevronDown, ChevronRight } from 'lucide-react';
 import { recentMediaItems, fetchVideoDetails } from '../utils/youtubeUtils';
 import { useSearchParams } from 'react-router-dom';
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
-import { useAudioPlayer } from '../contexts/AudioPlayerContext';
 
 // Timeline for the March 22, 2025 video
 const videoTimelineMarch22 = [
@@ -544,7 +542,6 @@ const videoTimelineMarch23 = [
 const FridayMeetingsVideo = () => {
   const [searchParams] = useSearchParams();
   const videoIdParam = searchParams.get('videoId');
-  const { playAudio } = useAudioPlayer();
   
   // Filter only video items
   const videoItems = recentMediaItems.filter(item => item.type === 'video' && item.videoId);
@@ -595,6 +592,17 @@ const FridayMeetingsVideo = () => {
     return 0;
   };
 
+  // Handle jumping to a specific time in the video
+  const jumpToTime = (timeStr: string) => {
+    const seconds = timeToSeconds(timeStr);
+    if (iframeRef.current && iframeRef.current.src) {
+      // Update the iframe src with the start time parameter
+      const currentSrc = iframeRef.current.src;
+      const baseUrl = currentSrc.split('?')[0];
+      iframeRef.current.src = `${baseUrl}?start=${seconds}&autoplay=1`;
+    }
+  };
+
   // Helper function to format date to Arabic format
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -611,17 +619,6 @@ const FridayMeetingsVideo = () => {
       "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
     ];
     return arabicMonths[monthIndex];
-  };
-
-  // Handle jumping to a specific time in the video
-  const jumpToTime = (timeStr: string) => {
-    const seconds = timeToSeconds(timeStr);
-    if (iframeRef.current && iframeRef.current.src) {
-      // Update the iframe src with the start time parameter
-      const currentSrc = iframeRef.current.src;
-      const baseUrl = currentSrc.split('?')[0];
-      iframeRef.current.src = `${baseUrl}?start=${seconds}&autoplay=1`;
-    }
   };
 
   // Determine which video is currently playing to show the appropriate timeline
@@ -643,27 +640,6 @@ const FridayMeetingsVideo = () => {
     return getCurrentVideoTimeline().length > 0;
   };
 
-  // وظيفة تشغيل الصوت فقط
-  const playAudioOnly = () => {
-    if (currentVideo) {
-      // استخدام معرف الفيديو للحصول على رابط الصوت
-      const audioSource = `https://youtubeaudio.lovabledev.com/api/audio/${currentVideo}`;
-      
-      // تشغيل الصوت في الخلفية
-      playAudio({
-        id: currentVideo,
-        title: videoDetails.title,
-        source: audioSource,
-        thumbnail: `https://img.youtube.com/vi/${currentVideo}/mqdefault.jpg`
-      });
-      
-      toast({
-        title: "تم تشغيل الصوت",
-        description: "جاري تشغيل الكلمة بدون فيديو، يمكنك الاستماع حتى مع تصفح الصفحات الأخرى",
-      });
-    }
-  };
-
   return (
     <div className="section-container">
       <h1 className="section-title mb-8">لقاء الجمعة المرئي</h1>
@@ -671,18 +647,6 @@ const FridayMeetingsVideo = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main video player */}
         <div className="lg:col-span-2 space-y-4">
-          <div className="flex flex-wrap gap-2 mb-4">
-            <Button 
-              variant="outline" 
-              size="sm"
-              className="flex items-center gap-2 bg-navy text-white hover:bg-navy-dark"
-              onClick={playAudioOnly}
-            >
-              <Headphones size={16} />
-              <span>استمع للكلمة (صوت فقط)</span>
-            </Button>
-          </div>
-          
           <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
             <iframe 
               ref={iframeRef}

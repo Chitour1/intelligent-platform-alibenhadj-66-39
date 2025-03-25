@@ -9,7 +9,7 @@ interface MetaTagsProps {
 
 const MetaTags = ({ statement, isStatementPage = false }: MetaTagsProps) => {
   // القيم الإفتراضية
-  const defaultTitle = "الشيخ علي بن حاج";
+  const defaultTitle = "موقع الشيخ علي بن حاج";
   const defaultDescription = "آخر أخبار وكلمات وبيانات الشيخ علي بن حاج";
   const defaultImage = "/lovable-uploads/b70984a3-8bb6-413d-8e5d-d0647fb60cb6.png";
   const baseUrl = window.location.origin;
@@ -45,7 +45,7 @@ const MetaTags = ({ statement, isStatementPage = false }: MetaTagsProps) => {
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:locale" content="ar_SA" />
-      <meta property="og:site_name" content="الشيخ علي بن حاج" />
+      <meta property="og:site_name" content="موقع الشيخ علي بن حاج" />
 
       {/* علامات Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />

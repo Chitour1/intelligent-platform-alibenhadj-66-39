@@ -164,7 +164,7 @@ const Navbar = () => {
               <img
                 className="h-12 w-auto animate-float"
                 src="/lovable-uploads/0b5b4808-4d98-4f13-b56d-488ec6e0da87.png"
-                alt="الموقع الرسمي للشيخ علي بن حاج"
+                alt="موقع الشيخ علي بن حاج"
               />
             </Link>
           </div>

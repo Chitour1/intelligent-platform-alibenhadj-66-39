@@ -28,8 +28,8 @@ const Hero = () => {
           <div className="pt-12 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between">
             <div className={`text-center lg:text-right max-w-xl transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
               <h1 className="text-4xl font-extrabold tracking-tight text-white leading-relaxed sm:text-5xl md:text-6xl font-arabic">
-                <span className="block">الموقـع الرسمي</span>
-                <span className="block text-gold">للشيخ علي بن حاج</span>
+                <span className="block">موقـع</span>
+                <span className="block text-gold">الشيخ علي بن حاج</span>
               </h1>
               <p className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-lg md:mt-5 md:text-xl">
                 نائب رئيس الجبهة الإسلامية للإنقاذ
@@ -44,7 +44,7 @@ const Hero = () => {
               <img
                 className="h-auto w-full max-w-md mx-auto"
                 src="/lovable-uploads/d1a44ab9-1ce3-4bc1-a6b4-4555f7a29b09.png"
-                alt="شعار الموقع الرسمي للشيخ علي بن حاج"
+                alt="شعار موقع الشيخ علي بن حاج"
               />
             </div>
           </div>

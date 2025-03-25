@@ -1,3 +1,4 @@
+
 import { ReactNode } from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
 import AdminInitializer from './AdminInitializer';
@@ -20,7 +21,9 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
         </div>
       ) : isAuthenticated || location.pathname === '/admin/login' ? (
-        children
+        <div className="bg-gray-50 min-h-screen">
+          {children}
+        </div>
       ) : (
         <Navigate to="/admin/login" replace />
       )}

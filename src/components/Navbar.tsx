@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 
@@ -63,17 +63,34 @@ const Navbar = () => {
 
   const NavItem = ({ item }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null);
+    
+    // إضافة معالج لإغلاق القائمة عند النقر خارجها
+    useEffect(() => {
+      if (!dropdownOpen) return;
+      
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          setDropdownOpen(false);
+        }
+      };
+      
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, [dropdownOpen]);
 
     if (item.submenu) {
       return (
         <div 
           className="relative group" 
-          onMouseEnter={() => setDropdownOpen(true)} 
-          onMouseLeave={() => setDropdownOpen(false)}
+          ref={dropdownRef}
         >
           <button 
             className="nav-link flex items-center gap-1"
             onClick={() => setDropdownOpen(!dropdownOpen)}
+            onMouseEnter={() => setDropdownOpen(true)}
             aria-expanded={dropdownOpen}
             aria-haspopup="true"
           >

@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import NewsTicker from "./components/NewsTicker";
 import Index from "./pages/Index";
 import News from "./pages/News";
 import Articles from "./pages/Articles";
@@ -31,6 +32,7 @@ const App = () => (
         <BrowserRouter>
           <div className="flex flex-col min-h-screen">
             <Navbar />
+            <NewsTicker />
             <main className="flex-grow">
               <Routes>
                 <Route path="/" element={<Index />} />

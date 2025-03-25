@@ -1,8 +1,8 @@
-
 import { useParams, Link } from 'react-router-dom';
 import { statementsData } from '../utils/statementsData';
 import { ArrowLeft, Calendar, Clock, Share2, BookOpen, Video } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import MetaTags from '../components/MetaTags';
 
 const StatementDetails = () => {
   const { statementId } = useParams<{ statementId: string }>();
@@ -32,6 +32,9 @@ const StatementDetails = () => {
 
   return (
     <div className="min-h-screen">
+      {/* إضافة العلامات الوصفية */}
+      <MetaTags statement={statement} isStatementPage={true} />
+      
       {/* Hero Section */}
       <div className="relative bg-navy text-white py-16 overflow-hidden">
         <div className="absolute inset-0 opacity-30">
@@ -105,7 +108,27 @@ const StatementDetails = () => {
         
         {/* Share Links */}
         <div className="mt-12 flex justify-between items-center border-t border-gray-200 pt-6">
-          <button className="flex items-center text-navy hover:text-gold transition-colors">
+          <button 
+            className="flex items-center text-navy hover:text-gold transition-colors"
+            onClick={() => {
+              if (navigator.share) {
+                navigator.share({
+                  title: statement.title,
+                  text: statement.excerpt,
+                  url: window.location.href,
+                }).catch(err => {
+                  console.error('Error sharing:', err);
+                });
+              } else {
+                // الخيار البديل: نسخ الرابط إلى الحافظة
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                  alert('تم نسخ الرابط بنجاح!');
+                }).catch(err => {
+                  console.error('Error copying to clipboard:', err);
+                });
+              }
+            }}
+          >
             <Share2 size={18} className="ml-2" />
             مشاركة هذه الكلمة
           </button>
@@ -115,8 +138,6 @@ const StatementDetails = () => {
           </Link>
         </div>
       </div>
-      
-      {/* Related Statements - Can add later if needed */}
     </div>
   );
 };

@@ -12,7 +12,7 @@ const MetaTags = ({ statement, isStatementPage = false }: MetaTagsProps) => {
   const defaultTitle = "مقالات وأخبار الشيخ علي بن حاج";
   const defaultDescription = "آخر أخبار وكلمات وبيانات الشيخ علي بن حاج";
   const defaultImage = "/lovable-uploads/b70984a3-8bb6-413d-8e5d-d0647fb60cb6.png";
-  const baseUrl = "https://3e9b1149-d8fa-4b0b-ba68-311dffc3b674.lovableproject.com";
+  const baseUrl = window.location.origin;
 
   // إذا كنا في صفحة تفاصيل الخبر واستطعنا الحصول على بيانات الخبر
   const title = isStatementPage && statement ? statement.title : defaultTitle;
@@ -48,9 +48,13 @@ const MetaTags = ({ statement, isStatementPage = false }: MetaTagsProps) => {
       <meta name="twitter:image" content={fullImageUrl} />
       
       {/* علامات إضافية للمشاركة */}
-      <meta property="article:published_time" content={isStatementPage && statement ? statement.date : new Date().toISOString()} />
-      <meta property="article:author" content="الشيخ علي بن حاج" />
-      <meta property="article:section" content={isStatementPage && statement ? statement.category : "أخبار"} />
+      {isStatementPage && statement && (
+        <>
+          <meta property="article:published_time" content={new Date(statement.date).toISOString()} />
+          <meta property="article:author" content="الشيخ علي بن حاج" />
+          <meta property="article:section" content={statement.category} />
+        </>
+      )}
     </Helmet>
   );
 };

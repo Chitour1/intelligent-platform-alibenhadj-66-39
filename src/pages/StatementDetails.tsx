@@ -1,3 +1,4 @@
+
 import { useParams, Link } from 'react-router-dom';
 import { statementsData } from '../utils/statementsData';
 import { ArrowLeft, Calendar, Clock, Share2, BookOpen, Video, ChevronDown, ChevronRight } from 'lucide-react';
@@ -613,6 +614,9 @@ const StatementDetails = () => {
     if (!statement) {
       console.log('Statement not found');
     }
+    
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
   }, [statement]);
 
   if (!statement) {
@@ -631,6 +635,7 @@ const StatementDetails = () => {
 
   return (
     <div className="min-h-screen">
+      {/* استخدام مكون MetaTags مع تمرير البيانات الضرورية */}
       <MetaTags statement={statement} isStatementPage={true} />
       
       <div className="relative bg-navy text-white py-16 overflow-hidden">

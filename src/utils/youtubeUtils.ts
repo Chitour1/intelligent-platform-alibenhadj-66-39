@@ -1,3 +1,4 @@
+
 // This function fetches video details from the YouTube API
 // Since we can't use external API keys directly, we'll implement a workaround
 // to extract information from the video page
@@ -18,6 +19,15 @@ export const recentMediaItems: MediaItem[] = [
   { 
     id: "0", 
     type: "video", 
+    videoId: "57X7fzssUQY",
+    title: "كلمة الشيخ علي بن حاج ليوم ٢٣ مارس ٢٠٢٥",
+    date: "٢٣ مارس ٢٠٢٥",
+    imageUrl: "https://img.youtube.com/vi/57X7fzssUQY/mqdefault.jpg",
+    description: "لقاء الجمعة الأسبوعي مع الشيخ علي بن حاج يناقش فيه أهم القضايا الراهنة"
+  },
+  { 
+    id: "1", 
+    type: "video", 
     videoId: "v3-xRViU3MM",
     title: "كلمة الشيخ علي بن حاج ليوم ١٢ مارس ٢٠٢٥",
     date: "١٢ مارس ٢٠٢٥",
@@ -25,7 +35,7 @@ export const recentMediaItems: MediaItem[] = [
     description: "لقاء الجمعة الأسبوعي مع الشيخ علي بن حاج يناقش فيه أهم القضايا الراهنة"
   },
   { 
-    id: "1", 
+    id: "2", 
     type: "video", 
     videoId: "XS7jF85h9TY",
     title: "كلمة الشيخ علي بن حاج ليوم ٢٢ مارس ٢٠٢٥",
@@ -34,7 +44,7 @@ export const recentMediaItems: MediaItem[] = [
     description: "لقاء الجمعة الأسبوعي مع الشيخ علي بن حاج يناقش فيه أهم القضايا الراهنة"
   },
   { 
-    id: "2", 
+    id: "3", 
     type: "video", 
     videoId: "-8OtW7dPaJU",
     title: "كلمة الشيخ علي بن حاج ليوم ١٧ مارس ٢٠٢٥", 

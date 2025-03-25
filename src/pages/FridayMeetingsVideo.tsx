@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, ArrowRight, Calendar, Clock, ChevronDown, ChevronRight } from 'lucide-react';
 import { recentMediaItems, fetchVideoDetails } from '../utils/youtubeUtils';
@@ -5,7 +6,8 @@ import { useSearchParams } from 'react-router-dom';
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 
-const videoTimeline = [
+// Timeline for the March 22, 2025 video
+const videoTimelineMarch22 = [
   { 
     id: 1, 
     startTime: "00:00:00", 
@@ -253,6 +255,290 @@ const videoTimeline = [
   },
 ];
 
+// Timeline for the March 23, 2025 video
+const videoTimelineMarch23 = [
+  { 
+    id: 1, 
+    startTime: "00:06", 
+    endTime: "01:12", 
+    title: "مقدمة الدعاء والتحميد والترحم على الشهداء والمرضى والمظلومين",
+    description: "افتتاح الكلمة بالدعاء والتحميد والترحم على الشهداء والمرضى والمظلومين"
+  },
+  { 
+    id: 2, 
+    startTime: "01:12", 
+    endTime: "02:15", 
+    title: "فضل الرحمة والعطف في شهر رمضان والتكافل",
+    description: "الحديث عن فضل الرحمة والعطف في شهر رمضان والتكافل الاجتماعي"
+  },
+  { 
+    id: 3, 
+    startTime: "02:15", 
+    endTime: "03:22", 
+    title: "الصمت في الإسلام وأثره في حياة الصحابة",
+    description: "شرح مفهوم الصمت في الإسلام ودوره في حياة الصحابة"
+  },
+  { 
+    id: 4, 
+    startTime: "03:22", 
+    endTime: "06:41", 
+    title: "الصمت والكلام الواجب، وأهمية اجتناب اللغو والجدال",
+    description: "التفريق بين الصمت المحمود والكلام الواجب، وأهمية اجتناب اللغو والجدال"
+  },
+  { 
+    id: 5, 
+    startTime: "06:41", 
+    endTime: "13:26", 
+    title: "عدد أحاديث النبي وسلوك الصحابة، وفضل الصمت، وكتاب \"الصمت\"",
+    description: "الحديث عن عدد أحاديث النبي وسلوك الصحابة، وفضل الصمت، ومراجعة كتاب الصمت"
+  },
+  { 
+    id: 6, 
+    startTime: "13:26", 
+    endTime: "16:43", 
+    title: "واجب العلماء في متابعة الحكام ونصحهم، وعدم عزل الحاكم عن الشعب",
+    description: "شرح واجب العلماء في متابعة الحكام ونصحهم، وخطورة عزل الحاكم عن الشعب"
+  },
+  { 
+    id: 7, 
+    startTime: "16:43", 
+    endTime: "23:20", 
+    title: "صعوبة لقاء المسؤولين، احتجاب الحكام، مقارنة بالغرب، ضعف المؤسسات",
+    description: "نقد صعوبة لقاء المسؤولين واحتجاب الحكام مقارنة بالدول الغربية، وضعف المؤسسات"
+  },
+  { 
+    id: 8, 
+    startTime: "23:20", 
+    endTime: "26:47", 
+    title: "أولى عرى الإسلام نقض الحكم، الحاكم يجب أن يحكم بكتاب الله",
+    description: "شرح أن أولى عرى الإسلام التي تنقض هي الحكم، والتأكيد على أن الحاكم يجب أن يحكم بكتاب الله"
+  },
+  { 
+    id: 9, 
+    startTime: "26:47", 
+    endTime: "29:03", 
+    title: "توزيع المصاحف في ليلة 27 وعدم العمل بمضمونها",
+    description: "انتقاد ظاهرة توزيع المصاحف في ليلة 27 من رمضان مع عدم العمل بمضمونها"
+  },
+  { 
+    id: 10, 
+    startTime: "29:03", 
+    endTime: "32:20", 
+    title: "كثرة القراء وقلة الفقهاء، انفصال القرآن عن السلطان",
+    description: "الحديث عن ظاهرة كثرة القراء وقلة الفقهاء، وخطورة انفصال القرآن عن السلطان"
+  },
+  { 
+    id: 11, 
+    startTime: "32:20", 
+    endTime: "35:45", 
+    title: "دور العلماء في مخاطبة الحكام، وأهمية تطبيق الدين لا شكله",
+    description: "شرح دور العلماء في مخاطبة الحكام، والتأكيد على أهمية تطبيق الدين لا الاكتفاء بشكله"
+  },
+  { 
+    id: 12, 
+    startTime: "35:45", 
+    endTime: "39:05", 
+    title: "مهاجمة الحكام لصمتهم تجاه المجازر، والاكتفاء بالشعارات والدعاية",
+    description: "انتقاد الحكام لصمتهم تجاه المجازر، واكتفائهم بالشعارات والدعاية"
+  },
+  { 
+    id: 13, 
+    startTime: "39:05", 
+    endTime: "41:17", 
+    title: "ضعف التعليم الديني، مقارنة المواد الدنيوية بالدينية، دور الأسرة والمدرسة",
+    description: "نقد ضعف التعليم الديني، ومقارنة المواد الدنيوية بالدينية، والتأكيد على دور الأسرة والمدرسة"
+  },
+  { 
+    id: 14, 
+    startTime: "41:17", 
+    endTime: "46:26", 
+    title: "معرفة عامة الناس بالأمور المعلومة من الدين بالضرورة",
+    description: "الحديث عن مستوى معرفة عامة الناس بالأمور المعلومة من الدين بالضرورة"
+  },
+  { 
+    id: 15, 
+    startTime: "46:26", 
+    endTime: "47:31", 
+    title: "تهميش المتخرجين من الشريعة، والتضييق على المتدينين",
+    description: "انتقاد تهميش المتخرجين من كليات الشريعة، والتضييق على المتدينين"
+  },
+  { 
+    id: 16, 
+    startTime: "47:31", 
+    endTime: "50:24", 
+    title: "التربية تبدأ من البيت والمدرسة، والانفصام بين القيم والإعلام",
+    description: "التأكيد على أن التربية تبدأ من البيت والمدرسة، وانتقاد الانفصام بين القيم والإعلام"
+  },
+  { 
+    id: 17, 
+    startTime: "50:24", 
+    endTime: "51:30", 
+    title: "الانتقال إلى الرد على ندوة الرئيس تبون",
+    description: "الانتقال في الموضوع إلى الرد على اللقاء الصحفي للرئيس تبون"
+  },
+  { 
+    id: 18, 
+    startTime: "51:30", 
+    endTime: "53:45", 
+    title: "التعددية السياسية لا تعني الإقصاء والتهميش",
+    description: "شرح أن التعددية السياسية الحقيقية لا تعني الإقصاء والتهميش"
+  },
+  { 
+    id: 19, 
+    startTime: "53:45", 
+    endTime: "56:02", 
+    title: "تأسيس الأحزاب ينبغي أن يتم بالإخطار وليس الترخيص",
+    description: "نقاش حول تأسيس الأحزاب وأنه ينبغي أن يتم بالإخطار وليس الترخيص"
+  },
+  { 
+    id: 20, 
+    startTime: "56:02", 
+    endTime: "58:11", 
+    title: "ملاحظات على اللقاء الصحفي لتبون، غياب الشفافية",
+    description: "تقديم ملاحظات على اللقاء الصحفي للرئيس تبون، وانتقاد غياب الشفافية"
+  },
+  { 
+    id: 21, 
+    startTime: "58:11", 
+    endTime: "59:18", 
+    title: "انتقادات لطريقة طرح الأسئلة الصحفية",
+    description: "توجيه انتقادات لطريقة طرح الأسئلة الصحفية في اللقاء"
+  },
+  { 
+    id: 22, 
+    startTime: "59:18", 
+    endTime: "1:02:23", 
+    title: "غياب حرية الصحافة، الإعلام موجه، غياب التعدد الإعلامي",
+    description: "انتقاد غياب حرية الصحافة، والإشارة إلى أن الإعلام موجه، وغياب التعدد الإعلامي"
+  },
+  { 
+    id: 23, 
+    startTime: "1:02:23", 
+    endTime: "1:06:26", 
+    title: "سيطرة الدولة العميقة على مؤسسات الدولة",
+    description: "الحديث عن سيطرة الدولة العميقة على مؤسسات الدولة وتأثيرها"
+  },
+  { 
+    id: 24, 
+    startTime: "1:06:26", 
+    endTime: "1:09:22", 
+    title: "استخدام اللغة الفرنسية في اللقاء وغياب العربية",
+    description: "انتقاد استخدام اللغة الفرنسية في اللقاء الصحفي وغياب اللغة العربية"
+  },
+  { 
+    id: 25, 
+    startTime: "1:09:22", 
+    endTime: "1:12:21", 
+    title: "أزمة الهوية وتهميش اللغة الأمازيغية تاريخياً",
+    description: "مناقشة أزمة الهوية وتهميش اللغة الأمازيغية عبر التاريخ"
+  },
+  { 
+    id: 26, 
+    startTime: "1:12:21", 
+    endTime: "1:16:12", 
+    title: "ازدواجية التعامل مع اللغات، تجاهل الدستور",
+    description: "انتقاد ازدواجية التعامل مع اللغات وتجاهل الدستور"
+  },
+  { 
+    id: 27, 
+    startTime: "1:16:12", 
+    endTime: "1:18:20", 
+    title: "المشاكل الداخلية غير مطروحة في الخطاب",
+    description: "الإشارة إلى أن المشاكل الداخلية غير مطروحة في الخطاب الرسمي"
+  },
+  { 
+    id: 28, 
+    startTime: "1:18:20", 
+    endTime: "1:21:36", 
+    title: "انتقاد السياسة الخارجية، خاصة تجاه فرنسا",
+    description: "توجيه انتقادات للسياسة الخارجية، خاصة العلاقة مع فرنسا"
+  },
+  { 
+    id: 29, 
+    startTime: "1:21:36", 
+    endTime: "1:27:46", 
+    title: "استخدام العشرية السوداء لتبييض النظام الحالي، واستمرار القمع",
+    description: "انتقاد استخدام أحداث العشرية السوداء لتبييض النظام الحالي، والإشارة إلى استمرار القمع"
+  },
+  { 
+    id: 30, 
+    startTime: "1:27:46", 
+    endTime: "1:30:59", 
+    title: "ضرورة محاسبة الرئيس على مخالفة الدستور باستخدام الفرنسية",
+    description: "المطالبة بمحاسبة الرئيس على مخالفة الدستور باستخدامه اللغة الفرنسية"
+  },
+  { 
+    id: 31, 
+    startTime: "1:30:59", 
+    endTime: "1:34:08", 
+    title: "ضرورة التحرر من الدولة العميقة، وعدم الشفافية في الحكم",
+    description: "التأكيد على ضرورة التحرر من الدولة العميقة، وانتقاد عدم الشفافية في الحكم"
+  },
+  { 
+    id: 32, 
+    startTime: "1:34:08", 
+    endTime: "1:38:20", 
+    title: "التلاعب بلغة الخطاب لإرضاء فرنسا، تغييب الصحافة الحقيقية",
+    description: "انتقاد التلاعب بلغة الخطاب لإرضاء فرنسا، والإشارة إلى تغييب الصحافة الحقيقية"
+  },
+  { 
+    id: 33, 
+    startTime: "1:38:20", 
+    endTime: "1:42:39", 
+    title: "مهاجمة ماكرون وفضح ازدواجية العلاقات مع فرنسا",
+    description: "مهاجمة الرئيس الفرنسي ماكرون وفضح ازدواجية العلاقات الرسمية مع فرنسا"
+  },
+  { 
+    id: 34, 
+    startTime: "1:42:39", 
+    endTime: "1:46:45", 
+    title: "الصمت عن أمريكا وإسرائيل، النفاق السياسي",
+    description: "انتقاد الصمت الرسمي عن أمريكا وإسرائيل، والإشارة إلى النفاق السياسي"
+  },
+  { 
+    id: 35, 
+    startTime: "1:46:45", 
+    endTime: "1:51:02", 
+    title: "منع التظاهر وتكميم الأفواه، تسييس الخطاب الإعلامي",
+    description: "انتقاد منع التظاهر وتكميم الأفواه، والإشارة إلى تسييس الخطاب الإعلامي"
+  },
+  { 
+    id: 36, 
+    startTime: "1:51:02", 
+    endTime: "1:56:03", 
+    title: "العدالة الانتقائية، التلاعب بالقضاء، تجارب الدول الأخرى",
+    description: "الحديث عن العدالة الانتقائية والتلاعب بالقضاء، ومقارنة ذلك بتجارب الدول الأخرى"
+  },
+  { 
+    id: 37, 
+    startTime: "1:56:03", 
+    endTime: "1:58:16", 
+    title: "قصة عثمان النيسابوري ومراعاة مشاعر زوجته",
+    description: "سرد قصة عثمان النيسابوري ومراعاته لمشاعر زوجته كمثال على الأخلاق الإسلامية"
+  },
+  { 
+    id: 38, 
+    startTime: "1:58:16", 
+    endTime: "2:01:13", 
+    title: "اختلال معايير الطلاق في المجتمع، تدهور العلاقات الأسرية",
+    description: "الحديث عن اختلال معايير الطلاق في المجتمع وتدهور العلاقات الأسرية"
+  },
+  { 
+    id: 39, 
+    startTime: "2:01:13", 
+    endTime: "2:02:23", 
+    title: "تمجيد النظام للمتورطين في قضايا قديمة وتناسي الضحايا",
+    description: "انتقاد تمجيد النظام للمتورطين في قضايا قديمة وتناسي الضحايا"
+  },
+  { 
+    id: 40, 
+    startTime: "2:02:23", 
+    endTime: "2:05:00", 
+    title: "دعوة للتوثيق الشخصي للانتهاكات، ونقد سياسات الصمت والتطبيع",
+    description: "تقديم دعوة للتوثيق الشخصي للانتهاكات، وانتقاد سياسات الصمت والتطبيع"
+  }
+];
+
 const FridayMeetingsVideo = () => {
   const [searchParams] = useSearchParams();
   const videoIdParam = searchParams.get('videoId');
@@ -296,6 +582,7 @@ const FridayMeetingsVideo = () => {
 
   // Convert time string to seconds
   const timeToSeconds = (timeStr: string) => {
+    // Handle the new format "1:02:23"
     const parts = timeStr.split(':').map(Number);
     if (parts.length === 3) {
       return parts[0] * 3600 + parts[1] * 60 + parts[2];
@@ -334,30 +621,23 @@ const FridayMeetingsVideo = () => {
     return arabicMonths[monthIndex];
   };
 
-  // تحديد ما إذا كان الفيديو الحالي هو فيديو 22 مارس 2025
-  const isMarch22Video = () => {
-    // نبحث عن الفيديو بالعنوان أو التاريخ
-    if (videoDetails.date && videoDetails.date.includes("22") && videoDetails.date.includes("مارس") && videoDetails.date.includes("2025")) {
-      return true;
+  // Determine which video is currently playing to show the appropriate timeline
+  const getCurrentVideoTimeline = () => {
+    // Check for March 22, 2025 video
+    if (currentVideo === "XS7jF85h9TY") {
+      return videoTimelineMarch22;
     }
-    
-    // نبحث أيضًا عن فيديو بتاريخ يوم ٢٢ مارس ٢٠٢٥ بالأرقام العربية
-    if (videoDetails.date && videoDetails.date.includes("٢٢") && videoDetails.date.includes("مارس") && videoDetails.date.includes("٢٠٢٥")) {
-      return true;
+    // Check for March 23, 2025 video
+    else if (currentVideo === "57X7fzssUQY") {
+      return videoTimelineMarch23;
     }
-    
-    // تحقق من العنوان إذا كان يحتوي على التاريخ
-    if (videoDetails.title && videoDetails.title.includes("22") && videoDetails.title.includes("مارس") && videoDetails.title.includes("2025")) {
-      return true;
-    }
-    
-    // تحقق من العنوان إذا كان يحتوي على التاريخ بالأرقام العربية
-    if (videoDetails.title && videoDetails.title.includes("٢٢") && videoDetails.title.includes("مارس") && videoDetails.title.includes("٢٠٢٥")) {
-      return true;
-    }
-    
-    // يمكننا أيضًا التحقق من videoId محدد
-    return currentVideo === "XS7jF85h9TY";
+    // Default: return an empty array if no timeline is available
+    return [];
+  };
+
+  // Check if the current video has a timeline
+  const hasTimeline = () => {
+    return getCurrentVideoTimeline().length > 0;
   };
 
   return (
@@ -385,8 +665,8 @@ const FridayMeetingsVideo = () => {
             <p className="text-gray-700 leading-relaxed font-droid-kufi">{videoDetails.description}</p>
           </div>
 
-          {/* Video Timeline Section - Show only for March 22, 2025 video */}
-          {isMarch22Video() && (
+          {/* Video Timeline Section - Show only for videos with timeline */}
+          {hasTimeline() && (
             <div className="mt-8 bg-gray-50 rounded-lg p-4">
               <div 
                 className="flex items-center justify-between cursor-pointer" 
@@ -403,7 +683,7 @@ const FridayMeetingsVideo = () => {
               
               {timelineOpen && (
                 <div className="mt-4 space-y-2 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
-                  {videoTimeline.map((section) => (
+                  {getCurrentVideoTimeline().map((section) => (
                     <div 
                       key={section.id}
                       className="p-2 rounded hover:bg-gray-100 cursor-pointer transition-colors"

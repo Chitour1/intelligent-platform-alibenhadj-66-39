@@ -1,12 +1,10 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, ArrowRight, Calendar, Clock, Headphones, ChevronDown, ChevronRight, Play } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Calendar, Clock, ChevronDown, ChevronRight } from 'lucide-react';
 import { recentMediaItems, fetchVideoDetails } from '../utils/youtubeUtils';
 import { useSearchParams } from 'react-router-dom';
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
-import { useAudioPlayer } from '../contexts/AudioPlayerContext';
 
 // Timeline for the March 22, 2025 video
 const videoTimelineMarch22 = [
@@ -254,7 +252,7 @@ const videoTimelineMarch22 = [
     endTime: "02:35:00", 
     title: "محاكمة سعيد بوتفليقة ومحاسبة رموز النظام السابق",
     description: "دعوة إلى المحاسبة العلنية العادلة لرموز النظام السابق بدون استثناء"
-  }
+  },
 ];
 
 // Timeline for the March 23, 2025 video
@@ -544,7 +542,6 @@ const videoTimelineMarch23 = [
 const FridayMeetingsVideo = () => {
   const [searchParams] = useSearchParams();
   const videoIdParam = searchParams.get('videoId');
-  const { playAudio } = useAudioPlayer();
   
   // Filter only video items
   const videoItems = recentMediaItems.filter(item => item.type === 'video' && item.videoId);
@@ -595,6 +592,17 @@ const FridayMeetingsVideo = () => {
     return 0;
   };
 
+  // Handle jumping to a specific time in the video
+  const jumpToTime = (timeStr: string) => {
+    const seconds = timeToSeconds(timeStr);
+    if (iframeRef.current && iframeRef.current.src) {
+      // Update the iframe src with the start time parameter
+      const currentSrc = iframeRef.current.src;
+      const baseUrl = currentSrc.split('?')[0];
+      iframeRef.current.src = `${baseUrl}?start=${seconds}&autoplay=1`;
+    }
+  };
+
   // Helper function to format date to Arabic format
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -611,17 +619,6 @@ const FridayMeetingsVideo = () => {
       "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
     ];
     return arabicMonths[monthIndex];
-  };
-
-  // Handle jumping to a specific time in the video
-  const jumpToTime = (timeStr: string) => {
-    const seconds = timeToSeconds(timeStr);
-    if (iframeRef.current && iframeRef.current.src) {
-      // Update the iframe src with the start time parameter
-      const currentSrc = iframeRef.current.src;
-      const baseUrl = currentSrc.split('?')[0];
-      iframeRef.current.src = `${baseUrl}?start=${seconds}&autoplay=1`;
-    }
   };
 
   // Determine which video is currently playing to show the appropriate timeline
@@ -643,27 +640,6 @@ const FridayMeetingsVideo = () => {
     return getCurrentVideoTimeline().length > 0;
   };
 
-  // وظيفة تشغيل الصوت فقط
-  const playAudioOnly = () => {
-    if (currentVideo) {
-      // استخدام معرف الفيديو للحصول على رابط الصوت
-      const audioSource = `https://youtubeaudio.lovabledev.com/api/audio/${currentVideo}`;
-      
-      // تشغيل الصوت في الخلفية
-      playAudio({
-        id: currentVideo,
-        title: videoDetails.title,
-        source: audioSource,
-        thumbnail: `https://img.youtube.com/vi/${currentVideo}/mqdefault.jpg`
-      });
-      
-      toast({
-        title: "تم تشغيل الصوت",
-        description: "جاري تشغيل الكلمة بدون فيديو، يمكنك الاستماع حتى مع تصفح الصفحات الأخرى",
-      });
-    }
-  };
-
   return (
     <div className="section-container">
       <h1 className="section-title mb-8">لقاء الجمعة المرئي</h1>
@@ -671,89 +647,131 @@ const FridayMeetingsVideo = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main video player */}
         <div className="lg:col-span-2 space-y-4">
-          <div className="flex flex-wrap gap-2 mb-4">
-            <Button 
-              variant="outline" 
-              size="sm"
-              className="flex items-center gap-1 bg-red-50 hover:bg-red-100 text-red-600"
-              onClick={playAudioOnly}
-            >
-              <Headphones size={16} />
-              استماع فقط
-            </Button>
-            {videoItems.map((item) => (
-              <Button
-                key={item.videoId}
-                variant={currentVideo === item.videoId ? "default" : "outline"}
-                size="sm"
-                onClick={() => setCurrentVideo(item.videoId || "")}
-              >
-                {item.date}
-              </Button>
-            ))}
-          </div>
-          
-          {/* YouTube video embed */}
-          <div className="aspect-video w-full overflow-hidden rounded-lg border bg-black">
-            <iframe
+          <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+            <iframe 
               ref={iframeRef}
-              className="h-full w-full"
+              className="w-full h-full"
               src={`https://www.youtube.com/embed/${currentVideo}`}
               title="YouTube video player"
+              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             ></iframe>
           </div>
           
-          {/* Video title and description */}
           <div className="space-y-2">
-            <h2 className="text-2xl font-bold tracking-tight text-primary">{videoDetails.title}</h2>
-            <div className="flex items-center gap-2 text-muted-foreground text-sm">
-              <Calendar size={16} />
-              <span>{videoDetails.date}</span>
-            </div>
-            <p className="text-muted-foreground">{videoDetails.description}</p>
+            <h2 className="text-2xl font-bold text-navy-dark">{videoDetails.title}</h2>
+            <p className="text-sm text-gray-500">{videoDetails.date}</p>
+            <p className="text-gray-700 leading-relaxed font-droid-kufi">{videoDetails.description}</p>
           </div>
+
+          {/* Video Timeline Section - Show only for videos with timeline */}
+          {hasTimeline() && (
+            <div className="mt-8 bg-gray-50 rounded-lg p-4">
+              <div 
+                className="flex items-center justify-between cursor-pointer" 
+                onClick={() => setTimelineOpen(!timelineOpen)}
+              >
+                <h3 className="font-bold text-navy flex items-center gap-2">
+                  <Clock size={18} />
+                  فهرس محتويات الكلمة
+                </h3>
+                <Button variant="ghost" size="sm">
+                  {timelineOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+                </Button>
+              </div>
+              
+              {timelineOpen && (
+                <div className="mt-4 space-y-2 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                  {getCurrentVideoTimeline().map((section) => (
+                    <div 
+                      key={section.id}
+                      className="p-2 rounded hover:bg-gray-100 cursor-pointer transition-colors"
+                      onClick={() => jumpToTime(section.startTime)}
+                    >
+                      <div className="flex justify-between items-center mb-1">
+                        <h4 className="font-semibold text-navy-dark">{section.title}</h4>
+                        <span className="text-sm text-gold bg-gold/10 px-2 py-1 rounded font-mono">
+                          {section.startTime} - {section.endTime}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-600 font-droid-kufi">{section.description}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
         
-        {/* Timeline sidebar */}
-        {hasTimeline() && (
-          <div className="space-y-4">
-            <div 
-              className="flex items-center justify-between cursor-pointer" 
-              onClick={() => setTimelineOpen(!timelineOpen)}
-            >
-              <h3 className="text-xl font-semibold">فهرس اللقاء</h3>
-              <Button variant="ghost" size="sm">
-                {timelineOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
-              </Button>
+        {/* Sidebar with video list */}
+        <div className="lg:col-span-1">
+          <div className="bg-gray-50 rounded-lg p-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-bold text-navy">اللقاءات السابقة</h3>
+              <div className="flex space-x-2 space-x-reverse">
+                <button className="p-1 rounded hover:bg-gray-200 transition-colors">
+                  <ArrowRight size={18} />
+                </button>
+                <button className="p-1 rounded hover:bg-gray-200 transition-colors">
+                  <ArrowLeft size={18} />
+                </button>
+              </div>
             </div>
             
-            {timelineOpen && (
-              <div className="space-y-3 overflow-y-auto max-h-[600px] pr-2">
-                {getCurrentVideoTimeline().map((item) => (
-                  <div 
-                    key={item.id}
-                    className="p-3 rounded-md border hover:bg-accent transition-colors cursor-pointer"
-                    onClick={() => jumpToTime(item.startTime)}
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
-                        <Play size={14} className="text-primary shrink-0" />
-                        <span className="text-xs text-muted-foreground shrink-0 font-mono">{item.startTime}</span>
-                      </div>
-                      <span className="text-xs text-muted-foreground shrink-0 font-mono">{item.endTime}</span>
-                    </div>
-                    <div className="mt-1">
-                      <h4 className="font-medium text-sm">{item.title}</h4>
-                      <p className="text-xs text-muted-foreground mt-1">{item.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+            <div className="space-y-4 max-h-[600px] overflow-y-auto custom-scrollbar">
+              {videoItems.map((video, index) => (
+                <VideoListItem 
+                  key={index}
+                  video={video} 
+                  isActive={video.videoId === currentVideo}
+                  onClick={() => setCurrentVideo(video.videoId)}
+                />
+              ))}
+            </div>
           </div>
-        )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Separate component for video list items
+const VideoListItem = ({ video, onClick, isActive = false }) => {
+  const [title, setTitle] = useState(video.title || "جاري تحميل العنوان...");
+
+  useEffect(() => {
+    const getVideoTitle = async () => {
+      try {
+        const details = await fetchVideoDetails(video.videoId);
+        setTitle(details.title);
+      } catch (error) {
+        console.error(`Error fetching details for video ${video.videoId}:`, error);
+        // Keep the existing title if provided, otherwise show error
+        setTitle(video.title || "عنوان غير متاح");
+      }
+    };
+
+    if (!video.title) {
+      getVideoTitle();
+    }
+  }, [video.videoId, video.title]);
+
+  return (
+    <div 
+      className={`flex gap-3 p-2 rounded-md cursor-pointer hover:bg-gray-100 transition-colors ${isActive ? 'bg-gray-100 border-r-4 border-gold' : ''}`}
+      onClick={onClick}
+    >
+      <div className="flex-shrink-0 relative w-24 h-16 rounded overflow-hidden">
+        <img 
+          src={`https://img.youtube.com/vi/${video.videoId}/mqdefault.jpg`}
+          alt={title}
+          className="object-cover w-full h-full"
+        />
+      </div>
+      <div className="flex-1 min-w-0">
+        <h4 className={`font-medium text-sm ${isActive ? 'text-gold' : 'text-navy-dark'} line-clamp-2`}>{title}</h4>
+        <p className="text-xs text-gray-500 mt-1">{video.date}</p>
       </div>
     </div>
   );

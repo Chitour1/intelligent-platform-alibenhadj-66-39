@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 
@@ -32,10 +33,11 @@ const Navbar = () => {
     { name: 'الصفحة الرئيسة', path: '/' },
     { name: 'الأخـبـــار', path: '/news' },
     { name: 'مقالات الشيخ', path: '/articles' },
+    { name: 'دروس و خـطب', path: '/lectures-sermons' },
     { name: 'حــوارات الشـيخ', path: '/interviews' },
     {
       name: 'المكتبة الإعلامية',
-      path: '/media',
+      path: '#',
       submenu: [
         { name: 'لقاء الجمعة مرئي', path: '/media/friday-meetings-video' },
         { name: 'قناة الهيئة الاعلامية', path: '/media/media-channel' },
@@ -61,75 +63,25 @@ const Navbar = () => {
 
   const NavItem = ({ item }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const dropdownRef = useRef(null);
-    const timeoutRef = useRef(null);
-    
-    useEffect(() => {
-      if (!dropdownOpen) return;
-      
-      const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-          setDropdownOpen(false);
-        }
-      };
-      
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
-    }, [dropdownOpen]);
-
-    const handleMouseEnter = () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
-      }
-      setDropdownOpen(true);
-    };
-
-    const handleMouseLeave = () => {
-      timeoutRef.current = setTimeout(() => {
-        setDropdownOpen(false);
-      }, 300);
-    };
-
-    useEffect(() => {
-      return () => {
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
-        }
-      };
-    }, []);
 
     if (item.submenu) {
       return (
-        <div 
-          className="relative group" 
-          ref={dropdownRef}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
+        <div className="relative group" onMouseEnter={() => setDropdownOpen(true)} onMouseLeave={() => setDropdownOpen(false)}>
           <button 
             className="nav-link flex items-center gap-1"
             onClick={() => setDropdownOpen(!dropdownOpen)}
-            aria-expanded={dropdownOpen}
-            aria-haspopup="true"
           >
             {item.name}
             <ChevronDown size={16} className={`transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
           </button>
           {dropdownOpen && (
-            <div 
-              className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50 animate-fade-in"
-              style={{ minWidth: '220px' }}
-            >
+            <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50 animate-fade-in">
               <div className="py-1">
                 {item.submenu.map((subitem, index) => (
                   <Link
                     key={index}
                     to={subitem.path}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gold hover:text-white transition-colors duration-200"
-                    onClick={() => setDropdownOpen(false)}
                   >
                     {subitem.name}
                   </Link>
@@ -175,7 +127,6 @@ const Navbar = () => {
             <button
               onClick={toggleMenu}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gold hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gold"
-              aria-expanded={isOpen}
             >
               <span className="sr-only">Open main menu</span>
               {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -184,6 +135,7 @@ const Navbar = () => {
         </div>
       </div>
 
+      {/* Mobile menu, show/hide based on menu state */}
       <div className={`md:hidden transition-all duration-300 ease-in-out transform ${isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg">
           {menuItems.map((item, index) => (

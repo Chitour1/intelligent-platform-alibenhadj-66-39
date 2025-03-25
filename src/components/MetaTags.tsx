@@ -17,14 +17,17 @@ const MetaTags = ({ statement, isStatementPage = false }: MetaTagsProps) => {
   // إذا كنا في صفحة تفاصيل الخبر واستطعنا الحصول على بيانات الخبر
   const title = isStatementPage && statement ? statement.title : defaultTitle;
   const description = isStatementPage && statement ? statement.excerpt : defaultDescription;
-  const image = isStatementPage && statement ? statement.imageUrl : defaultImage;
+  const image = isStatementPage && statement && statement.imageUrl ? statement.imageUrl : defaultImage;
   const url = isStatementPage && statement ? `${baseUrl}/statements/${statement.id}` : baseUrl;
   
   // معالجة عنوان الصورة للتأكد من وجود رابط كامل
   const fullImageUrl = image.startsWith('http') ? image : `${baseUrl}${image}`;
+
+  // تاريخ النشر ثابت بتنسيق صالح
+  const publishedDate = "2025-03-22T00:00:00Z";
   
   return (
-    <Helmet>
+    <Helmet prioritizeSeoTags>
       {/* العلامات الأساسية */}
       <title>{title}</title>
       <meta name="description" content={description} />
@@ -50,8 +53,7 @@ const MetaTags = ({ statement, isStatementPage = false }: MetaTagsProps) => {
       {/* علامات إضافية للمشاركة */}
       {isStatementPage && statement && (
         <>
-          {/* استخدام تاريخ نشر ثابت بدلاً من محاولة تحويل التاريخ العربي */}
-          <meta property="article:published_time" content="2025-03-22T00:00:00Z" />
+          <meta property="article:published_time" content={publishedDate} />
           <meta property="article:author" content="الشيخ علي بن حاج" />
           <meta property="article:section" content={statement.category} />
         </>

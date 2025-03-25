@@ -7,16 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import MetaTags from '@/components/MetaTags';
-
-// Sample link for edit mode
-const sampleLink = {
-  id: 1,
-  title: "موقع الشيخ الرسمي",
-  url: "https://example.com",
-  category: "المواقع الرسمية",
-  description: "الموقع الرسمي للشيخ وفيه جميع المقالات والخطب",
-  date: "10/03/2023"
-};
+import { getLinks, saveLink, Link as CustomLink } from '@/utils/dataService';
 
 const LinkForm = () => {
   const { id } = useParams();
@@ -24,24 +15,32 @@ const LinkForm = () => {
   const { toast } = useToast();
   const isEditMode = id !== 'new';
 
-  const [link, setLink] = useState({
+  const [link, setLink] = useState<Partial<CustomLink>>({
     title: '',
     url: '',
     category: '',
-    description: ''
+    description: '',
+    date: new Date().toLocaleDateString('en-GB')
   });
 
   useEffect(() => {
-    if (isEditMode) {
-      // In a real app, fetch the link data from an API
-      setLink({
-        title: sampleLink.title,
-        url: sampleLink.url,
-        category: sampleLink.category,
-        description: sampleLink.description
-      });
+    if (isEditMode && id) {
+      // Fetch the link data for editing
+      const links = getLinks();
+      const linkToEdit = links.find(l => l.id === Number(id));
+      
+      if (linkToEdit) {
+        setLink(linkToEdit);
+      } else {
+        navigate('/admin/links');
+        toast({
+          title: "خطأ",
+          description: "الرابط غير موجود",
+          variant: "destructive",
+        });
+      }
     }
-  }, [id, isEditMode]);
+  }, [id, isEditMode, navigate, toast]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -50,6 +49,16 @@ const LinkForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate required fields
+    if (!link.title || !link.url || !link.category) {
+      toast({
+        title: "بيانات ناقصة",
+        description: "يرجى ملء جميع الحقول المطلوبة",
+        variant: "destructive",
+      });
+      return;
+    }
     
     // Basic URL validation
     if (!link.url.startsWith('http://') && !link.url.startsWith('https://')) {
@@ -61,8 +70,20 @@ const LinkForm = () => {
       return;
     }
     
-    // In a real application, you would send this data to an API
-    // For demo purposes, we're just showing a success message
+    // Prepare complete link object
+    const completeLink: CustomLink = {
+      id: isEditMode && id ? Number(id) : 0, // Will be updated when saved
+      title: link.title || '',
+      url: link.url || '',
+      category: link.category || '',
+      description: link.description || '',
+      date: link.date || new Date().toLocaleDateString('en-GB')
+    };
+    
+    // Save link
+    saveLink(completeLink);
+    
+    // Show success message
     if (isEditMode) {
       toast({
         title: "تم تحديث الرابط",
@@ -75,6 +96,7 @@ const LinkForm = () => {
       });
     }
     
+    // Navigate back to links list
     navigate('/admin/links');
   };
 

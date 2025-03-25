@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, Edit, Trash2, Search, Youtube } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -13,38 +13,30 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogDescription, 
+  DialogFooter, 
+  DialogHeader, 
+  DialogTitle 
+} from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import MetaTags from '@/components/MetaTags';
-
-// Sample video data
-const sampleVideos = [
-  {
-    id: 1,
-    title: "خطبة الجمعة: التوكل على الله",
-    date: "10/05/2023",
-    category: "خطب الجمعة",
-    youtubeId: "dQw4w9WgXcQ"
-  },
-  {
-    id: 2,
-    title: "ندوة: القضية الفلسطينية",
-    date: "15/06/2023",
-    category: "ندوات",
-    youtubeId: "9bZkp7q19f0"
-  },
-  {
-    id: 3,
-    title: "لقاء خاص حول أحداث غزة",
-    date: "22/07/2023",
-    category: "لقاءات",
-    youtubeId: "XqZsoesa55w"
-  }
-];
+import { getVideos, deleteVideo, Video } from '@/utils/dataService';
 
 const Videos = () => {
-  const [videos, setVideos] = useState(sampleVideos);
+  const [videos, setVideos] = useState<Video[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [videoToDelete, setVideoToDelete] = useState<Video | null>(null);
   const { toast } = useToast();
+
+  // Load videos when component mounts
+  useEffect(() => {
+    const loadedVideos = getVideos();
+    setVideos(loadedVideos);
+  }, []);
 
   const filteredVideos = videos.filter(video =>
     video.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -54,12 +46,23 @@ const Videos = () => {
     setSearchQuery(e.target.value);
   };
 
-  const handleDelete = (id: number) => {
-    setVideos(videos.filter(video => video.id !== id));
-    toast({
-      title: "تم حذف الفيديو",
-      description: "تم حذف الفيديو بنجاح",
-    });
+  const openDeleteDialog = (video: Video) => {
+    setVideoToDelete(video);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleDelete = () => {
+    if (videoToDelete) {
+      deleteVideo(videoToDelete.id);
+      setVideos(videos.filter(video => video.id !== videoToDelete.id));
+      setIsDeleteDialogOpen(false);
+      setVideoToDelete(null);
+      
+      toast({
+        title: "تم حذف الفيديو",
+        description: "تم حذف الفيديو بنجاح",
+      });
+    }
   };
 
   return (
@@ -122,7 +125,7 @@ const Videos = () => {
                     <Button 
                       variant="destructive" 
                       size="sm" 
-                      onClick={() => handleDelete(video.id)}
+                      onClick={() => openDeleteDialog(video)}
                     >
                       <Trash2 className="h-4 w-4 ml-2" />
                       حذف
@@ -140,6 +143,25 @@ const Videos = () => {
           </TableBody>
         </Table>
       </Card>
+
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>تأكيد الحذف</DialogTitle>
+            <DialogDescription>
+              هل أنت متأكد من حذف الفيديو "{videoToDelete?.title}"؟ هذا الإجراء لا يمكن التراجع عنه.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
+              إلغاء
+            </Button>
+            <Button variant="destructive" onClick={handleDelete}>
+              حذف
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Plus, Edit, Trash2, Search, ExternalLink } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -13,38 +13,30 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogDescription, 
+  DialogFooter, 
+  DialogHeader, 
+  DialogTitle 
+} from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import MetaTags from '@/components/MetaTags';
-
-// Sample links data
-const sampleLinks = [
-  {
-    id: 1,
-    title: "موقع الشيخ الرسمي",
-    url: "https://example.com",
-    category: "المواقع الرسمية",
-    date: "10/03/2023"
-  },
-  {
-    id: 2,
-    title: "قناة يوتيوب",
-    url: "https://youtube.com/channel/example",
-    category: "قنوات التواصل",
-    date: "15/04/2023"
-  },
-  {
-    id: 3,
-    title: "بودكاست الشيخ",
-    url: "https://podcast.example.com",
-    category: "وسائط متعددة",
-    date: "22/05/2023"
-  }
-];
+import { getLinks, deleteLink, Link as CustomLink } from '@/utils/dataService';
 
 const Links = () => {
-  const [links, setLinks] = useState(sampleLinks);
+  const [links, setLinks] = useState<CustomLink[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [linkToDelete, setLinkToDelete] = useState<CustomLink | null>(null);
   const { toast } = useToast();
+
+  // Load links when component mounts
+  useEffect(() => {
+    const loadedLinks = getLinks();
+    setLinks(loadedLinks);
+  }, []);
 
   const filteredLinks = links.filter(link =>
     link.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -55,12 +47,23 @@ const Links = () => {
     setSearchQuery(e.target.value);
   };
 
-  const handleDelete = (id: number) => {
-    setLinks(links.filter(link => link.id !== id));
-    toast({
-      title: "تم حذف الرابط",
-      description: "تم حذف الرابط بنجاح",
-    });
+  const openDeleteDialog = (link: CustomLink) => {
+    setLinkToDelete(link);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleDelete = () => {
+    if (linkToDelete) {
+      deleteLink(linkToDelete.id);
+      setLinks(links.filter(link => link.id !== linkToDelete.id));
+      setIsDeleteDialogOpen(false);
+      setLinkToDelete(null);
+      
+      toast({
+        title: "تم حذف الرابط",
+        description: "تم حذف الرابط بنجاح",
+      });
+    }
   };
 
   return (
@@ -130,7 +133,7 @@ const Links = () => {
                     <Button 
                       variant="destructive" 
                       size="sm" 
-                      onClick={() => handleDelete(link.id)}
+                      onClick={() => openDeleteDialog(link)}
                     >
                       <Trash2 className="h-4 w-4 ml-2" />
                       حذف
@@ -148,6 +151,25 @@ const Links = () => {
           </TableBody>
         </Table>
       </Card>
+
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>تأكيد الحذف</DialogTitle>
+            <DialogDescription>
+              هل أنت متأكد من حذف الرابط "{linkToDelete?.title}"؟ هذا الإجراء لا يمكن التراجع عنه.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
+              إلغاء
+            </Button>
+            <Button variant="destructive" onClick={handleDelete}>
+              حذف
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

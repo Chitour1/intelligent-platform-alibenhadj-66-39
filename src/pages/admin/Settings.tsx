@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Save } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,21 +7,28 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import MetaTags from '@/components/MetaTags';
+import { getSettings, saveSettings, SiteSettings } from '@/utils/dataService';
 
 const Settings = () => {
-  const [settings, setSettings] = useState({
-    siteName: "موقع الشيخ علي بن حاج",
-    siteDescription: "الموقع الرسمي للشيخ علي بن حاج",
-    email: "contact@example.com",
-    phone: "+213 123 456 789",
-    address: "الجزائر العاصمة، الجزائر",
-    facebookUrl: "https://facebook.com/example",
-    twitterUrl: "https://twitter.com/example",
-    youtubeUrl: "https://youtube.com/channel/example",
-    instagramUrl: "https://instagram.com/example"
+  const [settings, setSettings] = useState<SiteSettings>({
+    siteName: "",
+    siteDescription: "",
+    email: "",
+    phone: "",
+    address: "",
+    facebookUrl: "",
+    twitterUrl: "",
+    youtubeUrl: "",
+    instagramUrl: ""
   });
 
   const { toast } = useToast();
+
+  // Load existing settings
+  useEffect(() => {
+    const currentSettings = getSettings();
+    setSettings(currentSettings);
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -31,7 +38,9 @@ const Settings = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // In a real application, you would send this data to an API
+    // Save settings to localStorage
+    saveSettings(settings);
+    
     toast({
       title: "تم حفظ الإعدادات",
       description: "تم حفظ إعدادات الموقع بنجاح",

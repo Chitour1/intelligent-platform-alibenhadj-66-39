@@ -8,16 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import MetaTags from '@/components/MetaTags';
-
-// Sample video for edit mode
-const sampleVideo = {
-  id: 1,
-  title: "خطبة الجمعة: التوكل على الله",
-  date: "10/05/2023",
-  description: "خطبة جمعة عن أهمية التوكل على الله تعالى في حياة المسلم",
-  category: "خطب الجمعة",
-  youtubeId: "dQw4w9WgXcQ"
-};
+import { getVideos, saveVideo, Video } from '@/utils/dataService';
 
 const VideoForm = () => {
   const { id } = useParams();
@@ -25,7 +16,7 @@ const VideoForm = () => {
   const { toast } = useToast();
   const isEditMode = id !== 'new';
 
-  const [video, setVideo] = useState({
+  const [video, setVideo] = useState<Partial<Video>>({
     title: '',
     date: new Date().toLocaleDateString('en-GB').split('/').join('/'),
     description: '',
@@ -36,12 +27,24 @@ const VideoForm = () => {
   const [previewUrl, setPreviewUrl] = useState('');
 
   useEffect(() => {
-    if (isEditMode) {
-      // In a real app, fetch the video data from an API
-      setVideo(sampleVideo);
-      updatePreview(sampleVideo.youtubeId);
+    if (isEditMode && id) {
+      // Fetch the video data for editing
+      const videos = getVideos();
+      const videoToEdit = videos.find(v => v.id === Number(id));
+      
+      if (videoToEdit) {
+        setVideo(videoToEdit);
+        updatePreview(videoToEdit.youtubeId);
+      } else {
+        navigate('/admin/videos');
+        toast({
+          title: "خطأ",
+          description: "الفيديو غير موجود",
+          variant: "destructive",
+        });
+      }
     }
-  }, [id, isEditMode]);
+  }, [id, isEditMode, navigate, toast]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -58,8 +61,13 @@ const VideoForm = () => {
       let videoId = youtubeId;
       
       if (youtubeId.includes('youtube.com') || youtubeId.includes('youtu.be')) {
-        const urlParams = new URLSearchParams(new URL(youtubeId).search);
-        videoId = urlParams.get('v') || youtubeId.split('/').pop() || '';
+        try {
+          const urlParams = new URLSearchParams(new URL(youtubeId).search);
+          videoId = urlParams.get('v') || youtubeId.split('/').pop() || '';
+        } catch (error) {
+          // Handle invalid URLs
+          console.error("Invalid URL:", error);
+        }
       }
       
       setPreviewUrl(`https://www.youtube.com/embed/${videoId}`);
@@ -71,8 +79,30 @@ const VideoForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // In a real application, you would send this data to an API
-    // For demo purposes, we're just showing a success message
+    // Validate required fields
+    if (!video.title || !video.youtubeId || !video.category) {
+      toast({
+        title: "بيانات ناقصة",
+        description: "يرجى ملء جميع الحقول المطلوبة",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // Prepare complete video object
+    const completeVideo: Video = {
+      id: isEditMode && id ? Number(id) : 0, // Will be updated when saved
+      title: video.title || '',
+      date: video.date || new Date().toLocaleDateString('en-GB'),
+      description: video.description || '',
+      category: video.category || '',
+      youtubeId: video.youtubeId || ''
+    };
+    
+    // Save video
+    saveVideo(completeVideo);
+    
+    // Show success message
     if (isEditMode) {
       toast({
         title: "تم تحديث الفيديو",
@@ -85,6 +115,7 @@ const VideoForm = () => {
       });
     }
     
+    // Navigate back to videos list
     navigate('/admin/videos');
   };
 

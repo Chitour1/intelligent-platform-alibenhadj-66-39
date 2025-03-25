@@ -17,7 +17,7 @@ const MetaTags = ({ statement, isStatementPage = false }: MetaTagsProps) => {
   // إذا كنا في صفحة تفاصيل الخبر نستخدم بيانات المقال لتحسين عنوان الصفحة
   let title = defaultTitle;
   if (isStatementPage && statement) {
-    title = `الشيخ علي بن حاج: ${statement.title}`;
+    title = `${statement.title}`;
   }
   
   const description = isStatementPage && statement ? statement.excerpt : defaultDescription;

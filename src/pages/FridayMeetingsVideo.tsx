@@ -1,6 +1,5 @@
-<lov-code>
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, ArrowRight, Calendar, Clock, Headphones, ChevronDown, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Calendar, Clock, Headphones, ChevronDown, ChevronRight, Play } from 'lucide-react';
 import { recentMediaItems, fetchVideoDetails } from '../utils/youtubeUtils';
 import { useSearchParams } from 'react-router-dom';
 import { Slider } from "@/components/ui/slider";
@@ -254,7 +253,7 @@ const videoTimelineMarch22 = [
     endTime: "02:35:00", 
     title: "محاكمة سعيد بوتفليقة ومحاسبة رموز النظام السابق",
     description: "دعوة إلى المحاسبة العلنية العادلة لرموز النظام السابق بدون استثناء"
-  },
+  }
 ];
 
 // Timeline for the March 23, 2025 video
@@ -675,3 +674,4 @@ const FridayMeetingsVideo = () => {
             <Button 
               variant="outline" 
               size="sm"
+              className="flex

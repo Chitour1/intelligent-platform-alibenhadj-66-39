@@ -13,6 +13,7 @@ import Articles from "./pages/Articles";
 import LecturesSermons from "./pages/LecturesSermons";
 import Interviews from "./pages/Interviews";
 import FridayMeetingsVideo from "./pages/FridayMeetingsVideo";
+import MediaLibrary from "./pages/MediaLibrary"; 
 import Books from "./pages/Books";
 import BookDetails from "./pages/BookDetails";
 import LatestStatements from "./pages/LatestStatements";
@@ -37,6 +38,7 @@ const App = () => (
                 <Route path="/articles" element={<Articles />} />
                 <Route path="/lectures-sermons" element={<LecturesSermons />} />
                 <Route path="/interviews" element={<Interviews />} />
+                <Route path="/media" element={<MediaLibrary />} />
                 <Route path="/media/friday-meetings-video" element={<FridayMeetingsVideo />} />
                 <Route path="/publications/books" element={<Books />} />
                 <Route path="/publications/books/:bookId" element={<BookDetails />} />

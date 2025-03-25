@@ -127,7 +127,7 @@ const Index = () => {
           <div className="lg:col-span-3 bg-navy p-6 rounded-xl text-white relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-navy via-navy to-navy-dark opacity-90 z-0"></div>
             <div className="relative z-10">
-              <span className="inline-block bg-gold text-navy px-3 py-1 rounded-md text-sm font-semibold mb-4">أحدث البيانات</span>
+              <span className="inline-block bg-gold text-navy px-3 py-1 rounded-md text-sm font-semibold mb-4">أحدث كلمات الشيخ</span>
               <h2 className="text-3xl font-bold mb-4">بيان الشيخ علي بن حاج حول الأحداث الأخيرة في المنطقة</h2>
               <p className="text-gray-200 mb-6">
                 صرح الشيخ علي بن حاج في بيان له اليوم حول التطورات الأخيرة في المنطقة، مؤكداً على ضرورة التماسك والوحدة في مواجهة التحديات الراهنة...
@@ -139,7 +139,7 @@ const Index = () => {
                 </div>
               </div>
               <Link to="/publications/statements/1" className="btn-primary inline-flex items-center">
-                قراءة البيان كاملاً
+                قراءة الخبر كاملا
                 <ArrowLeft size={16} className="mr-2" />
               </Link>
             </div>

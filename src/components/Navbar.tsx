@@ -66,22 +66,32 @@ const Navbar = () => {
 
     if (item.submenu) {
       return (
-        <div className="relative group" onMouseEnter={() => setDropdownOpen(true)} onMouseLeave={() => setDropdownOpen(false)}>
+        <div 
+          className="relative group" 
+          onMouseEnter={() => setDropdownOpen(true)} 
+          onMouseLeave={() => setDropdownOpen(false)}
+        >
           <button 
             className="nav-link flex items-center gap-1"
             onClick={() => setDropdownOpen(!dropdownOpen)}
+            aria-expanded={dropdownOpen}
+            aria-haspopup="true"
           >
             {item.name}
             <ChevronDown size={16} className={`transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
           </button>
           {dropdownOpen && (
-            <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50 animate-fade-in">
+            <div 
+              className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50 animate-fade-in"
+              style={{ minWidth: '220px' }}
+            >
               <div className="py-1">
                 {item.submenu.map((subitem, index) => (
                   <Link
                     key={index}
                     to={subitem.path}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gold hover:text-white transition-colors duration-200"
+                    onClick={() => setDropdownOpen(false)}
                   >
                     {subitem.name}
                   </Link>
@@ -127,6 +137,7 @@ const Navbar = () => {
             <button
               onClick={toggleMenu}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gold hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gold"
+              aria-expanded={isOpen}
             >
               <span className="sr-only">Open main menu</span>
               {isOpen ? <X size={24} /> : <Menu size={24} />}

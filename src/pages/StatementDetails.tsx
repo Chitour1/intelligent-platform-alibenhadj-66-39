@@ -1,4 +1,3 @@
-
 import { useParams, Link } from 'react-router-dom';
 import { statementsData } from '../utils/statementsData';
 import { ArrowLeft, Calendar, Clock, Share2, BookOpen, Video, ChevronDown, ChevronRight } from 'lucide-react';
@@ -91,7 +90,7 @@ const videoTimelineMarch22 = [
     id: 12, 
     startTime: "00:38:50", 
     endTime: "00:41:05", 
-    title: "لماذا لم يعد القرآن يحرك المسلمين؟",
+    title: "لماذا لم يعد القرآن يحرك الم��لمين؟",
     description: "التحذير من انفصال التلاوة عن العمل بالقرآن"
   },
   { 
@@ -368,7 +367,7 @@ const videoTimelineMarch23 = [
     id: 16, 
     startTime: "47:31", 
     endTime: "50:24", 
-    title: "التربية تبدأ من البيت والمدرسة، والانفصام بين القيم والإعلام",
+    title: "التربية تبدأ من الب��ت والمدرسة، والانفصام بين القيم والإعلام",
     description: "التأكيد على أن التربية تبدأ من البيت والمدرسة، وانتقاد الانفصام بين القيم والإعلام"
   },
   { 

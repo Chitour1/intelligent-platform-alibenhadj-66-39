@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { statementsData } from '../utils/statementsData';
 import StatementCard from '../components/StatementCard';
 import { Search } from 'lucide-react';
+import MetaTags from '../components/MetaTags';
 
 const LatestStatements = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -14,6 +15,13 @@ const LatestStatements = () => {
 
   return (
     <div className="min-h-screen">
+      <MetaTags 
+        title="أحدث كلمات الشيخ علي بن حاج - موقع الشيخ علي بن حاج"
+        description="متابعة مستمرة لأحدث الكلمات والمواقف للشيخ علي بن حاج"
+        image="/lovable-uploads/b70984a3-8bb6-413d-8e5d-d0647fb60cb6.png"
+        type="article"
+      />
+      
       {/* Hero Section */}
       <div className="bg-navy text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

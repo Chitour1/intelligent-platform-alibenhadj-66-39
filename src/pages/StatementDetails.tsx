@@ -47,7 +47,9 @@ const StatementDetails = () => {
             <ArrowLeft size={16} className="ml-1" />
             العودة إلى أحدث كلمات الشيخ
           </Link>
-          <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-relaxed">{statement.title}</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-loose">
+            {statement.title}
+          </h1>
           <div className="flex flex-wrap items-center text-gray-300 gap-4 mb-6">
             <div className="flex items-center">
               <Calendar size={16} className="ml-1" />
@@ -85,7 +87,7 @@ const StatementDetails = () => {
         {/* Video Embed */}
         {statement.videoId && (
           <div className="mt-12">
-            <h3 className="text-xl font-bold mb-4 flex items-center">
+            <h3 className="text-xl font-bold mb-4 flex items-center leading-relaxed">
               <Video size={20} className="ml-2 text-gold" />
               شاهد الكلمة كاملة
             </h3>

@@ -64,8 +64,9 @@ const Navbar = () => {
   const NavItem = ({ item }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
+    const timeoutRef = useRef(null);
     
-    // إضافة معالج لإغلاق القائمة عند النقر خارجها
+    // Handle click outside to close dropdown
     useEffect(() => {
       if (!dropdownOpen) return;
       
@@ -81,16 +82,40 @@ const Navbar = () => {
       };
     }, [dropdownOpen]);
 
+    // Handle mouse enter and leave with proper timing
+    const handleMouseEnter = () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+      setDropdownOpen(true);
+    };
+
+    const handleMouseLeave = () => {
+      timeoutRef.current = setTimeout(() => {
+        setDropdownOpen(false);
+      }, 300); // Small delay to allow moving to submenu
+    };
+
+    useEffect(() => {
+      return () => {
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
+      };
+    }, []);
+
     if (item.submenu) {
       return (
         <div 
           className="relative group" 
           ref={dropdownRef}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
           <button 
             className="nav-link flex items-center gap-1"
             onClick={() => setDropdownOpen(!dropdownOpen)}
-            onMouseEnter={() => setDropdownOpen(true)}
             aria-expanded={dropdownOpen}
             aria-haspopup="true"
           >

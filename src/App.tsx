@@ -1,59 +1,56 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Index from './pages/Index';
+import Books from './pages/Books';
+import Articles from './pages/Articles';
+import News from './pages/News';
+import Interviews from './pages/Interviews';
+import LecturesSermons from './pages/LecturesSermons';
+import MediaLibrary from './pages/MediaLibrary';
+import LatestStatements from './pages/LatestStatements';
+import BookDetails from './pages/BookDetails';
+import StatementDetails from './pages/StatementDetails';
+import FridayMeetingsVideo from './pages/FridayMeetingsVideo';
+import NotFound from './pages/NotFound';
+
 import { HelmetProvider } from 'react-helmet-async';
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import Index from "./pages/Index";
-import News from "./pages/News";
-import Articles from "./pages/Articles";
-import LecturesSermons from "./pages/LecturesSermons";
-import Interviews from "./pages/Interviews";
-import FridayMeetingsVideo from "./pages/FridayMeetingsVideo";
-import MediaLibrary from "./pages/MediaLibrary"; 
-import Books from "./pages/Books";
-import BookDetails from "./pages/BookDetails";
-import LatestStatements from "./pages/LatestStatements";
-import StatementDetails from "./pages/StatementDetails";
-import NotFound from "./pages/NotFound";
+import { AudioPlayerProvider } from './contexts/AudioPlayerContext';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import { Toaster } from './components/ui/toaster';
 
-const queryClient = new QueryClient();
+import './App.css';
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
+function App() {
+  return (
     <HelmetProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
+      <AudioPlayerProvider>
+        <Router>
           <div className="flex flex-col min-h-screen">
             <Navbar />
             <main className="flex-grow">
               <Routes>
                 <Route path="/" element={<Index />} />
-                <Route path="/news" element={<News />} />
+                <Route path="/books" element={<Books />} />
+                <Route path="/books/:bookId" element={<BookDetails />} />
                 <Route path="/articles" element={<Articles />} />
-                <Route path="/lectures-sermons" element={<LecturesSermons />} />
+                <Route path="/news" element={<News />} />
                 <Route path="/interviews" element={<Interviews />} />
+                <Route path="/lectures-sermons" element={<LecturesSermons />} />
                 <Route path="/media" element={<MediaLibrary />} />
                 <Route path="/media/friday-meetings-video" element={<FridayMeetingsVideo />} />
-                <Route path="/publications/books" element={<Books />} />
-                <Route path="/publications/books/:bookId" element={<BookDetails />} />
                 <Route path="/statements" element={<LatestStatements />} />
                 <Route path="/statements/:statementId" element={<StatementDetails />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
             <Footer />
           </div>
-        </BrowserRouter>
-      </TooltipProvider>
+          <Toaster />
+        </Router>
+      </AudioPlayerProvider>
     </HelmetProvider>
-  </QueryClientProvider>
-);
+  );
+}
 
 export default App;

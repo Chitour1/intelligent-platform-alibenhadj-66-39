@@ -27,7 +27,7 @@ const Hero = () => {
 
           <div className="pt-12 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between">
             <div className={`text-center lg:text-right max-w-xl transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl font-arabic">
+              <h1 className="text-4xl font-extrabold tracking-tight text-white leading-relaxed sm:text-5xl md:text-6xl font-arabic">
                 <span className="block">الموقـع الرسمي</span>
                 <span className="block text-gold">للشيخ علي بن حاج</span>
               </h1>

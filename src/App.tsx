@@ -10,7 +10,6 @@ import Footer from "./components/Footer";
 import Index from "./pages/Index";
 import News from "./pages/News";
 import Articles from "./pages/Articles";
-import ArticleDetails from "./pages/ArticleDetails";
 import LecturesSermons from "./pages/LecturesSermons";
 import Interviews from "./pages/Interviews";
 import FridayMeetingsVideo from "./pages/FridayMeetingsVideo";
@@ -37,7 +36,6 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/news" element={<News />} />
                 <Route path="/articles" element={<Articles />} />
-                <Route path="/articles/:articleId" element={<ArticleDetails />} />
                 <Route path="/lectures-sermons" element={<LecturesSermons />} />
                 <Route path="/interviews" element={<Interviews />} />
                 <Route path="/media" element={<MediaLibrary />} />

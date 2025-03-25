@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { statementsData } from '../utils/statementsData';
 import StatementCard from '../components/StatementCard';
 import { Search } from 'lucide-react';
-import MetaTags from '../components/MetaTags';
 
 const LatestStatements = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -15,8 +14,6 @@ const LatestStatements = () => {
 
   return (
     <div className="min-h-screen">
-      <MetaTags />
-      
       {/* Hero Section */}
       <div className="bg-navy text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

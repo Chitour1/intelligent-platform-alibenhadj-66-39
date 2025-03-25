@@ -1,5 +1,5 @@
 
-import { Calendar } from 'lucide-react';
+import { Calendar, Video } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Statement } from '../utils/statementsData';
 
@@ -11,12 +11,18 @@ interface StatementCardProps {
 const StatementCard = ({ statement, featured = false }: StatementCardProps) => {
   return (
     <div className={`card group ${featured ? 'lg:flex' : ''}`}>
-      <div className={`overflow-hidden ${featured ? 'lg:w-1/2 aspect-video' : 'aspect-video'}`}>
+      <div className={`overflow-hidden relative ${featured ? 'lg:w-1/2 aspect-video' : 'aspect-video'}`}>
         <img 
           src={statement.imageUrl} 
           alt={statement.title} 
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
+        {statement.videoId && (
+          <div className="absolute bottom-2 right-2 bg-black/60 text-white p-1 rounded-md text-xs flex items-center">
+            <Video size={12} className="ml-1" />
+            <span>كلمة مرئية</span>
+          </div>
+        )}
       </div>
       <div className={`p-4 ${featured ? 'lg:w-1/2 lg:p-6' : ''}`}>
         <div className="flex justify-between items-center mb-2">

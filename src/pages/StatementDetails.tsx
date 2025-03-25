@@ -1,3 +1,4 @@
+
 import { useParams, Link } from 'react-router-dom';
 import { statementsData } from '../utils/statementsData';
 import { ArrowLeft, Calendar, Clock, Share2, BookOpen, Video, ChevronDown, ChevronRight } from 'lucide-react';
@@ -90,7 +91,7 @@ const videoTimelineMarch22 = [
     id: 12, 
     startTime: "00:38:50", 
     endTime: "00:41:05", 
-    title: "لماذا لم يعد القرآن يحرك الم��لمين؟",
+    title: "لماذا لم يعد القرآن يحرك المسلمين؟",
     description: "التحذير من انفصال التلاوة عن العمل بالقرآن"
   },
   { 
@@ -367,7 +368,7 @@ const videoTimelineMarch23 = [
     id: 16, 
     startTime: "47:31", 
     endTime: "50:24", 
-    title: "الت��بية تبدأ من الب��ت والمدرسة، والانفصام بين القيم والإعلام",
+    title: "التربية تبدأ من البيت والمدرسة، والانفصام بين القيم والإعلام",
     description: "التأكيد على أن التربية تبدأ من البيت والمدرسة، وانتقاد الانفصام بين القيم والإعلام"
   },
   { 
@@ -536,7 +537,7 @@ const videoTimelineMarch23 = [
     startTime: "2:02:23", 
     endTime: "2:05:00", 
     title: "دعوة للتوثيق الشخصي للانتهاكات، ونقد سياسات الصمت والتطبيع",
-    description: "تقديم دعوة للتوث��ق الشخصي للانتهاكات، وانتقاد سياسات الصمت والتطبيع"
+    description: "تقديم دعوة للتوثيق الشخصي للانتهاكات، وانتقاد سياسات الصمت والتطبيع"
   }
 ];
 
@@ -635,14 +636,7 @@ const StatementDetails = () => {
   return (
     <div className="min-h-screen">
       {/* استخدام مكون MetaTags مع تمرير البيانات الضرورية */}
-      <MetaTags 
-        statement={statement} 
-        isStatementPage={true}
-        title={`${statement.title} - موقع الشيخ علي بن حاج`}
-        description={statement.excerpt || statement.content.substring(0, 160)}
-        image={statement.imageUrl}
-        type="article"
-      />
+      <MetaTags statement={statement} isStatementPage={true} />
       
       <div className="relative bg-navy text-white py-16 overflow-hidden">
         <div className="absolute inset-0 opacity-30">
@@ -779,4 +773,3 @@ const StatementDetails = () => {
 };
 
 export default StatementDetails;
-

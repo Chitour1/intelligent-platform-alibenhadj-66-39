@@ -48,7 +48,7 @@ const MetaTags = ({ statement, isStatementPage = false }: MetaTagsProps) => {
       <meta name="twitter:image" content={fullImageUrl} />
       
       {/* علامات إضافية للمشاركة */}
-      <meta property="article:published_time" content={isStatementPage && statement && statement.isoDate ? statement.isoDate : new Date().toISOString()} />
+      <meta property="article:published_time" content={isStatementPage && statement ? statement.date : new Date().toISOString()} />
       <meta property="article:author" content="الشيخ علي بن حاج" />
       <meta property="article:section" content={isStatementPage && statement ? statement.category : "أخبار"} />
     </Helmet>

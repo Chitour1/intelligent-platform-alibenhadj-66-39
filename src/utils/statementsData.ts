@@ -1,3 +1,19 @@
+
+export interface Statement {
+  id: number;
+  title: string;
+  category: string;
+  date: string;
+  excerpt: string;
+  readTime?: string;
+  image?: string;
+  imageUrl?: string;
+  videoId?: string;
+  views?: number;
+  audioUrl?: string;
+  content: string;
+}
+
 export const statements = [
   {
     id: 1,
@@ -125,3 +141,6 @@ export const statements = [
     `
   }
 ];
+
+// For backward compatibility
+export const statementsData = statements;

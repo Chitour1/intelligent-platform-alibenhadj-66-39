@@ -1,13 +1,13 @@
 
 import { useState } from 'react';
-import { statementsData } from '../utils/statementsData';
+import { statements } from '../utils/statementsData';
 import StatementCard from '../components/StatementCard';
 import { Search } from 'lucide-react';
 
 const LatestStatements = () => {
   const [searchQuery, setSearchQuery] = useState('');
   
-  const filteredStatements = statementsData.filter(statement => 
+  const filteredStatements = statements.filter(statement => 
     statement.title.includes(searchQuery) || 
     statement.content.includes(searchQuery)
   );

@@ -3,12 +3,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowRight, Calendar, Clock, Eye, Copy, Share2, Volume2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import { statements } from '../utils/statementsData';
+import { statements, Statement } from '../utils/statementsData';
 import { useAudioPlayer } from '../contexts/AudioPlayerContext';
+import MetaTags from '../components/MetaTags';
 
 const StatementDetails = () => {
   const { statementId } = useParams();
-  const [statement, setStatement] = useState<any | null>(null);
+  const [statement, setStatement] = useState<Statement | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -79,6 +80,7 @@ const StatementDetails = () => {
 
   return (
     <div className="section-container py-8">
+      {statement && <MetaTags statement={statement} isStatementPage={true} />}
       <div className="max-w-4xl mx-auto">
         {/* Navigation */}
         <div className="mb-6">

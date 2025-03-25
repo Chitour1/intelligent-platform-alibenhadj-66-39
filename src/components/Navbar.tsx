@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
@@ -33,7 +32,6 @@ const Navbar = () => {
     { name: 'الصفحة الرئيسة', path: '/' },
     { name: 'الأخـبـــار', path: '/news' },
     { name: 'مقالات الشيخ', path: '/articles' },
-    { name: 'دروس و خـطب', path: '/lectures-sermons' },
     { name: 'حــوارات الشـيخ', path: '/interviews' },
     {
       name: 'المكتبة الإعلامية',
@@ -66,7 +64,6 @@ const Navbar = () => {
     const dropdownRef = useRef(null);
     const timeoutRef = useRef(null);
     
-    // Handle click outside to close dropdown
     useEffect(() => {
       if (!dropdownOpen) return;
       
@@ -82,7 +79,6 @@ const Navbar = () => {
       };
     }, [dropdownOpen]);
 
-    // Handle mouse enter and leave with proper timing
     const handleMouseEnter = () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
@@ -94,7 +90,7 @@ const Navbar = () => {
     const handleMouseLeave = () => {
       timeoutRef.current = setTimeout(() => {
         setDropdownOpen(false);
-      }, 300); // Small delay to allow moving to submenu
+      }, 300);
     };
 
     useEffect(() => {
@@ -188,7 +184,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile menu, show/hide based on menu state */}
       <div className={`md:hidden transition-all duration-300 ease-in-out transform ${isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg">
           {menuItems.map((item, index) => (

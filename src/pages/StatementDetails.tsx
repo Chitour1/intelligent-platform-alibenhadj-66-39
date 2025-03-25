@@ -78,7 +78,7 @@ const StatementDetails = () => {
         {/* Content */}
         <div className="prose prose-lg max-w-none">
           {statement.content.split('\n\n').map((paragraph, index) => (
-            <p key={index} className="mb-4 leading-loose text-gray-800 text-base md:text-lg font-heading">{paragraph}</p>
+            <p key={index} className="mb-4 leading-relaxed md:leading-9 text-gray-800 text-base md:text-lg font-heading tracking-normal" style={{ lineHeight: '2.2' }}>{paragraph}</p>
           ))}
         </div>
         

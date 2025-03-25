@@ -18,10 +18,10 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simple authentication - in a real app, you'd use a proper auth system
-    // For demo purposes, we're using a hardcoded credential
-    if (email === 'admin@example.com' && password === 'admin123') {
-      // Set auth token in localStorage
+    // تحقق من بيانات الاعتماد - يمكن استخدام الحسابين
+    if ((email === 'admin@example.com' && password === 'admin123') || 
+        (email === 'ali10@ywzmb.top' && password === '19883636')) {
+      // تعيين رمز المصادقة في التخزين المحلي
       localStorage.setItem('adminAuth', 'true');
       toast({
         title: "تم تسجيل الدخول بنجاح",
@@ -82,6 +82,7 @@ const Login = () => {
         <div className="mt-6 text-center text-sm text-gray-500">
           <p>للوصول للتجربة، استخدم:</p>
           <p className="mt-1 font-medium text-gray-700" dir="ltr">admin@example.com / admin123</p>
+          <p className="mt-1 font-medium text-gray-700" dir="ltr">ali10@ywzmb.top / 19883636</p>
         </div>
       </div>
     </div>

@@ -129,7 +129,7 @@ const Index = () => {
             <div className="absolute inset-0 bg-gradient-to-br from-navy via-navy to-navy-dark opacity-90 z-0"></div>
             <div className="relative z-10">
               <span className="inline-block bg-gold text-navy px-3 py-1 rounded-md text-sm font-semibold mb-4">أحدث كلمات الشيخ</span>
-              <h2 className="text-3xl font-bold mb-4">{statementsData[0].title}</h2>
+              <h2 className="text-3xl font-bold mb-4 leading-relaxed">{statementsData[0].title}</h2>
               <p className="text-gray-200 mb-6">
                 {statementsData[0].excerpt}
               </p>

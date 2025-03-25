@@ -45,7 +45,7 @@ const StatementDetails = () => {
             <ArrowLeft size={16} className="ml-1" />
             العودة إلى أحدث كلمات الشيخ
           </Link>
-          <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-loose tracking-wider">{statement.title}</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-10 tracking-wider">{statement.title}</h1>
           <div className="flex flex-wrap items-center text-gray-300 gap-4 mb-6">
             <div className="flex items-center">
               <Calendar size={16} className="ml-1" />

@@ -65,6 +65,7 @@ const Navbar = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
     
+    // إضافة معالج لإغلاق القائمة عند النقر خارجها
     useEffect(() => {
       if (!dropdownOpen) return;
       
@@ -85,12 +86,11 @@ const Navbar = () => {
         <div 
           className="relative group" 
           ref={dropdownRef}
-          onMouseEnter={() => setDropdownOpen(true)}
-          onMouseLeave={() => setDropdownOpen(false)}
         >
           <button 
             className="nav-link flex items-center gap-1"
             onClick={() => setDropdownOpen(!dropdownOpen)}
+            onMouseEnter={() => setDropdownOpen(true)}
             aria-expanded={dropdownOpen}
             aria-haspopup="true"
           >

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, Search, BookOpen, CalendarDays, FileText } from "lucide-react";
@@ -176,7 +177,7 @@ export const booksData: BookType[] = [
     id: 7,
     title: "حكم امتلاك الأسلحة النووية والموقف من الأزمة الإيرانية في ميزان السياسة الشرعية والنظرة الإستراتيجية",
     author: "أبو عبد الفتاح علي بن حاج",
-    cover: "/lovable-uploads/36396a59-1f0a-4d68-a2ce-0f735612c2cc.png",
+    cover: "/lovable-uploads/da2ef2c6-ffec-41f9-85fb-9d958c68b16c.png",
     downloadUrl: "https://web.archive.org/web/20130119125303/http://alibenhadj.net/ebooks/houkm-asliha.rar",
     year: "٢٠١٢",
     pages: "٢٣٢",

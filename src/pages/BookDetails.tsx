@@ -3,7 +3,6 @@ import { useParams, Link } from "react-router-dom";
 import { ArrowRight, BookOpen, CalendarDays, FileText, Download, Tag, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { booksData } from "./Books";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
 const BookDetails = () => {
   const { bookId } = useParams<{ bookId: string }>();
@@ -47,31 +46,9 @@ const BookDetails = () => {
           {/* Book Cover */}
           <div className="md:col-span-1">
             <div className="sticky top-8">
-              <HoverCard openDelay={200} closeDelay={200}>
-                <HoverCardTrigger asChild>
-                  <div className="relative aspect-[3/4] rounded-lg overflow-hidden shadow-lg mb-4 bg-gray-100 cursor-pointer transition-all duration-300 hover:shadow-xl">
-                    <img 
-                      src={book.cover} 
-                      alt={book.title} 
-                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
-                    />
-                  </div>
-                </HoverCardTrigger>
-                <HoverCardContent 
-                  className="w-auto p-0 border-0 shadow-xl" 
-                  side="top" 
-                  align="center"
-                  sideOffset={20}
-                >
-                  <div className="overflow-hidden rounded-md">
-                    <img 
-                      src={book.cover} 
-                      alt={book.title} 
-                      className="max-w-[350px] max-h-[500px] object-contain" 
-                    />
-                  </div>
-                </HoverCardContent>
-              </HoverCard>
+              <div className="relative aspect-[3/4] rounded-lg overflow-hidden shadow-lg mb-4 bg-gray-100">
+                <img src={book.cover} alt={book.title} className="w-full h-full object-contain" />
+              </div>
               <div className="space-y-3">
                 <Button className="w-full" asChild>
                   <a href={book.downloadUrl} target="_blank" rel="noopener noreferrer">

@@ -1,9 +1,8 @@
 
 import { Helmet } from 'react-helmet-async';
-import { Statement } from '../utils/statementsData';
 
 interface MetaTagsProps {
-  statement?: Statement;
+  statement?: any;
   isStatementPage?: boolean;
   title?: string;
   description?: string;
@@ -26,18 +25,19 @@ const MetaTags = ({
   const defaultDescription = "آخر أخبار وكلمات وبيانات الشيخ علي بن حاج";
   const defaultImage = "/lovable-uploads/b70984a3-8bb6-413d-8e5d-d0647fb60cb6.png";
   const baseUrl = window.location.origin;
+  const currentUrl = window.location.href;
 
   // إعطاء الأولوية للقيم المخصصة ثم قيم البيان إذا كانت موجودة ثم القيم الافتراضية
   let title = customTitle || defaultTitle;
   let description = customDescription || defaultDescription;
   let image = customImage || defaultImage;
-  let url = customUrl || baseUrl;
+  let url = customUrl || currentUrl;
   let type = customType || 'website';
 
   // إذا كنا في صفحة تفاصيل الخبر نستخدم بيانات المقال لتحسين عنوان الصفحة
   if (isStatementPage && statement) {
     title = statement.title;
-    description = statement.excerpt;
+    description = statement.excerpt || statement.content.substring(0, 160);
     image = statement.imageUrl || defaultImage;
     url = `${baseUrl}/statements/${statement.id}`;
     type = 'article';
@@ -66,12 +66,15 @@ const MetaTags = ({
       <meta property="og:locale" content="ar_SA" />
       <meta property="og:site_name" content="موقع الشيخ علي بن حاج" />
 
-      {/* علامات Twitter Card */}
+      {/* علامات Twitter Card - معززة للحصول على معاينة أفضل */}
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@aibenhajofficial" />
+      <meta name="twitter:creator" content="@aibenhajofficial" />
       <meta name="twitter:url" content={url} />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={fullImageUrl} />
+      <meta name="twitter:image:alt" content={title} />
       
       {/* علامات إضافية للمشاركة */}
       {isStatementPage && statement && (
@@ -81,6 +84,9 @@ const MetaTags = ({
           <meta property="article:section" content={statement.category} />
         </>
       )}
+
+      {/* علامات الروابط المعيارية (Canonical) */}
+      <link rel="canonical" href={url} />
     </Helmet>
   );
 };

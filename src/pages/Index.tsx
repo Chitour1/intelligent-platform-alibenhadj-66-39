@@ -1,8 +1,7 @@
+
 import Hero from '../components/Hero';
-import FeaturedNews from '../components/FeaturedNews';
 import StatementCard from '../components/StatementCard';
 import ArticleCard from '../components/ArticleCard';
-import VideoCardFeatured from '../components/VideoCardFeatured';
 import { Link } from 'react-router-dom';
 import MetaTags from '../components/MetaTags';
 

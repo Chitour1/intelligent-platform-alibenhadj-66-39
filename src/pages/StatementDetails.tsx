@@ -367,7 +367,7 @@ const videoTimelineMarch23 = [
     id: 16, 
     startTime: "47:31", 
     endTime: "50:24", 
-    title: "التربية تبدأ من الب��ت والمدرسة، والانفصام بين القيم والإعلام",
+    title: "الت��بية تبدأ من الب��ت والمدرسة، والانفصام بين القيم والإعلام",
     description: "التأكيد على أن التربية تبدأ من البيت والمدرسة، وانتقاد الانفصام بين القيم والإعلام"
   },
   { 
@@ -536,7 +536,7 @@ const videoTimelineMarch23 = [
     startTime: "2:02:23", 
     endTime: "2:05:00", 
     title: "دعوة للتوثيق الشخصي للانتهاكات، ونقد سياسات الصمت والتطبيع",
-    description: "تقديم دعوة للتوثيق الشخصي للانتهاكات، وانتقاد سياسات الصمت والتطبيع"
+    description: "تقديم دعوة للتوث��ق الشخصي للانتهاكات، وانتقاد سياسات الصمت والتطبيع"
   }
 ];
 
@@ -635,7 +635,14 @@ const StatementDetails = () => {
   return (
     <div className="min-h-screen">
       {/* استخدام مكون MetaTags مع تمرير البيانات الضرورية */}
-      <MetaTags statement={statement} isStatementPage={true} />
+      <MetaTags 
+        statement={statement} 
+        isStatementPage={true}
+        title={`${statement.title} - موقع الشيخ علي بن حاج`}
+        description={statement.excerpt || statement.content.substring(0, 160)}
+        image={statement.imageUrl}
+        type="article"
+      />
       
       <div className="relative bg-navy text-white py-16 overflow-hidden">
         <div className="absolute inset-0 opacity-30">
@@ -772,3 +779,4 @@ const StatementDetails = () => {
 };
 
 export default StatementDetails;
+

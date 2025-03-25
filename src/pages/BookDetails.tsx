@@ -47,7 +47,7 @@ const BookDetails = () => {
           {/* Book Cover */}
           <div className="md:col-span-1">
             <div className="sticky top-8">
-              <HoverCard>
+              <HoverCard openDelay={200} closeDelay={200}>
                 <HoverCardTrigger asChild>
                   <div className="relative aspect-[3/4] rounded-lg overflow-hidden shadow-lg mb-4 bg-gray-100 cursor-pointer transition-all duration-300 hover:shadow-xl">
                     <img 
@@ -57,12 +57,17 @@ const BookDetails = () => {
                     />
                   </div>
                 </HoverCardTrigger>
-                <HoverCardContent className="w-auto p-0 border-0 shadow-xl">
+                <HoverCardContent 
+                  className="w-auto p-0 border-0 shadow-xl" 
+                  side="top" 
+                  align="center"
+                  sideOffset={20}
+                >
                   <div className="overflow-hidden rounded-md">
                     <img 
                       src={book.cover} 
                       alt={book.title} 
-                      className="max-h-[80vh] object-contain" 
+                      className="max-w-[350px] max-h-[500px] object-contain" 
                     />
                   </div>
                 </HoverCardContent>

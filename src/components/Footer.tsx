@@ -1,3 +1,4 @@
+
 import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, Facebook, Twitter, Youtube, Rss } from 'lucide-react';
 
@@ -10,12 +11,12 @@ const Footer = () => {
             <Link to="/" className="flex items-center mb-6">
               <img 
                 src="/lovable-uploads/0b5b4808-4d98-4f13-b56d-488ec6e0da87.png" 
-                alt="موقع الشيخ علي بن حاج" 
+                alt="الموقع الرسمي للشيخ علي بن حاج" 
                 className="h-16 w-auto"
               />
             </Link>
             <p className="text-gray-300 mb-4">
-              موقع الشيخ علي بن حاج، نائب رئيس الجبهة الإسلامية للإنقاذ
+              الموقع الرسمي للشيخ علي بن حاج، نائب رئيس الجبهة الإسلامية للإنقاذ
             </p>
             <div className="flex space-x-4 space-x-reverse">
               <a href="#" className="text-gray-300 hover:text-gold transition-colors duration-300">
@@ -95,7 +96,7 @@ const Footer = () => {
         </div>
         
         <div className="mt-12 pt-8 border-t border-gray-700 text-center text-gray-400">
-          <p>© {new Date().getFullYear()} موقع الشيخ علي بن حاج. جميع الحقوق محفوظة.</p>
+          <p>© {new Date().getFullYear()} الموقع الرسمي للشيخ علي بن حاج. جميع الحقوق محفوظة.</p>
         </div>
       </div>
     </footer>

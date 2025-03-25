@@ -1,37 +1,5 @@
 
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import ArticleCard from '../components/ArticleCard';
-import MetaTags from '../components/MetaTags';
-
-// تعريف نوع بيانات المقالات
-export interface Article {
-  id: number;
-  title: string;
-  date: string;
-  hijriDate?: string;
-  readTime: string;
-  excerpt: string;
-  content?: string;
-  imageUrl?: string;
-  category?: string;
-  author: string;
-}
-
-// بيانات المقالات
-export const articlesData: Article[] = [
-  {
-    id: 1,
-    title: "تذْكِيرُ عُمُومِ الْمُسْلِمين بِبُطْلَانِ حَلِّ الدَّوْلَتين",
-    date: "11/08/2009",
-    hijriDate: "20 شعبان 1430هـ",
-    readTime: "25 دقيقة",
-    excerpt: "في ظل حرارة الصيف اللاهبة وانصراف الناس إلى قضاء العطل الصيفية والترفيه عن النفس بالحلال أو الحرام وفي غفلة من عموم الأمة –عامة وخاصة- إلا ما رحم ربي وفي ظل تلهية حكام الخذلان والاعتلال لشعوبهم وإغراقهم في كم هائل من الحفلات والمهرجانات في طول البلاد العربية وعرضها...",
-    author: "الشيخ علي بن حاج",
-    category: "قضايا إسلامية",
-    imageUrl: "/lovable-uploads/ed3b9971-137a-4513-be63-ae438af99d75.png"
-  }
-];
 
 const Articles = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -46,7 +14,6 @@ const Articles = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <MetaTags />
       <div className="bg-navy text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl font-bold mb-4">مقالات الشيخ علي بن حاج</h1>
@@ -68,20 +35,6 @@ const Articles = () => {
                   <div className="h-4 bg-gray-300 rounded w-4/6"></div>
                 </div>
               </div>
-            ))}
-          </div>
-        ) : articlesData.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {articlesData.map(article => (
-              <ArticleCard
-                key={article.id}
-                id={article.id}
-                title={article.title}
-                date={article.date}
-                readTime={article.readTime}
-                excerpt={article.excerpt}
-                imageUrl={article.imageUrl}
-              />
             ))}
           </div>
         ) : (

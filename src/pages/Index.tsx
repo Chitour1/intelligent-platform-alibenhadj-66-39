@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import Hero from '../components/Hero';
 import NewsCard from '../components/NewsCard';
@@ -8,7 +7,6 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, BookOpen, Video, Mic, Calendar, FileText, Book } from 'lucide-react';
 import { recentMediaItems } from '../utils/youtubeUtils';
 import { statementsData } from '../utils/statementsData';
-import { articlesData } from './Articles';
 
 // Import the books data from the Books page
 import { booksData } from '../pages/Books';
@@ -91,23 +89,11 @@ const Index = () => {
           
           <div className="lg:col-span-2 grid grid-cols-1 gap-4">
             <div className="bg-gradient-to-r from-gold/10 to-gold/5 p-6 rounded-xl border border-gold/20">
-              <h3 className="text-xl font-bold mb-4 text-navy">أحدث المقالات</h3>
+              <h3 className="text-xl font-bold mb-4 text-navy">أحدث الإصدارات</h3>
               <div className="space-y-4">
-                {articlesData.length > 0 && (
-                  <div className="p-3 bg-white/70 rounded-lg shadow-sm">
-                    <Link to={`/articles/${articlesData[0].id}`} className="block">
-                      <h4 className="font-bold text-navy hover:text-gold transition-colors duration-300">{articlesData[0].title}</h4>
-                      <p className="text-sm text-gray-600 mt-1 line-clamp-2">{articlesData[0].excerpt.substring(0, 120)}...</p>
-                      <div className="flex items-center text-gray-500 text-xs mt-2">
-                        <Calendar size={12} className="ml-1" />
-                        <span>{articlesData[0].date}</span>
-                      </div>
-                    </Link>
-                  </div>
-                )}
               </div>
-              <Link to="/articles" className="mt-4 inline-flex items-center text-sm font-medium text-gold hover:text-gold-dark">
-                عرض جميع المقالات
+              <Link to="/publications/books" className="mt-4 inline-flex items-center text-sm font-medium text-gold hover:text-gold-dark">
+                عرض جميع المؤلفات
                 <ArrowLeft size={14} className="mr-1" />
               </Link>
             </div>
@@ -122,31 +108,6 @@ const Index = () => {
               </Link>
             </div>
           </div>
-        </div>
-      </section>
-      
-      {/* Articles Section */}
-      <section id="articles" className={`section-container observe-section transition-all duration-1000 ${isVisible.articles ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-        <div className="mb-8 flex justify-between items-center">
-          <h2 className="section-title">مقالات الشيخ</h2>
-          <Link to="/articles" className="text-gold hover:text-gold-dark inline-flex items-center">
-            جميع المقالات
-            <ArrowLeft size={16} className="mr-1" />
-          </Link>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {articlesData.map(article => (
-            <ArticleCard 
-              key={article.id}
-              id={article.id}
-              title={article.title}
-              date={article.date}
-              readTime={article.readTime}
-              excerpt={article.excerpt}
-              imageUrl={article.imageUrl}
-            />
-          ))}
         </div>
       </section>
       

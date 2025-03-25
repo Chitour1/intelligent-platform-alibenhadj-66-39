@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, ArrowRight, Calendar, Clock, Headphones, ChevronDown, ChevronRight, Play } from 'lucide-react';
 import { recentMediaItems, fetchVideoDetails } from '../utils/youtubeUtils';
@@ -674,4 +675,88 @@ const FridayMeetingsVideo = () => {
             <Button 
               variant="outline" 
               size="sm"
-              className="flex
+              className="flex items-center gap-1 bg-red-50 hover:bg-red-100 text-red-600"
+              onClick={playAudioOnly}
+            >
+              <Headphones size={16} />
+              استماع فقط
+            </Button>
+            {videoItems.map((item) => (
+              <Button
+                key={item.videoId}
+                variant={currentVideo === item.videoId ? "default" : "outline"}
+                size="sm"
+                onClick={() => setCurrentVideo(item.videoId || "")}
+              >
+                {item.date}
+              </Button>
+            ))}
+          </div>
+          
+          {/* YouTube video embed */}
+          <div className="aspect-video w-full overflow-hidden rounded-lg border bg-black">
+            <iframe
+              ref={iframeRef}
+              className="h-full w-full"
+              src={`https://www.youtube.com/embed/${currentVideo}`}
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
+          
+          {/* Video title and description */}
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold tracking-tight text-primary">{videoDetails.title}</h2>
+            <div className="flex items-center gap-2 text-muted-foreground text-sm">
+              <Calendar size={16} />
+              <span>{videoDetails.date}</span>
+            </div>
+            <p className="text-muted-foreground">{videoDetails.description}</p>
+          </div>
+        </div>
+        
+        {/* Timeline sidebar */}
+        {hasTimeline() && (
+          <div className="space-y-4">
+            <div 
+              className="flex items-center justify-between cursor-pointer" 
+              onClick={() => setTimelineOpen(!timelineOpen)}
+            >
+              <h3 className="text-xl font-semibold">فهرس اللقاء</h3>
+              <Button variant="ghost" size="sm">
+                {timelineOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+              </Button>
+            </div>
+            
+            {timelineOpen && (
+              <div className="space-y-3 overflow-y-auto max-h-[600px] pr-2">
+                {getCurrentVideoTimeline().map((item) => (
+                  <div 
+                    key={item.id}
+                    className="p-3 rounded-md border hover:bg-accent transition-colors cursor-pointer"
+                    onClick={() => jumpToTime(item.startTime)}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <Play size={14} className="text-primary shrink-0" />
+                        <span className="text-xs text-muted-foreground shrink-0 font-mono">{item.startTime}</span>
+                      </div>
+                      <span className="text-xs text-muted-foreground shrink-0 font-mono">{item.endTime}</span>
+                    </div>
+                    <div className="mt-1">
+                      <h4 className="font-medium text-sm">{item.title}</h4>
+                      <p className="text-xs text-muted-foreground mt-1">{item.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default FridayMeetingsVideo;

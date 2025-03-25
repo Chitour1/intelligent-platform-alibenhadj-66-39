@@ -172,7 +172,7 @@ const videoTimeline = [
     startTime: "01:13:46", 
     endTime: "01:18:05", 
     title: "دعوة لتجميد الخلافات المذهبية والانتباه للفخاخ",
-    description: "الح��ر من التفرقة السنية الشيعية في ظل حرب الوجود"
+    description: "الحذر من التفرقة السنية الشيعية في ظل حرب الوجود"
   },
   { 
     id: 25, 
@@ -334,6 +334,32 @@ const FridayMeetingsVideo = () => {
     return arabicMonths[monthIndex];
   };
 
+  // تحديد ما إذا كان الفيديو الحالي هو فيديو 22 مارس 2025
+  const isMarch22Video = () => {
+    // نبحث عن الفيديو بالعنوان أو التاريخ
+    if (videoDetails.date && videoDetails.date.includes("22") && videoDetails.date.includes("مارس") && videoDetails.date.includes("2025")) {
+      return true;
+    }
+    
+    // نبحث أيضًا عن فيديو بتاريخ يوم ٢٢ مارس ٢٠٢٥ بالأرقام العربية
+    if (videoDetails.date && videoDetails.date.includes("٢٢") && videoDetails.date.includes("مارس") && videoDetails.date.includes("٢٠٢٥")) {
+      return true;
+    }
+    
+    // تحقق من العنوان إذا كان يحتوي على التاريخ
+    if (videoDetails.title && videoDetails.title.includes("22") && videoDetails.title.includes("مارس") && videoDetails.title.includes("2025")) {
+      return true;
+    }
+    
+    // تحقق من العنوان إذا كان يحتوي على التاريخ بالأرقام العربية
+    if (videoDetails.title && videoDetails.title.includes("٢٢") && videoDetails.title.includes("مارس") && videoDetails.title.includes("٢٠٢٥")) {
+      return true;
+    }
+    
+    // يمكننا أيضًا التحقق من videoId محدد
+    return currentVideo === "XS7jF85h9TY";
+  };
+
   return (
     <div className="section-container">
       <h1 className="section-title mb-8">لقاء الجمعة المرئي</h1>
@@ -359,41 +385,43 @@ const FridayMeetingsVideo = () => {
             <p className="text-gray-700 leading-relaxed font-droid-kufi">{videoDetails.description}</p>
           </div>
 
-          {/* Video Timeline Section - Always show for all videos */}
-          <div className="mt-8 bg-gray-50 rounded-lg p-4">
-            <div 
-              className="flex items-center justify-between cursor-pointer" 
-              onClick={() => setTimelineOpen(!timelineOpen)}
-            >
-              <h3 className="font-bold text-navy flex items-center gap-2">
-                <Clock size={18} />
-                فهرس محتويات الكلمة
-              </h3>
-              <Button variant="ghost" size="sm">
-                {timelineOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
-              </Button>
-            </div>
-            
-            {timelineOpen && (
-              <div className="mt-4 space-y-2 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
-                {videoTimeline.map((section) => (
-                  <div 
-                    key={section.id}
-                    className="p-2 rounded hover:bg-gray-100 cursor-pointer transition-colors"
-                    onClick={() => jumpToTime(section.startTime)}
-                  >
-                    <div className="flex justify-between items-center mb-1">
-                      <h4 className="font-semibold text-navy-dark">{section.title}</h4>
-                      <span className="text-sm text-gold bg-gold/10 px-2 py-1 rounded font-mono">
-                        {section.startTime} - {section.endTime}
-                      </span>
-                    </div>
-                    <p className="text-sm text-gray-600 font-droid-kufi">{section.description}</p>
-                  </div>
-                ))}
+          {/* Video Timeline Section - Show only for March 22, 2025 video */}
+          {isMarch22Video() && (
+            <div className="mt-8 bg-gray-50 rounded-lg p-4">
+              <div 
+                className="flex items-center justify-between cursor-pointer" 
+                onClick={() => setTimelineOpen(!timelineOpen)}
+              >
+                <h3 className="font-bold text-navy flex items-center gap-2">
+                  <Clock size={18} />
+                  فهرس محتويات الكلمة
+                </h3>
+                <Button variant="ghost" size="sm">
+                  {timelineOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+                </Button>
               </div>
-            )}
-          </div>
+              
+              {timelineOpen && (
+                <div className="mt-4 space-y-2 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                  {videoTimeline.map((section) => (
+                    <div 
+                      key={section.id}
+                      className="p-2 rounded hover:bg-gray-100 cursor-pointer transition-colors"
+                      onClick={() => jumpToTime(section.startTime)}
+                    >
+                      <div className="flex justify-between items-center mb-1">
+                        <h4 className="font-semibold text-navy-dark">{section.title}</h4>
+                        <span className="text-sm text-gold bg-gold/10 px-2 py-1 rounded font-mono">
+                          {section.startTime} - {section.endTime}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-600 font-droid-kufi">{section.description}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
         
         {/* Sidebar with video list */}

@@ -70,13 +70,13 @@ const NewsTicker = () => {
 
   const scrollLeft = () => {
     if (tickerRef.current) {
-      tickerRef.current.scrollBy({ left: 200, behavior: 'smooth' });
+      tickerRef.current.scrollBy({ left: -200, behavior: 'smooth' });
     }
   };
 
   const scrollRight = () => {
     if (tickerRef.current) {
-      tickerRef.current.scrollBy({ left: -200, behavior: 'smooth' });
+      tickerRef.current.scrollBy({ left: 200, behavior: 'smooth' });
     }
   };
 
@@ -85,7 +85,7 @@ const NewsTicker = () => {
   }
   
   return (
-    <div className="sticky top-0 z-50 bg-white/90 backdrop-blur-sm shadow-md border-b border-gold/10">
+    <div className="sticky top-0 z-40 bg-white/90 backdrop-blur-sm shadow-md border-b border-gold/10">
       <div className="container mx-auto px-4 py-2 flex items-center">
         <div className="flex-shrink-0 bg-navy text-white px-3 py-1 rounded-md ml-3 font-bold text-sm">
           آخر المستجدات
@@ -98,7 +98,7 @@ const NewsTicker = () => {
               className="flex whitespace-nowrap"
               style={{
                 width: "fit-content",
-                animation: isPaused ? 'none' : 'continuous-rtl 30s linear infinite',
+                animation: isPaused ? 'none' : 'continuous-ltr 30s linear infinite',
                 animationPlayState: isPaused ? 'paused' : 'running',
               }}
             >

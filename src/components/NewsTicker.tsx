@@ -61,7 +61,10 @@ const NewsTicker = () => {
     
     // Combine and shuffle all items
     const allItems = [...statements, ...books, ...media];
-    setTickerItems(allItems);
+    
+    // Duplicate items to create a continuous loop
+    const loopedItems = [...allItems, ...allItems];
+    setTickerItems(loopedItems);
   }, []);
 
   const togglePause = () => {
@@ -100,24 +103,12 @@ const NewsTicker = () => {
               animationDuration: '30s',
               animationTimingFunction: 'linear',
               animationIterationCount: 'infinite',
-              animationDirection: 'reverse' // Change to reverse for left-to-right
+              animationDirection: 'reverse' // Keeps scrolling right to left
             }}
           >
             {tickerItems.map((item, index) => (
               <Link
                 key={`${item.type}-${item.id}-${index}`}
-                to={item.link}
-                className="inline-flex items-center hover:text-gold transition-colors group"
-              >
-                {item.icon}
-                <span className="ml-1 text-sm group-hover:underline">{item.title}</span>
-                {item.date && <span className="text-xs text-gray-500 mr-1">({item.date})</span>}
-              </Link>
-            ))}
-            {/* Duplicate items for seamless looping */}
-            {tickerItems.map((item, index) => (
-              <Link
-                key={`duplicate-${item.type}-${item.id}-${index}`}
                 to={item.link}
                 className="inline-flex items-center hover:text-gold transition-colors group"
               >

@@ -53,7 +53,7 @@ const NewsTicker = () => {
       title: item.title,
       type: 'media' as const,
       date: item.date,
-      link: item.url || `/media`,
+      link: item.videoId ? `/media/friday-meetings-video` : `/media`,
       icon: item.type === 'video' 
         ? <Video size={16} className="ml-1 text-red-500" /> 
         : <Mic size={16} className="ml-1 text-purple-500" />
@@ -70,13 +70,13 @@ const NewsTicker = () => {
 
   const scrollLeft = () => {
     if (tickerRef.current) {
-      tickerRef.current.scrollBy({ left: -200, behavior: 'smooth' });
+      tickerRef.current.scrollBy({ left: 200, behavior: 'smooth' });
     }
   };
 
   const scrollRight = () => {
     if (tickerRef.current) {
-      tickerRef.current.scrollBy({ left: 200, behavior: 'smooth' });
+      tickerRef.current.scrollBy({ left: -200, behavior: 'smooth' });
     }
   };
 
@@ -99,7 +99,8 @@ const NewsTicker = () => {
               animationPlayState: isPaused ? 'paused' : 'running',
               animationDuration: '30s',
               animationTimingFunction: 'linear',
-              animationIterationCount: 'infinite'
+              animationIterationCount: 'infinite',
+              animationDirection: 'reverse' // Change to reverse for left-to-right
             }}
           >
             {tickerItems.map((item, index) => (

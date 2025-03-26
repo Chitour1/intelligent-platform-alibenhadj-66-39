@@ -1,24 +1,10 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, Search, BookOpen, CalendarDays, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { BookType } from "../types/books";
 
 const bookTags = ["الفكر الإسلامي", "السياسة الشرعية", "الفقه", "العقيدة", "الإصلاح", "التربية", "التاريخ", "الاحتجاج السلمي", "العلاقات الدولية", "الأمن القومي", "الوحدة الإسلامية"];
-
-interface BookType {
-  id: number;
-  title: string;
-  author: string;
-  cover: string;
-  downloadUrl: string;
-  year: string;
-  publicationDate?: string;
-  pages: string;
-  description: string;
-  tags: string[];
-  fullDescription?: string;
-}
 
 // Export booksData so it can be used in other components
 export const booksData: BookType[] = [
@@ -44,6 +30,46 @@ export const booksData: BookType[] = [
 يضم الكتاب أيضًا فقرات تتعلق بنقد الأوضاع السياسية في الجزائر والعالم الإسلامي عمومًا، مع عرض مفصّل لما يعتبره كبار انحرافات الحكام، مثل تعطيل الشريعة، وتضييع أموال الأمة، وخذلان القضايا الإسلامية، واغتصاب الحكم.
 
 ويخلص الكاتب إلى أن طريق الخلاص يكمن في العودة إلى القرآن الكريم مرجعية عليا للدولة والمجتمع، وتحقيق الإصلاح الحقيقي من خلال إقامة أحكام الله في الأرض.`
+  },
+  {
+    id: 2,
+    title: "إجادة التحبير في بيان قواعد التغيير",
+    author: "أبو عبد الفتاح علي بن حاج",
+    cover: "/lovable-uploads/78ff808b-a7c0-45b5-b93d-18ef4e6cc70a.png",
+    downloadUrl: "https://web.archive.org/web/20130820181915/http://alibenhadj.net/ebooks/el-taghyir1.rar",
+    year: "١٩٩٠",
+    publicationDate: "٢٨ جوان ١٩٩٠",
+    pages: "١٥",
+    description: "رسالة فكرية قصيرة تؤصل لمفهوم التغيير من منظور إسلامي، وتحدد القواعد الشرعية والمنهجية التي ينبغي أن تحكم العمل الدعوي والسياسي.",
+    tags: ["الفكر الإسلامي", "السياسة الشرعية", "الإصلاح"],
+    fullDescription: `إجادة التحبير في بيان قواعد التغيير هي رسالة قصيرة كتبها الشيخ علي بن حاج، نُشرت يوم الخميس 5 ذو الحجة 1410 هـ الموافق لـ 28 جوان 1990 م، على صفحات جريدة المنقذ، الناطقة بلسان الجبهة الإسلامية للإنقاذ، وتُعد من أولى الكتابات العلنية التي أُدرجت ضمن الخط الفكري والدعوي والسياسي للجبهة قبيل دخولها المعترك الانتخابي.
+
+تتوجه الرسالة إلى عموم أبناء الحركة الإسلامية، وعموم الأمة، في وقت كانت تشهد فيه الجزائر حراكًا سياسيًا واسعًا بعد إعلان التعددية، وقد جاءت في سياق بيان معالم فقه التغيير الإسلامي الصحيح، وبيان الفروق الجوهرية بين التغيير المشروع والتغيير الفوضوي أو المنفلت من ضوابط الشرع.
+
+تبدأ الرسالة بالتأكيد على أن التغيير فريضة شرعية لا يمكن التغافل عنها أو تأجيلها، وأنها من "المعلوم من الدين بالضرورة"، خصوصًا في مواجهة الطغيان والاستبداد، والواقع الذي يخالف شريعة الله في الحكم والإدارة والمجتمع.
+
+ثم ينتقل الشيخ إلى بيان خمس قواعد أساسية تحكم العمل التغييري في الإسلام:
+
+القاعدة الأولى: الانطلاق من العقيدة الصحيحة
+فالعقيدة هي أساس كل تغيير، ومن لم يقم على أساس التوحيد الخالص فلن يُفلح تغييره، مهما بدا ظاهرًا جذابًا.
+
+القاعدة الثانية: التمييز بين التبليغ والتنفيذ
+فليس من الضروري أن من يبلّغ الأحكام هو نفسه من يطبقها، بل التطبيق يراعي الظروف، والمراحل، والأولويات، ومراعاة السياسة الشرعية.
+
+القاعدة الثالثة: التفريق بين الأحكام القطعية والاجتهادية
+حيث يميز الإسلام بين ما هو معلوم من الدين بالضرورة، وبين ما هو قابل للاجتهاد والاختلاف.
+
+القاعدة الرابعة: مراعاة السياسة الشرعية في التنزيل
+فتنفيذ الأحكام لا يكون مجردًا من السياق، بل يراعى فيه المكان والزمان والمآلات، وظروف الناس المختلفة.
+
+القاعدة الخامسة: التفريق بين الشريعة والفقه
+فالشريعة هي ما جاء به الوحي، أما الفقه فهو فهم العلماء لها، ولا يجوز الخلط بين الاثنين، ولا تقديس الاجتهادات البشرية.
+
+تُبرز الرسالة وضوح رؤية الشيخ علي بن حاج في الجمع بين الثبات على الأصول والمرونة في الوسائل، وتظهر تمسكه بمشروع شامل للتغيير ينطلق من العقيدة، ويمر عبر الفهم العميق للواقع، وينتهي إلى تنزيل الأحكام بما يراعي فقه المآلات والسياسة الشرعية.
+
+كما تؤكد الرسالة على الخط السلمي والتربوي والإصلاحي الذي تنتهجه الجبهة الإسلامية للإنقاذ، مع وضوح في الموقف من الأنظمة الحاكمة التي عطلت الشريعة، ونشرت الفساد السياسي والاجتماعي.
+
+وتُعد هذه الرسالة من النصوص التأسيسية التي تعبّر عن الخط الفكري للسلفية الحركية في الجزائر، وتقدّم تصورًا متماسكًا لقضية التغيير الإسلامي من داخل المجتمع، دون التسرع أو التصادم غير المنضبط.`
   },
   {
     id: 3,
@@ -326,49 +352,4 @@ const Books = () => {
             {filteredBooks.map((book) => (
               <Link to={`/publications/books/${book.id}`} key={book.id} className="card group hover:shadow-lg transition-all">
                 <div className="flex md:flex-col lg:flex-row gap-4 p-4">
-                  <div className="relative w-1/3 md:w-full lg:w-1/3 aspect-[3/4] overflow-hidden rounded-md shadow-md">
-                    <img 
-                      src={book.cover} 
-                      alt={book.title} 
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="w-2/3 md:w-full lg:w-2/3">
-                    <h3 className="text-lg font-bold text-navy-dark mb-2 group-hover:text-gold transition-colors">
-                      {book.title}
-                    </h3>
-                    <p className="text-sm text-gray-500 mb-2">{book.author}</p>
-                    <div className="flex items-center gap-3 text-gray-500 text-sm mb-2">
-                      <div className="flex items-center">
-                        <CalendarDays size={14} className="ml-1" aria-label="سنة الإصدار" />
-                        <span>{book.year}</span>
-                      </div>
-                      <div className="flex items-center">
-                        <FileText size={14} className="ml-1" />
-                        {book.pages} صفحة
-                      </div>
-                    </div>
-                    {book.publicationDate && (
-                      <div className="text-xs text-gold mb-2">
-                        تاريخ النشر: {book.publicationDate}
-                      </div>
-                    )}
-                    <p className="text-sm text-gray-600 line-clamp-2">{book.description}</p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-12">
-            <BookOpen size={64} className="mx-auto text-gray-300 mb-4" />
-            <h3 className="text-xl font-bold text-gray-700 mb-2">لا توجد نتائج</h3>
-            <p className="text-gray-500">لم يتم العثور على كتب تطابق معايير البحث</p>
-          </div>
-        )}
-      </section>
-    </div>
-  );
-};
-
-export default Books;
+                  <div className="

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, Search, BookOpen, CalendarDays, FileText } from "lucide-react";
@@ -352,4 +353,49 @@ const Books = () => {
             {filteredBooks.map((book) => (
               <Link to={`/publications/books/${book.id}`} key={book.id} className="card group hover:shadow-lg transition-all">
                 <div className="flex md:flex-col lg:flex-row gap-4 p-4">
-                  <div className="
+                  <div className="relative w-1/3 md:w-full lg:w-1/3 aspect-[3/4] overflow-hidden rounded-md shadow-md">
+                    <img 
+                      src={book.cover} 
+                      alt={book.title} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="w-2/3 md:w-full lg:w-2/3">
+                    <h3 className="text-lg font-bold text-navy-dark mb-2 group-hover:text-gold transition-colors">
+                      {book.title}
+                    </h3>
+                    <p className="text-sm text-gray-500 mb-2">{book.author}</p>
+                    <div className="flex items-center gap-3 text-gray-500 text-sm mb-2">
+                      <div className="flex items-center">
+                        <CalendarDays size={14} className="ml-1" aria-label="سنة الإصدار" />
+                        <span>{book.year}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <FileText size={14} className="ml-1" />
+                        {book.pages} صفحة
+                      </div>
+                    </div>
+                    {book.publicationDate && (
+                      <div className="text-xs text-gold mb-2">
+                        تاريخ النشر: {book.publicationDate}
+                      </div>
+                    )}
+                    <p className="text-sm text-gray-600 line-clamp-2">{book.description}</p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <BookOpen size={64} className="mx-auto text-gray-300 mb-4" />
+            <h3 className="text-xl font-bold text-gray-700 mb-2">لا توجد نتائج</h3>
+            <p className="text-gray-500">لم يتم العثور على كتب تطابق معايير البحث</p>
+          </div>
+        )}
+      </section>
+    </div>
+  );
+};
+
+export default Books;

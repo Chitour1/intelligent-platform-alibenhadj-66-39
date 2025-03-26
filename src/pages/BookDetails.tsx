@@ -47,11 +47,7 @@ const BookDetails = () => {
           <div className="md:col-span-1">
             <div className="sticky top-8">
               <div className="relative aspect-[3/4] rounded-lg overflow-hidden shadow-lg mb-4 bg-gray-100">
-                <img 
-                  src="/lovable-uploads/48f53ddb-3eb1-4d84-8b57-60e465dc9130.png" 
-                  alt={book.title} 
-                  className="w-full h-full object-contain" 
-                />
+                <img src={book.cover} alt={book.title} className="w-full h-full object-contain" />
               </div>
               <div className="space-y-3">
                 <Button className="w-full" asChild>

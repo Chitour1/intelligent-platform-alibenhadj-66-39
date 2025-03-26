@@ -1,8 +1,8 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, Search, BookOpen, CalendarDays, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { booksData } from "@/utils/booksData";
 
 const bookTags = ["الفكر الإسلامي", "السياسة الشرعية", "الفقه", "العقيدة", "الإصلاح", "التربية", "التاريخ", "الاحتجاج السلمي", "العلاقات الدولية", "الأمن القومي", "الوحدة الإسلامية"];
 
@@ -44,6 +44,37 @@ export const booksData: BookType[] = [
 يضم الكتاب أيضًا فقرات تتعلق بنقد الأوضاع السياسية في الجزائر والعالم الإسلامي عمومًا، مع عرض مفصّل لما يعتبره كبار انحرافات الحكام، مثل تعطيل الشريعة، وتضييع أموال الأمة، وخذلان القضايا الإسلامية، واغتصاب الحكم.
 
 ويخلص الكاتب إلى أن طريق الخلاص يكمن في العودة إلى القرآن الكريم مرجعية عليا للدولة والمجتمع، وتحقيق الإصلاح الحقيقي من خلال إقامة أحكام الله في الأرض.`
+  },
+  {
+    id: 2,
+    title: "إجادة التحبير في بيان قواعد التغيير",
+    author: "أبو عبد الفتاح علي بن حاج",
+    cover: "/lovable-uploads/11145f85-9158-4d6c-8db2-bd872efe8d79.png",
+    downloadUrl: "https://web.archive.org/web/20130820181915/http://alibenhadj.net/ebooks/el-taghyir1.rar",
+    year: "١٩٩٠",
+    publicationDate: "٢٨ جوان ١٩٩٠",
+    pages: "١٥",
+    description: "رسالة فكرية قصيرة تؤصل لمفهوم التغيير من منظور إسلامي، وتحدد القواعد الشرعية والمنهجية التي ينبغي أن تحكم العمل الدعوي والسياسي.",
+    tags: ["الفكر الإسلامي", "السياسة الشرعية", "الإصلاح"],
+    fullDescription: `إجادة التحبير في بيان قواعد التغيير هي رسالة فكرية قصيرة كتبها الشيخ علي بن حاج، نُشرت يوم الخميس 5 ذو الحجة 1410 هـ، الموافق لـ 28 جوان 1990 م، على صفحات جريدة المنقذ، لسان حال الجبهة الإسلامية للإنقاذ. تقع الرسالة في بضع صفحات، وتُعد من الوثائق التأسيسية التي تُعبّر عن فكر الجبهة في بداياتها، لاسيما في مجال التأصيل الشرعي لقضية "التغيير" في الواقع الإسلامي.
+
+تسعى الرسالة إلى ضبط مفاهيم العمل الدعوي والسياسي ضمن الإطار الشرعي، وتفنيد الخلط الشائع بين مفاهيم الدعوة، الفتوى، الحكم، والموقف السياسي، وتُظهر حرص الشيخ على التأسيس لمنهج متكامل في فقه التغيير، يربط بين العقيدة والمنهج، بين النظرية والممارسة، وبين النصوص والمآلات.
+
+تقوم الرسالة على جملة من القواعد المركزية، أبرزها:
+
+وجوب الانطلاق من التوحيد والمنهج السلفي كأساس للتغيير، مع التحذير من النزعات العاطفية أو التنظيمية البعيدة عن المرجعية الشرعية.
+
+التمييز بين فقه الأحكام وفقه التنزيل، وبين فقه الواقع وفقه التمكين، وضرورة مراعاة الزمان والمكان والمآل.
+
+عدم المساواة بين ما هو معلوم من الدين بالضرورة، وما هو من فروع الفقه أو من الاجتهادات السياسية، مع الدعوة إلى الوضوح في التمييز بين الأحكام الثابتة والمتغيرة.
+
+ضرورة استيعاب قواعد السياسة الشرعية، في التطبيق والتدرج، والتعامل مع القوى والأنظمة، بما يحقق مقاصد الشريعة دون تفريط أو تهور.
+
+توجه الرسالة نقدًا غير مباشر لبعض التوجهات الدعوية التي ترفض العمل السياسي أو تفصل بين الدين والحكم، وتؤكد أن السكوت عن الظلم والتخلي عن فقه التغيير هو من أسباب ضعف الأمة واستمرار الاستبداد.
+
+وتُبرز الرسالة، رغم قصرها، وضوحًا في المفاهيم، وانسجامًا في المنهج، يعكس خلفية علمية شرعية لدى الشيخ علي بن حاج، إلى جانب وعيه بالواقع السياسي والاجتماعي، وقدرته على تأصيل مواقفه بلغة تجمع بين الخطاب الدعوي والتأسيس الفقهي والتحليل السياسي.
+
+تُعد "إجادة التحبير" من النصوص التأسيسية القصيرة التي ألقت الضوء على مفاتيح المنهج السياسي الإسلامي كما تراه الجبهة الإسلامية للإنقاذ، وهي تندرج ضمن سياق تعبوي وتأصيلي سبق الانتخابات البلدية ثم التشريعية، التي كانت تشهد فيها الجبهة تصاعدًا كبيرًا في التأييد الشعبي، مما يجعل من هذه الرسالة وثيقة دالة على فكر المرحلة وتوجهاتها.`
   },
   {
     id: 3,
@@ -326,49 +357,4 @@ const Books = () => {
             {filteredBooks.map((book) => (
               <Link to={`/publications/books/${book.id}`} key={book.id} className="card group hover:shadow-lg transition-all">
                 <div className="flex md:flex-col lg:flex-row gap-4 p-4">
-                  <div className="relative w-1/3 md:w-full lg:w-1/3 aspect-[3/4] overflow-hidden rounded-md shadow-md">
-                    <img 
-                      src={book.cover} 
-                      alt={book.title} 
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="w-2/3 md:w-full lg:w-2/3">
-                    <h3 className="text-lg font-bold text-navy-dark mb-2 group-hover:text-gold transition-colors">
-                      {book.title}
-                    </h3>
-                    <p className="text-sm text-gray-500 mb-2">{book.author}</p>
-                    <div className="flex items-center gap-3 text-gray-500 text-sm mb-2">
-                      <div className="flex items-center">
-                        <CalendarDays size={14} className="ml-1" aria-label="سنة الإصدار" />
-                        <span>{book.year}</span>
-                      </div>
-                      <div className="flex items-center">
-                        <FileText size={14} className="ml-1" />
-                        {book.pages} صفحة
-                      </div>
-                    </div>
-                    {book.publicationDate && (
-                      <div className="text-xs text-gold mb-2">
-                        تاريخ النشر: {book.publicationDate}
-                      </div>
-                    )}
-                    <p className="text-sm text-gray-600 line-clamp-2">{book.description}</p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-12">
-            <BookOpen size={64} className="mx-auto text-gray-300 mb-4" />
-            <h3 className="text-xl font-bold text-gray-700 mb-2">لا توجد نتائج</h3>
-            <p className="text-gray-500">لم يتم العثور على كتب تطابق معايير البحث</p>
-          </div>
-        )}
-      </section>
-    </div>
-  );
-};
-
-export default Books;
+                  <div className="relative w-1

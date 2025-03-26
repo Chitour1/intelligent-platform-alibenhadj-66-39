@@ -4,7 +4,7 @@ import { ArrowLeftCircle, ArrowRightCircle, Pause, Play, FileText, Book, Video, 
 import { Link } from 'react-router-dom';
 import { statementsData } from '../utils/statementsData';
 import { recentMediaItems } from '../utils/youtubeUtils';
-import { booksData } from '../pages/Books';
+import { booksData } from '../utils/booksData';
 
 interface TickerItem {
   id: number | string;

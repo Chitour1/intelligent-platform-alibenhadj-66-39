@@ -59,7 +59,7 @@ const NewsTicker = () => {
         : <Mic size={16} className="ml-1 text-purple-500" />
     }));
     
-    // Combine and shuffle all items
+    // Combine all items
     const allItems = [...statements, ...books, ...media];
     setTickerItems(allItems);
   }, []);
@@ -92,40 +92,41 @@ const NewsTicker = () => {
         </div>
         
         <div className="relative flex-grow overflow-hidden mx-3">
-          <div 
-            ref={tickerRef}
-            className={`flex whitespace-nowrap gap-6 ${isPaused ? '' : 'animate-marquee'}`}
-            style={{
-              animationPlayState: isPaused ? 'paused' : 'running',
-              animationDuration: '30s',
-              animationTimingFunction: 'linear',
-              animationIterationCount: 'infinite',
-              animationDirection: 'reverse' // Change to reverse for left-to-right
-            }}
-          >
-            {tickerItems.map((item, index) => (
-              <Link
-                key={`${item.type}-${item.id}-${index}`}
-                to={item.link}
-                className="inline-flex items-center hover:text-gold transition-colors group"
-              >
-                {item.icon}
-                <span className="ml-1 text-sm group-hover:underline">{item.title}</span>
-                {item.date && <span className="text-xs text-gray-500 mr-1">({item.date})</span>}
-              </Link>
-            ))}
-            {/* Duplicate items for seamless looping */}
-            {tickerItems.map((item, index) => (
-              <Link
-                key={`duplicate-${item.type}-${item.id}-${index}`}
-                to={item.link}
-                className="inline-flex items-center hover:text-gold transition-colors group"
-              >
-                {item.icon}
-                <span className="ml-1 text-sm group-hover:underline">{item.title}</span>
-                {item.date && <span className="text-xs text-gray-500 mr-1">({item.date})</span>}
-              </Link>
-            ))}
+          <div className="flex overflow-hidden">
+            <div 
+              ref={tickerRef}
+              className="flex whitespace-nowrap"
+              style={{
+                width: "fit-content",
+                animation: isPaused ? 'none' : 'continuous-rtl 30s linear infinite',
+                animationPlayState: isPaused ? 'paused' : 'running',
+              }}
+            >
+              {/* الجزء الأول من العناصر */}
+              {tickerItems.map((item, index) => (
+                <Link
+                  key={`${item.type}-${item.id}-${index}`}
+                  to={item.link}
+                  className="inline-flex items-center hover:text-gold transition-colors group px-3"
+                >
+                  {item.icon}
+                  <span className="ml-1 text-sm group-hover:underline">{item.title}</span>
+                  {item.date && <span className="text-xs text-gray-500 mr-1">({item.date})</span>}
+                </Link>
+              ))}
+              {/* تكرار العناصر للحصول على تأثير الدوران المستمر */}
+              {tickerItems.map((item, index) => (
+                <Link
+                  key={`duplicate-${item.type}-${item.id}-${index}`}
+                  to={item.link}
+                  className="inline-flex items-center hover:text-gold transition-colors group px-3"
+                >
+                  {item.icon}
+                  <span className="ml-1 text-sm group-hover:underline">{item.title}</span>
+                  {item.date && <span className="text-xs text-gray-500 mr-1">({item.date})</span>}
+                </Link>
+              ))}
+            </div>
           </div>
           
           {/* Gradient fades */}

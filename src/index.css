@@ -143,7 +143,20 @@
     }
   }
 
+  @keyframes continuous-rtl {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
   .animate-marquee {
     animation: marquee 30s linear infinite;
+  }
+
+  .continuous-rtl {
+    animation: continuous-rtl 30s linear infinite;
   }
 }

@@ -292,7 +292,7 @@ export const booksData: BookType[] = [
     id: 8,
     title: "التذكير بوجوب وحدة الدول الإسلامية والتحذير من مخاطر الحركات الانفصالية",
     author: "أبو عبد الفتاح علي بن حاج",
-    cover: "/lovable-uploads/c48f156c-7604-4c04-bd4d-70f60e78d3f0.png",
+    cover: "/lovable-uploads/70d5685f-4c56-4c99-b394-a1e96adb95c5.png",
     downloadUrl: "https://web.archive.org/web/20130119101012/http://alibenhadj.net/upload/ebook/tadkire.rar",
     year: "٢٠١٣",
     pages: "٦١",

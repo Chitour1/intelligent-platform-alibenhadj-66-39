@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import Hero from '../components/Hero';
 import NewsCard from '../components/NewsCard';
@@ -58,6 +59,16 @@ const Index = () => {
     .slice(0, 4);
   
   const mediaItems = recentMediaItems.slice(0, 4);
+  
+  // Helper function to get the correct video link
+  const getVideoLink = (item) => {
+    if (item.type === 'video' && item.videoId) {
+      return `/media/friday-meetings-video?videoId=${item.videoId}`;
+    } else if (item.type === 'audio') {
+      return `/media/friday-meetings-audio`;
+    }
+    return "#";
+  };
   
   return (
     <div className="min-h-screen">
@@ -149,7 +160,11 @@ const Index = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {mediaItems.map(item => (
-            <div key={item.id} className="card group">
+            <Link 
+              key={item.id} 
+              to={getVideoLink(item)}
+              className="card group"
+            >
               <div className="relative overflow-hidden aspect-video">
                 <img 
                   src={item.imageUrl || `https://img.youtube.com/vi/${item.videoId}/mqdefault.jpg`} 
@@ -182,7 +197,7 @@ const Index = () => {
                   {item.date}
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>

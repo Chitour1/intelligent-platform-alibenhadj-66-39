@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700&family=Droid+Arabic+Kufi&display=swap');
 
 @tailwind base;
@@ -136,27 +135,14 @@
 
   @keyframes marquee {
     0% {
-      transform: translateX(100%);
+      transform: translateX(0);
     }
     100% {
       transform: translateX(-100%);
     }
   }
 
-  @keyframes continuous-rtl {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-50%);
-    }
-  }
-
   .animate-marquee {
     animation: marquee 30s linear infinite;
-  }
-
-  .continuous-rtl {
-    animation: continuous-rtl 30s linear infinite;
   }
 }

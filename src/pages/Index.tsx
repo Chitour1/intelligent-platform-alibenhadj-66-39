@@ -8,8 +8,8 @@ import { ArrowLeft, BookOpen, Video, Mic, Calendar, FileText, Book } from 'lucid
 import { recentMediaItems } from '../utils/youtubeUtils';
 import { statementsData } from '../utils/statementsData';
 
-// Import the books data from the utils directory
-import { booksData } from '../utils/booksData';
+// Import the books data from the Books page
+import { booksData } from '../pages/Books';
 
 const Index = () => {
   const [isVisible, setIsVisible] = useState({

@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from 'react';
 import { ArrowLeftCircle, ArrowRightCircle, Pause, Play, FileText, Book, Video, Mic } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -20,6 +21,7 @@ const NewsTicker = () => {
   const tickerRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
+    // Collect latest content from different sources
     const statements = statementsData.slice(0, 3).map(statement => ({
       id: statement.id,
       title: statement.title,
@@ -57,6 +59,7 @@ const NewsTicker = () => {
         : <Mic size={16} className="ml-1 text-purple-500" />
     }));
     
+    // Combine and shuffle all items
     const allItems = [...statements, ...books, ...media];
     setTickerItems(allItems);
   }, []);
@@ -91,30 +94,41 @@ const NewsTicker = () => {
         <div className="relative flex-grow overflow-hidden mx-3">
           <div 
             ref={tickerRef}
-            className={`flex whitespace-nowrap gap-6 animate-marquee`}
+            className={`flex whitespace-nowrap gap-6 ${isPaused ? '' : 'animate-marquee'}`}
             style={{
               animationPlayState: isPaused ? 'paused' : 'running',
               animationDuration: '30s',
               animationTimingFunction: 'linear',
               animationIterationCount: 'infinite',
-              animationDirection: 'alternate'
+              animationDirection: 'reverse' // Change to reverse for left-to-right
             }}
           >
-            {[...Array(3)].map((_, index) => (
-              tickerItems.map((item, itemIndex) => (
-                <Link
-                  key={`${index}-${item.type}-${item.id}-${itemIndex}`}
-                  to={item.link}
-                  className="inline-flex items-center hover:text-gold transition-colors group"
-                >
-                  {item.icon}
-                  <span className="ml-1 text-sm group-hover:underline">{item.title}</span>
-                  {item.date && <span className="text-xs text-gray-500 mr-1">({item.date})</span>}
-                </Link>
-              ))
+            {tickerItems.map((item, index) => (
+              <Link
+                key={`${item.type}-${item.id}-${index}`}
+                to={item.link}
+                className="inline-flex items-center hover:text-gold transition-colors group"
+              >
+                {item.icon}
+                <span className="ml-1 text-sm group-hover:underline">{item.title}</span>
+                {item.date && <span className="text-xs text-gray-500 mr-1">({item.date})</span>}
+              </Link>
+            ))}
+            {/* Duplicate items for seamless looping */}
+            {tickerItems.map((item, index) => (
+              <Link
+                key={`duplicate-${item.type}-${item.id}-${index}`}
+                to={item.link}
+                className="inline-flex items-center hover:text-gold transition-colors group"
+              >
+                {item.icon}
+                <span className="ml-1 text-sm group-hover:underline">{item.title}</span>
+                {item.date && <span className="text-xs text-gray-500 mr-1">({item.date})</span>}
+              </Link>
             ))}
           </div>
           
+          {/* Gradient fades */}
           <div className="absolute left-0 top-0 h-full w-6 bg-gradient-to-l from-transparent to-white/90"></div>
           <div className="absolute right-0 top-0 h-full w-6 bg-gradient-to-r from-transparent to-white/90"></div>
         </div>

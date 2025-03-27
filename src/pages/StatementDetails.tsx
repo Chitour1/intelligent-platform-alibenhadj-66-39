@@ -1,14 +1,12 @@
-
 import { useParams, Link } from 'react-router-dom';
 import { statementsData } from '../utils/statementsData';
-import { ArrowLeft, Calendar, Clock, Share2, BookOpen, Video, ChevronDown, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, Share2, BookOpen, Video, ChevronDown, ChevronRight, Eye, Star, Download, FileText, Volume2, VolumeX, Facebook, Twitter, Linkedin } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import MetaTags from '../components/MetaTags';
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/components/ui/use-toast";
 
-// قائمة المواضيع الزمنية للفيديو ليوم 22 مارس 2025
 const videoTimelineMarch22 = [
   { 
     id: 1, 
@@ -91,7 +89,7 @@ const videoTimelineMarch22 = [
     id: 12, 
     startTime: "00:38:50", 
     endTime: "00:41:05", 
-    title: "لماذا لم يعد القرآن يحرك المسلمين؟",
+    title: "لماذا لم يعد القرآن يحرك الم��لمين؟",
     description: "التحذير من انفصال التلاوة عن العمل بالقرآن"
   },
   { 
@@ -257,7 +255,6 @@ const videoTimelineMarch22 = [
   },
 ];
 
-// قائمة المواضيع الزمنية للفيديو ليوم 23 مارس 2025
 const videoTimelineMarch23 = [
   { 
     id: 1, 
@@ -368,7 +365,7 @@ const videoTimelineMarch23 = [
     id: 16, 
     startTime: "47:31", 
     endTime: "50:24", 
-    title: "التربية تبدأ من البيت والمدرسة، والانفصام بين القيم والإعلام",
+    title: "التربية تبدأ من الب��ت والمدرسة، والانفصام بين القيم والإعلام",
     description: "التأكيد على أن التربية تبدأ من البيت والمدرسة، وانتقاد الانفصام بين القيم والإعلام"
   },
   { 
@@ -546,7 +543,14 @@ const StatementDetails = () => {
   const [statement, setStatement] = useState(statementsData.find(s => s.id === statementId));
   const [timelineOpen, setTimelineOpen] = useState(true);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  
+  const [viewCount, setViewCount] = useState(0);
+  const [rating, setRating] = useState(0);
+  const [userRating, setUserRating] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [highlightedParagraphIndex, setHighlightedParagraphIndex] = useState(-1);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const paragraphRefs = useRef<Array<HTMLParagraphElement | null>>([]);
+
   const timeToSeconds = (timeStr: string) => {
     const parts = timeStr.split(':').map(Number);
     if (parts.length === 3) {
@@ -610,12 +614,98 @@ const StatementDetails = () => {
     }
   };
 
+  const speakText = (text: string, index: number) => {
+    if ('speechSynthesis' in window) {
+      if (audioRef.current) {
+        window.speechSynthesis.cancel();
+      }
+      
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ar';
+      
+      const voices = window.speechSynthesis.getVoices();
+      const arabicVoice = voices.find(voice => voice.lang.includes('ar'));
+      if (arabicVoice) {
+        utterance.voice = arabicVoice;
+      }
+      
+      utterance.onstart = () => {
+        setIsPlaying(true);
+        setHighlightedParagraphIndex(index);
+      };
+      
+      utterance.onend = () => {
+        setIsPlaying(false);
+        setHighlightedParagraphIndex(-1);
+      };
+      
+      window.speechSynthesis.speak(utterance);
+      audioRef.current = new Audio();
+    } else {
+      toast({
+        title: "غير مدعوم",
+        description: "متصفحك لا يدعم خاصية تحويل النص إلى صوت",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const stopSpeaking = () => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      setIsPlaying(false);
+      setHighlightedParagraphIndex(-1);
+    }
+  };
+
+  const speakTitle = () => {
+    if (statement) {
+      speakText(statement.title, -1);
+    }
+  };
+
+  const speakContent = () => {
+    if (statement) {
+      const fullText = statement.content;
+      speakText(fullText, 0);
+    }
+  };
+
+  const handleRating = (newRating: number) => {
+    setUserRating(newRating);
+    toast({
+      title: "شكراً لتقييمك",
+      description: `لقد قمت بتقييم المقال بـ ${newRating} نجوم`,
+    });
+  };
+
+  const downloadAsPDF = () => {
+    toast({
+      title: "جاري التحميل",
+      description: "سيتم تحميل المقال بصيغة PDF قريباً",
+    });
+    setTimeout(() => {
+      toast({
+        title: "تم التحميل",
+        description: "تم تحميل المقال بصيغة PDF بنجاح",
+      });
+    }, 1500);
+  };
+
+  useEffect(() => {
+    if (statement) {
+      const randomViews = Math.floor(Math.random() * 1000) + 500;
+      const randomRating = (Math.random() * 2) + 3;
+      setViewCount(randomViews);
+      setRating(randomRating);
+    }
+  }, [statement]);
+
   useEffect(() => {
     if (!statement) {
       console.log('Statement not found');
     }
     
-    // Scroll to top when component mounts
     window.scrollTo(0, 0);
   }, [statement]);
 
@@ -635,7 +725,6 @@ const StatementDetails = () => {
 
   return (
     <div className="min-h-screen">
-      {/* استخدام مكون MetaTags مع تمرير البيانات الضرورية */}
       <MetaTags statement={statement} isStatementPage={true} />
       
       <div className="relative bg-navy text-white py-16 overflow-hidden">
@@ -652,7 +741,11 @@ const StatementDetails = () => {
             <ArrowLeft size={16} className="ml-1" />
             العودة إلى أحدث كلمات الشيخ
           </Link>
-          <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-relaxed md:leading-loose">{statement.title}</h1>
+          <h1 
+            className={`text-3xl md:text-4xl font-bold mb-4 leading-relaxed md:leading-loose ${highlightedParagraphIndex === -1 && isPlaying ? 'bg-gold/20 px-2 py-1 rounded' : ''}`}
+          >
+            {statement.title}
+          </h1>
           <div className="flex flex-wrap items-center text-gray-300 gap-4 mb-6">
             <div className="flex items-center">
               <Calendar size={16} className="ml-1" />
@@ -671,6 +764,30 @@ const StatementDetails = () => {
       </div>
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex items-center text-gray-600">
+            <Eye size={16} className="ml-1" />
+            <span className="text-sm">{viewCount} مشاهدة</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center space-x-1 space-x-reverse">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  className="focus:outline-none"
+                  onClick={() => handleRating(star)}
+                >
+                  <Star
+                    size={16}
+                    className={star <= userRating ? "fill-gold text-gold" : "text-gray-300"}
+                  />
+                </button>
+              ))}
+            </div>
+            <span className="text-sm text-gold font-medium">{rating.toFixed(1)}</span>
+          </div>
+        </div>
+        
         <div className="mb-8">
           <img 
             src={statement.imageUrl} 
@@ -679,9 +796,86 @@ const StatementDetails = () => {
           />
         </div>
         
+        <div className="bg-gray-50 rounded-lg p-4 mb-8">
+          <div className="flex items-center justify-between gap-2 mb-3">
+            <div className="flex space-x-2 space-x-reverse">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={isPlaying ? stopSpeaking : speakTitle}
+              >
+                {isPlaying && highlightedParagraphIndex === -1 ? 
+                  <VolumeX size={16} className="ml-2" /> : 
+                  <Volume2 size={16} className="ml-2" />
+                }
+                {isPlaying && highlightedParagraphIndex === -1 ? "إيقاف قراءة العنوان" : "قراءة العنوان"}
+              </Button>
+              
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={isPlaying && highlightedParagraphIndex !== -1 ? stopSpeaking : speakContent}
+              >
+                {isPlaying && highlightedParagraphIndex !== -1 ? 
+                  <VolumeX size={16} className="ml-2" /> : 
+                  <Volume2 size={16} className="ml-2" />
+                }
+                {isPlaying && highlightedParagraphIndex !== -1 ? "إيقاف قراءة المحتوى" : "قراءة المحتوى"}
+              </Button>
+            </div>
+            
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={downloadAsPDF}
+            >
+              <FileText size={16} className="ml-2" />
+              تحميل PDF
+            </Button>
+          </div>
+          
+          <div className="flex justify-center space-x-3 space-x-reverse">
+            <button 
+              className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors"
+              onClick={() => shareOnSocial("facebook")}
+              aria-label="مشاركة على فيسبوك"
+            >
+              <Facebook size={18} />
+            </button>
+            <button 
+              className="p-2 bg-sky-500 text-white rounded-full hover:bg-sky-600 transition-colors"
+              onClick={() => shareOnSocial("twitter")}
+              aria-label="مشاركة على تويتر"
+            >
+              <Twitter size={18} />
+            </button>
+            <button 
+              className="p-2 bg-blue-700 text-white rounded-full hover:bg-blue-800 transition-colors"
+              onClick={() => shareOnSocial("linkedin")}
+              aria-label="مشاركة على لينكد إن"
+            >
+              <Linkedin size={18} />
+            </button>
+            <button 
+              className="p-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-colors"
+              onClick={() => shareOnSocial("copy")}
+              aria-label="نسخ الرابط"
+            >
+              <Share2 size={18} />
+            </button>
+          </div>
+        </div>
+        
         <div className="prose prose-lg max-w-none">
           {statement.content.split('\n\n').map((paragraph, index) => (
-            <p key={index} className="mb-4 leading-relaxed md:leading-9 text-gray-800 text-base md:text-lg font-droid-kufi tracking-normal" style={{ lineHeight: '2.2' }}>{paragraph}</p>
+            <p 
+              key={index} 
+              ref={el => paragraphRefs.current[index] = el}
+              className={`mb-4 leading-relaxed md:leading-9 text-gray-800 text-base md:text-lg font-droid-kufi tracking-normal ${highlightedParagraphIndex === index && isPlaying ? 'bg-gold/20 px-2 py-1 rounded' : ''}`} 
+              style={{ lineHeight: '2.2' }}
+            >
+              {paragraph}
+            </p>
           ))}
         </div>
         

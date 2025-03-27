@@ -1,12 +1,20 @@
-
-import { useParams, Link } from "react-router-dom";
-import { ArrowRight, BookOpen, CalendarDays, FileText, Download, Tag, ChevronLeft } from "lucide-react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useRef, useState } from "react";
+import { ArrowRight, BookOpen, CalendarDays, FileText, Download, ChevronLeft, FileDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { booksData } from "../pages/Books";
+import ContentStats from "@/components/ContentStats";
+import AudioPlayer from "@/components/AudioPlayer";
+import SocialShareButtons from "@/components/SocialShareButtons";
+import { generateContentPdf } from "@/utils/pdfUtils";
 
 const BookDetails = () => {
   const { bookId } = useParams<{ bookId: string }>();
   const book = booksData.find((b) => b.id.toString() === bookId);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [highlightedWordIndex, setHighlightedWordIndex] = useState<number | null>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   if (!book) {
     return (
@@ -22,6 +30,38 @@ const BookDetails = () => {
       </div>
     );
   }
+
+  // Prepare the content for the audio player and highlighting
+  const fullContent = book.fullDescription || book.description;
+  const contentWords = (book.title + ". " + fullContent).split(/\s+/);
+  
+  const handlePlayingProgress = (index: number) => {
+    setHighlightedWordIndex(index);
+    
+    // Auto-scroll to keep the highlighted word in view
+    if (contentRef.current && index > 20) {
+      const words = contentRef.current.querySelectorAll('.content-word');
+      if (words[index]) {
+        words[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  };
+  
+  const handlePlayingChange = (playing: boolean) => {
+    setIsPlaying(playing);
+    if (!playing) {
+      setHighlightedWordIndex(null);
+    }
+  };
+  
+  const downloadPdf = () => {
+    generateContentPdf(
+      book.title,
+      fullContent,
+      book.author, 
+      book.year ? `سنة النشر: ${book.year}` : undefined
+    );
+  };
 
   // Related books (excluding current book)
   const relatedBooks = booksData
@@ -49,13 +89,20 @@ const BookDetails = () => {
               <div className="relative aspect-[3/4] rounded-lg overflow-hidden shadow-lg mb-4 bg-gray-100">
                 <img src={book.cover} alt={book.title} className="w-full h-full object-contain" />
               </div>
-              <div className="space-y-3">
-                <Button className="w-full" asChild>
-                  <a href={book.downloadUrl} target="_blank" rel="noopener noreferrer">
-                    <Download size={16} className="ml-2" />
-                    تحميل الكتاب
-                  </a>
-                </Button>
+              <ContentStats contentId={bookId || "1"} contentType="book" />
+              <div className="space-y-3 mt-4">
+                <div className="flex gap-2">
+                  <Button className="flex-1" asChild>
+                    <a href={book.downloadUrl} target="_blank" rel="noopener noreferrer">
+                      <Download size={16} className="ml-2" />
+                      تحميل الكتاب
+                    </a>
+                  </Button>
+                  <Button variant="outline" onClick={downloadPdf}>
+                    <FileDown size={16} className="ml-2" />
+                    PDF
+                  </Button>
+                </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="bg-gray-50 rounded-lg p-3 text-center">
                     <CalendarDays size={20} className="mx-auto text-gold mb-1" />
@@ -67,6 +114,14 @@ const BookDetails = () => {
                     <p className="text-sm text-gray-500">عدد الصفحات</p>
                     <p className="font-bold">{book.pages}</p>
                   </div>
+                </div>
+                <div className="mt-4">
+                  <p className="text-sm font-medium mb-2">مشاركة الكتاب:</p>
+                  <SocialShareButtons 
+                    title={book.title} 
+                    text={`كتاب "${book.title}" للكاتب ${book.author}`} 
+                    compact 
+                  />
                 </div>
               </div>
             </div>
@@ -85,16 +140,33 @@ const BookDetails = () => {
               ))}
             </div>
             
-            <div className="prose prose-lg max-w-none">
-              {book.fullDescription ? 
-                book.fullDescription.split('\n\n').map((paragraph, index) => (
+            {/* Audio Player */}
+            <AudioPlayer 
+              title={book.title}
+              content={fullContent}
+              onPlayingChange={handlePlayingChange}
+              onPlayingProgress={handlePlayingProgress}
+            />
+            
+            <div className="prose prose-lg max-w-none" ref={contentRef}>
+              {isPlaying ? (
+                <div className="mb-4 leading-relaxed text-gray-700">
+                  {contentWords.map((word, index) => (
+                    <span 
+                      key={index}
+                      className={`content-word ${highlightedWordIndex === index ? 'bg-gold/20 text-navy font-bold' : ''}`}
+                    >
+                      {word}{' '}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                fullContent.split('\n\n').map((paragraph, index) => (
                   <p key={index} className="mb-4 text-gray-700 leading-relaxed">
                     {paragraph}
                   </p>
                 ))
-                :
-                <p className="mb-4 text-gray-700 leading-relaxed">{book.description}</p>
-              }
+              )}
             </div>
             
             {/* Related Books */}

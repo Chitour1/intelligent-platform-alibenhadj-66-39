@@ -1,13 +1,16 @@
 import { useParams, Link } from 'react-router-dom';
-import { statementsData } from '../utils/statementsData';
-import { ArrowLeft, Calendar, Clock, Share2, BookOpen, Video, ChevronDown, ChevronRight } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
+import { statementsData } from '../utils/statementsData';
+import { ArrowLeft, Calendar, Clock, Share2, BookOpen, Video, ChevronDown, ChevronRight, FileDown } from 'lucide-react';
 import MetaTags from '../components/MetaTags';
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/components/ui/use-toast";
+import ContentStats from '@/components/ContentStats';
+import AudioPlayer from '@/components/AudioPlayer';
+import SocialShareButtons from '@/components/SocialShareButtons';
+import { generateContentPdf } from '@/utils/pdfUtils';
 
-// قائمة المواضيع الزمنية للفيديو ليوم 22 مارس 2025
 const videoTimelineMarch22 = [{
   id: 1,
   startTime: "00:00:00",
@@ -84,7 +87,7 @@ const videoTimelineMarch22 = [{
   id: 13,
   startTime: "00:41:05",
   endTime: "00:47:34",
-  title: "إعلام التضليل وتحريف الكلم عن مواضعه",
+  title: "إعلام التضليل وت��ريف الكلم عن مواضعه",
   description: "هجوم على القنوات العربية التي تحرّف الدين وتُضلل الشعوب"
 }, {
   id: 14,
@@ -220,7 +223,6 @@ const videoTimelineMarch22 = [{
   description: "دعوة إلى المحاسبة العلنية العادلة لرموز النظام السابق بدون استثناء"
 }];
 
-// قائمة المواضيع الزمنية للفيديو ليوم 23 مارس 2025
 const videoTimelineMarch23 = [{
   id: 1,
   startTime: "00:06",
@@ -462,15 +464,16 @@ const videoTimelineMarch23 = [{
   title: "دعوة للتوثيق الشخصي للانتهاكات، ونقد سياسات الصمت والتطبيع",
   description: "تقديم دعوة للتوثيق الشخصي للانتهاكات، وانتقاد سياسات الصمت والتطبيع"
 }];
+
 const StatementDetails = () => {
-  const {
-    statementId
-  } = useParams<{
-    statementId: string;
-  }>();
+  const { statementId } = useParams<{ statementId: string }>();
   const [statement, setStatement] = useState(statementsData.find(s => s.id === statementId));
   const [timelineOpen, setTimelineOpen] = useState(true);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [highlightedWordIndex, setHighlightedWordIndex] = useState<number | null>(null);
+
   const timeToSeconds = (timeStr: string) => {
     const parts = timeStr.split(':').map(Number);
     if (parts.length === 3) {
@@ -480,6 +483,7 @@ const StatementDetails = () => {
     }
     return 0;
   };
+
   const getVideoTimeline = () => {
     if (!statement || !statement.videoId) return [];
     if (statement.videoId === "XS7jF85h9TY") {
@@ -489,9 +493,11 @@ const StatementDetails = () => {
     }
     return [];
   };
+
   const hasTimeline = () => {
     return getVideoTimeline().length > 0;
   };
+
   const jumpToTime = (timeStr: string) => {
     const seconds = timeToSeconds(timeStr);
     if (iframeRef.current && iframeRef.current.src) {
@@ -500,6 +506,7 @@ const StatementDetails = () => {
       iframeRef.current.src = `${baseUrl}?start=${seconds}&autoplay=1`;
     }
   };
+
   const copyPageUrl = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {
       toast({
@@ -510,6 +517,7 @@ const StatementDetails = () => {
       console.error('حدث خطأ أثناء نسخ الرابط:', err);
     });
   };
+
   const sharePage = () => {
     if (navigator.share) {
       navigator.share({
@@ -524,27 +532,60 @@ const StatementDetails = () => {
       copyPageUrl();
     }
   };
+
+  const contentWords = statement ? (statement.title + ". " + statement.content).split(/\s+/) : [];
+
+  const handlePlayingProgress = (index: number) => {
+    setHighlightedWordIndex(index);
+    
+    if (contentRef.current && index > 20) {
+      const words = contentRef.current.querySelectorAll('.content-word');
+      if (words[index]) {
+        words[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  };
+
+  const handlePlayingChange = (playing: boolean) => {
+    setIsPlaying(playing);
+    if (!playing) {
+      setHighlightedWordIndex(null);
+    }
+  };
+
+  const downloadPdf = () => {
+    if (!statement) return;
+    
+    generateContentPdf(
+      statement.title,
+      statement.content,
+      "الشيخ علي بن حاج", 
+      statement.date + (statement.hijriDate ? ` (${statement.hijriDate})` : '')
+    );
+  };
+
   useEffect(() => {
     if (!statement) {
       console.log('Statement not found');
     }
 
-    // Scroll to top when component mounts
     window.scrollTo(0, 0);
   }, [statement]);
+
   if (!statement) {
     return <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-navy mb-4">الخبر غير موجود</h1>
-          <p className="text-gray-600 mb-6">لم يتم العثور على الخبر المطلوب</p>
-          <Link to="/statements" className="btn-primary">
-            العودة إلى أحدث كلمات الشيخ
-          </Link>
-        </div>
-      </div>;
+      <div className="text-center">
+        <h1 className="text-4xl font-bold text-navy mb-4">الخبر غير موجود</h1>
+        <p className="text-gray-600 mb-6">لم يتم العثور على الخبر المطلوب</p>
+        <Link to="/statements" className="btn-primary">
+          العودة إلى أحدث كلمات الشيخ
+        </Link>
+      </div>
+    </div>;
   }
-  return <div className="min-h-screen">
-      {/* استخدام مكون MetaTags مع تمرير البيانات الضرورية */}
+
+  return (
+    <div className="min-h-screen">
       <MetaTags statement={statement} isStatementPage={true} />
       
       <div className="relative bg-navy text-white py-16 overflow-hidden">
@@ -574,26 +615,73 @@ const StatementDetails = () => {
       </div>
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <ContentStats contentId={statementId || "1"} contentType="statement" />
+        
+        <div className="flex justify-between items-center my-4">
+          <Button variant="outline" onClick={downloadPdf} className="flex items-center">
+            <FileDown size={16} className="ml-2" />
+            تحميل PDF
+          </Button>
+          <SocialShareButtons 
+            title={statement.title} 
+            text={statement.excerpt} 
+            compact 
+          />
+        </div>
+        
+        <AudioPlayer 
+          title={statement.title}
+          content={statement.content}
+          onPlayingChange={handlePlayingChange}
+          onPlayingProgress={handlePlayingProgress}
+        />
+        
         <div className="mb-8">
           <img src={statement.imageUrl} alt={statement.title} className="w-full rounded-lg shadow-md" />
         </div>
         
-        <div className="prose prose-lg max-w-none">
-          {statement.content.split('\n\n').map((paragraph, index) => <p key={index} style={{
-          lineHeight: '2.2'
-        }} className="mb-4 leading-relaxed md:leading-9 text-gray-800 text-base md:text-lg font-droid-Simplified Arabic">{paragraph}</p>)}
+        <div className="prose prose-lg max-w-none" ref={contentRef}>
+          {isPlaying ? (
+            <div className="mb-4 leading-relaxed text-gray-700">
+              {contentWords.map((word, index) => (
+                <span 
+                  key={index}
+                  className={`content-word ${highlightedWordIndex === index ? 'bg-gold/20 text-navy font-bold' : ''}`}
+                >
+                  {word}{' '}
+                </span>
+              ))}
+            </div>
+          ) : (
+            statement.content.split('\n\n').map((paragraph, index) => (
+              <p key={index} style={{ lineHeight: '2.2' }} className="mb-4 leading-relaxed md:leading-9 text-gray-800 text-base md:text-lg font-droid-Simplified Arabic">
+                {paragraph}
+              </p>
+            ))
+          )}
         </div>
         
-        {statement.videoId && <div className="mt-12">
+        {statement.videoId && (
+          <div className="mt-12">
             <h3 className="text-xl font-bold mb-4 flex items-center leading-relaxed">
               <Video size={20} className="ml-2 text-gold" />
               شاهد الكلمة كاملة
             </h3>
             <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
-              <iframe ref={iframeRef} width="100%" height="100%" src={`https://www.youtube.com/embed/${statement.videoId}`} title={statement.title} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+              <iframe 
+                ref={iframeRef} 
+                width="100%" 
+                height="100%" 
+                src={`https://www.youtube.com/embed/${statement.videoId}`} 
+                title={statement.title} 
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowFullScreen
+              ></iframe>
             </div>
             
-            {hasTimeline() ? <div className="mt-8 bg-gray-50 rounded-lg p-4">
+            {hasTimeline() ? (
+              <div className="mt-8 bg-gray-50 rounded-lg p-4">
                 <div className="flex items-center justify-between cursor-pointer" onClick={() => setTimelineOpen(!timelineOpen)}>
                   <h3 className="font-bold text-navy flex items-center gap-2">
                     <Clock size={18} />
@@ -604,8 +692,14 @@ const StatementDetails = () => {
                   </Button>
                 </div>
                 
-                {timelineOpen && <div className="mt-4 space-y-2 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
-                    {getVideoTimeline().map(section => <div key={section.id} className="p-2 rounded hover:bg-gray-100 cursor-pointer transition-colors" onClick={() => jumpToTime(section.startTime)}>
+                {timelineOpen && (
+                  <div className="mt-4 space-y-2 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                    {getVideoTimeline().map(section => (
+                      <div 
+                        key={section.id} 
+                        className="p-2 rounded hover:bg-gray-100 cursor-pointer transition-colors" 
+                        onClick={() => jumpToTime(section.startTime)}
+                      >
                         <div className="flex justify-between items-center mb-1">
                           <h4 className="font-semibold text-navy-dark">{section.title}</h4>
                           <span className="text-sm text-gold bg-gold/10 px-2 py-1 rounded font-mono">
@@ -613,9 +707,13 @@ const StatementDetails = () => {
                           </span>
                         </div>
                         <p className="text-sm text-gray-600 font-droid-kufi">{section.description}</p>
-                      </div>)}
-                  </div>}
-              </div> : <div className="mt-8 bg-gray-50 rounded-lg p-4">
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="mt-8 bg-gray-50 rounded-lg p-4">
                 <div className="text-center py-6">
                   <h3 className="font-bold text-navy flex items-center gap-2 justify-center mb-2">
                     <Clock size={18} />
@@ -624,8 +722,10 @@ const StatementDetails = () => {
                   <Separator className="my-4 mx-auto max-w-xs" />
                   <p className="text-gray-500">غير متوفر بعد</p>
                 </div>
-              </div>}
-          </div>}
+              </div>
+            )}
+          </div>
+        )}
         
         <div className="mt-12 flex justify-between items-center border-t border-gray-200 pt-6">
           <button className="flex items-center text-navy hover:text-gold transition-colors" onClick={sharePage}>
@@ -638,6 +738,8 @@ const StatementDetails = () => {
           </Link>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default StatementDetails;

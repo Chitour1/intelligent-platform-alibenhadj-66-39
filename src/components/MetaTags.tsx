@@ -1,28 +1,39 @@
 
 import { Helmet } from 'react-helmet-async';
 import { Statement } from '../utils/statementsData';
+import { BookType } from '../types/books';
 
 interface MetaTagsProps {
   statement?: Statement;
   isStatementPage?: boolean;
+  book?: BookType;
+  isBookPage?: boolean;
 }
 
-const MetaTags = ({ statement, isStatementPage = false }: MetaTagsProps) => {
+const MetaTags = ({ statement, isStatementPage = false, book, isBookPage = false }: MetaTagsProps) => {
   // القيم الإفتراضية
   const defaultTitle = "الشيخ علي بن حاج";
   const defaultDescription = "آخر أخبار وكلمات وبيانات الشيخ علي بن حاج";
   const defaultImage = "/lovable-uploads/b70984a3-8bb6-413d-8e5d-d0647fb60cb6.png";
   const baseUrl = window.location.origin;
 
-  // إذا كنا في صفحة تفاصيل الخبر نستخدم بيانات المقال لتحسين عنوان الصفحة
+  // تحديد العنوان والوصف والصورة بناءً على نوع الصفحة
   let title = defaultTitle;
+  let description = defaultDescription;
+  let image = defaultImage;
+  let url = baseUrl;
+
   if (isStatementPage && statement) {
     title = `${statement.title}`;
+    description = statement.excerpt;
+    image = statement.imageUrl || defaultImage;
+    url = `${baseUrl}/statements/${statement.id}`;
+  } else if (isBookPage && book) {
+    title = `${book.title} - ${book.author}`;
+    description = book.description;
+    image = book.cover || defaultImage;
+    url = `${baseUrl}/publications/books/${book.id}`;
   }
-  
-  const description = isStatementPage && statement ? statement.excerpt : defaultDescription;
-  const image = isStatementPage && statement && statement.imageUrl ? statement.imageUrl : defaultImage;
-  const url = isStatementPage && statement ? `${baseUrl}/statements/${statement.id}` : baseUrl;
   
   // معالجة عنوان الصورة للتأكد من وجود رابط كامل
   const fullImageUrl = image.startsWith('http') ? image : `${baseUrl}${image}`;
@@ -37,7 +48,7 @@ const MetaTags = ({ statement, isStatementPage = false }: MetaTagsProps) => {
       <meta name="description" content={description} />
 
       {/* علامات Open Graph / Facebook */}
-      <meta property="og:type" content={isStatementPage ? "article" : "website"} />
+      <meta property="og:type" content={(isStatementPage || isBookPage) ? "article" : "website"} />
       <meta property="og:url" content={url} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
@@ -60,6 +71,14 @@ const MetaTags = ({ statement, isStatementPage = false }: MetaTagsProps) => {
           <meta property="article:published_time" content={publishedDate} />
           <meta property="article:author" content="الشيخ علي بن حاج" />
           <meta property="article:section" content={statement.category} />
+        </>
+      )}
+      
+      {isBookPage && book && (
+        <>
+          <meta property="article:published_time" content={publishedDate} />
+          <meta property="article:author" content={book.author} />
+          <meta property="article:section" content={book.tags[0]} />
         </>
       )}
     </Helmet>

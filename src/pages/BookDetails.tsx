@@ -3,6 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import { ArrowRight, BookOpen, CalendarDays, FileText, Download, Tag, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { booksData } from "../pages/Books";
+import MetaTags from "@/components/MetaTags";
+import { BookType } from "../types/books";
 
 const BookDetails = () => {
   const { bookId } = useParams<{ bookId: string }>();
@@ -30,6 +32,9 @@ const BookDetails = () => {
 
   return (
     <div className="min-h-screen">
+      {/* Meta Tags for SEO */}
+      <MetaTags />
+      
       {/* Back Button */}
       <div className="bg-gray-50 border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">

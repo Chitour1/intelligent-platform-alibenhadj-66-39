@@ -1,9 +1,8 @@
-
 import { useParams, Link } from "react-router-dom";
 import { ArrowRight, BookOpen, CalendarDays, FileText, Download, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { booksData } from "../pages/Books";
-import { Book } from "@/types/books";
+import { BookType } from "@/types/books";
 
 const BookDetails = () => {
   const { bookId } = useParams<{ bookId: string }>();

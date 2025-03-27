@@ -6,7 +6,7 @@ import ArticleCard from '../components/ArticleCard';
 import BookCard from '../components/BookCard';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, BookOpen, Video, Mic, Calendar, FileText } from 'lucide-react';
-import { recentMediaItems } from '../utils/youtubeUtils';
+import { recentMediaItems, MediaItem as YoutubeMediaItem } from '../utils/youtubeUtils';
 import { statementsData } from '../utils/statementsData';
 import { getRandomQuote } from '../utils/quotesData';
 
@@ -93,7 +93,7 @@ const Index = () => {
   const mediaItems = recentMediaItems.slice(0, 4);
   
   // وظيفة مساعدة للحصول على رابط الفيديو الصحيح
-  const getVideoLink = (item: MediaItem) => {
+  const getVideoLink = (item: YoutubeMediaItem) => {
     if (item.type === 'video' && item.videoId) {
       return `/media/friday-meetings-video?videoId=${item.videoId}`;
     } else if (item.type === 'audio') {

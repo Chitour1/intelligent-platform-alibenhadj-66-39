@@ -90,38 +90,38 @@ export const booksData: BookType[] = [
   }
 ];
 
-// حالة للبحث
-const [search, setSearch] = useState('');
-// حالة لتخزين الكلمات المفتاحية المفلترة
-const [filteredTags, setFilteredTags] = useState<string[]>([]);
-
-const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-  setSearch(e.target.value);
-};
-
-// دالة لتحديث الكلمات المفتاحية المفلترة
-const toggleTag = (tag: string) => {
-  if (filteredTags.includes(tag)) {
-    setFilteredTags(filteredTags.filter((t) => t !== tag));
-  } else {
-    setFilteredTags([...filteredTags, tag]);
-  }
-};
-
-// تصفية الكتب بناءً على البحث والكلمات المفتاحية
-const filteredBooks = booksData.filter((book) => {
-  const searchMatch = book.title.toLowerCase().includes(search.toLowerCase()) ||
-                      book.description.toLowerCase().includes(search.toLowerCase()) ||
-                      book.author.toLowerCase().includes(search.toLowerCase());
-
-  const tagMatch = filteredTags.length === 0 || book.tags.some(tag => filteredTags.includes(tag));
-
-  return searchMatch && tagMatch;
-});
-
 const Books = () => {
+  // حالة للبحث
+  const [search, setSearch] = useState('');
+  // حالة لتخزين الكلمات المفتاحية المفلترة
+  const [filteredTags, setFilteredTags] = useState<string[]>([]);
+
   // استخراج جميع الكلمات المفتاحية الفريدة من جميع الكتب
   const allTags = [...new Set(booksData.flatMap(book => book.tags))];
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
+  // دالة لتحديث الكلمات المفتاحية المفلترة
+  const toggleTag = (tag: string) => {
+    if (filteredTags.includes(tag)) {
+      setFilteredTags(filteredTags.filter((t) => t !== tag));
+    } else {
+      setFilteredTags([...filteredTags, tag]);
+    }
+  };
+
+  // تصفية الكتب بناءً على البحث والكلمات المفتاحية
+  const filteredBooks = booksData.filter((book) => {
+    const searchMatch = book.title.toLowerCase().includes(search.toLowerCase()) ||
+                        book.description.toLowerCase().includes(search.toLowerCase()) ||
+                        book.author.toLowerCase().includes(search.toLowerCase());
+
+    const tagMatch = filteredTags.length === 0 || book.tags.some(tag => filteredTags.includes(tag));
+
+    return searchMatch && tagMatch;
+  });
 
   return (
     <div className="books-page">

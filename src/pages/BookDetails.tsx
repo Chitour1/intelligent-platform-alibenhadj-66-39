@@ -1,28 +1,12 @@
+
 import { useParams, Link } from "react-router-dom";
+import { ArrowRight, BookOpen, CalendarDays, FileText, Download, Tag, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { booksData } from "../pages/Books";
-import { useState, useRef, useEffect } from "react";
-import { 
-  ArrowRight, BookOpen, CalendarDays, FileText, Tag, Eye, Star, 
-  Volume2, VolumeX, Share2
-} from 'lucide-react';
-import ViewCounter from '@/components/ViewCounter';
-import RatingControl from '@/components/RatingControl';
-import ShareButtons from '@/components/ShareButtons';
-import PdfDownloadButton from '@/components/PdfDownloadButton';
-import AudioPlayer from '@/components/AudioPlayer';
-import { generatePDF } from '@/utils/pdfGenerator';
 
 const BookDetails = () => {
   const { bookId } = useParams<{ bookId: string }>();
   const book = booksData.find((b) => b.id.toString() === bookId);
-  const [showAudioPlayer, setShowAudioPlayer] = useState(false);
-  const paragraphRefs = useRef<Array<HTMLParagraphElement | null>>([]);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   if (!book) {
     return (
@@ -46,14 +30,6 @@ const BookDetails = () => {
 
   return (
     <div className="min-h-screen">
-      {showAudioPlayer && (
-        <AudioPlayer 
-          text={book.fullDescription || book.description} 
-          title={book.title}
-          onClose={() => setShowAudioPlayer(false)}
-        />
-      )}
-      
       {/* Back Button */}
       <div className="bg-gray-50 border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
@@ -74,57 +50,12 @@ const BookDetails = () => {
                 <img src={book.cover} alt={book.title} className="w-full h-full object-contain" />
               </div>
               <div className="space-y-3">
-                {/* Book info and stats */}
-                <div className="bg-gray-50 rounded-lg p-4 mb-3">
-                  <div className="flex justify-between items-center mb-2">
-                    <ViewCounter id={book.id.toString()} type="book" />
-                    <RatingControl id={book.id.toString()} type="book" showCount={false} />
-                  </div>
-                  
-                  {/* User rating */}
-                  <div className="mb-2">
-                    <p className="text-sm text-gray-600 mb-1">قيّم هذا الكتاب:</p>
-                    <RatingControl 
-                      id={book.id.toString()} 
-                      type="book" 
-                      iconSize={20} 
-                      className="justify-center"
-                    />
-                  </div>
-                  
-                  {/* Audio controls */}
-                  <div className="flex flex-col space-y-2 mt-4">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="w-full" 
-                      onClick={() => setShowAudioPlayer(true)}
-                    >
-                      <Volume2 size={16} className="ml-2" />
-                      قراءة المحتوى صوتياً
-                    </Button>
-                  </div>
-                </div>
-                
-                <PdfDownloadButton
-                  className="w-full"
-                  onGenerate={() => generatePDF({
-                    title: book.title,
-                    content: book.fullDescription || book.description,
-                    author: book.author,
-                    imageUrl: book.cover,
-                    type: 'book'
-                  })}
-                  filename={`كتاب-${book.title}`}
-                />
-                
-                <Button variant="outline" className="w-full" asChild>
+                <Button className="w-full" asChild>
                   <a href={book.downloadUrl} target="_blank" rel="noopener noreferrer">
-                    <FileText size={16} className="ml-2" />
-                    تحميل الكتاب الأصلي
+                    <Download size={16} className="ml-2" />
+                    تحميل الكتاب
                   </a>
                 </Button>
-                
                 <div className="grid grid-cols-2 gap-3">
                   <div className="bg-gray-50 rounded-lg p-3 text-center">
                     <CalendarDays size={20} className="mx-auto text-gold mb-1" />
@@ -137,25 +68,13 @@ const BookDetails = () => {
                     <p className="font-bold">{book.pages}</p>
                   </div>
                 </div>
-                
-                {/* Social media sharing */}
-                <div className="mt-4">
-                  <p className="text-sm text-gray-600 mb-2 text-center">مشاركة الكتاب:</p>
-                  <ShareButtons
-                    url={window.location.href}
-                    title={book.title}
-                    description={book.description}
-                  />
-                </div>
               </div>
             </div>
           </div>
 
           {/* Book Info */}
           <div className="md:col-span-2">
-            <h1 className="text-3xl font-bold text-navy-dark mb-2">
-              {book.title}
-            </h1>
+            <h1 className="text-3xl font-bold text-navy-dark mb-2">{book.title}</h1>
             <p className="text-xl text-gray-600 mb-4">{book.author}</p>
             
             <div className="flex flex-wrap gap-2 mb-6">
@@ -169,23 +88,12 @@ const BookDetails = () => {
             <div className="prose prose-lg max-w-none">
               {book.fullDescription ? 
                 book.fullDescription.split('\n\n').map((paragraph, index) => (
-                  <p 
-                    key={index} 
-                    ref={el => paragraphRefs.current[index] = el}
-                    className="mb-4 text-gray-700 leading-relaxed md:leading-loose"
-                    style={{ lineHeight: '2.2' }}
-                  >
+                  <p key={index} className="mb-4 text-gray-700 leading-relaxed">
                     {paragraph}
                   </p>
                 ))
                 :
-                <p 
-                  className="mb-4 text-gray-700 leading-relaxed md:leading-loose"
-                  style={{ lineHeight: '2.2' }}
-                  ref={el => paragraphRefs.current[0] = el}
-                >
-                  {book.description}
-                </p>
+                <p className="mb-4 text-gray-700 leading-relaxed">{book.description}</p>
               }
             </div>
             

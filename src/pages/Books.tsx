@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BookType } from '../types/books';
@@ -123,7 +124,7 @@ const Books = () => {
   const allTags = [...new Set(booksData.flatMap(book => book.tags))];
 
   return (
-    
+    <div className="books-page">
       <MetaTags title="مكتبة الشيخ علي بن حاج - مؤلفات وكتب" description="مجموعة من كتب ومؤلفات الشيخ علي بن حاج، تحميل وقراءة في مختلف المجالات الإسلامية والفكرية." />
       {/* قسم البحث والتصفية */}
       <div className="bg-gray-50 py-6">
@@ -186,11 +187,11 @@ const Books = () => {
       {/* قسم عرض الكتب */}
       <div className="section-container">
         {filteredBooks.length === 0 ? (
-          
+          <div className="text-center py-12">
             <BookOpenCheck size={64} className="mx-auto text-gray-300 mb-4" />
             <h2 className="text-2xl font-bold text-gray-700 mb-2">لا يوجد نتائج</h2>
             <p className="text-gray-500 mb-6">لم يتم العثور على أي كتب تطابق معايير البحث والتصفية.</p>
-          
+          </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredBooks.map((book) => (
@@ -208,7 +209,7 @@ const Books = () => {
           </div>
         )}
       </div>
-    
+    </div>
   );
 };
 

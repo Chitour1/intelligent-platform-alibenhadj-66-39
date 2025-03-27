@@ -1,3 +1,4 @@
+
 export interface Statement {
   id: string;
   title: string;
@@ -8,6 +9,7 @@ export interface Statement {
   imageUrl: string;
   videoId?: string;
   category: string;
+  tags: string[]; // Add the tags property
 }
 
 export const statementsData: Statement[] = [

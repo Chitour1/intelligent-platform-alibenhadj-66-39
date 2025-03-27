@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700&family=Droid+Arabic+Kufi&display=swap');
 
 @tailwind base;
@@ -170,20 +171,5 @@
 
   .continuous-ltr {
     animation: continuous-ltr 30s linear infinite;
-  }
-
-  @keyframes fade-in {
-    0% {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-fade-in {
-    animation: fade-in 0.3s ease-out;
   }
 }

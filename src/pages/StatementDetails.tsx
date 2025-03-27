@@ -1,11 +1,389 @@
-import { useParams, Link } from 'react-router-dom';
-import { statementsData } from '../utils/statementsData';
-import { ArrowLeft, Calendar, Clock, Share2, BookOpen, Video, ChevronDown, ChevronRight, Eye, Star, Download, FileText, Volume2, VolumeX, Facebook, Twitter, Linkedin } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
-import MetaTags from '../components/MetaTags';
+import { Link, useParams } from 'react-router-dom';
+import { statementsData } from '../utils/statementsData';
+import { ArrowLeft, Calendar, Clock, ChevronDown, ChevronRight, Video, BookOpen } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { toast } from "@/components/ui/use-toast";
+import MetaTags from '../components/MetaTags';
+import ViewCounter from '@/components/ViewCounter';
+import RatingControl from '@/components/RatingControl';
+import ShareButtons from '@/components/ShareButtons';
+import PdfDownloadButton from '@/components/PdfDownloadButton';
+import AudioPlayer from '@/components/AudioPlayer';
+import { generateStatementPDF } from '@/utils/pdfGenerator';
+
+const StatementDetails = () => {
+  const { statementId } = useParams<{ statementId: string }>();
+  const [statement, setStatement] = useState(statementsData.find(s => s.id === statementId));
+  const [timelineOpen, setTimelineOpen] = useState(true);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [showAudioPlayer, setShowAudioPlayer] = useState(false);
+  
+  const timeToSeconds = (timeStr: string) => {
+    const parts = timeStr.split(':').map(Number);
+    if (parts.length === 3) {
+      return parts[0] * 3600 + parts[1] * 60 + parts[2];
+    } else if (parts.length === 2) {
+      return parts[0] * 60 + parts[1];
+    }
+    return 0;
+  };
+
+  const getVideoTimeline = () => {
+    if (!statement || !statement.videoId) return [];
+    
+    if (statement.videoId === "XS7jF85h9TY") {
+      return videoTimelineMarch22;
+    } else if (statement.videoId === "57X7fzssUQY") {
+      return videoTimelineMarch23;
+    }
+    
+    return [];
+  };
+
+  const hasTimeline = () => {
+    return getVideoTimeline().length > 0;
+  };
+
+  const jumpToTime = (timeStr: string) => {
+    const seconds = timeToSeconds(timeStr);
+    if (iframeRef.current && iframeRef.current.src) {
+      const currentSrc = iframeRef.current.src;
+      const baseUrl = currentSrc.split('?')[0];
+      iframeRef.current.src = `${baseUrl}?start=${seconds}&autoplay=1`;
+    }
+  };
+
+  const copyPageUrl = () => {
+    navigator.clipboard.writeText(window.location.href)
+      .then(() => {
+        toast({
+          title: "تم نسخ الرابط",
+          description: "تم نسخ رابط الصفحة بنجاح",
+        });
+      })
+      .catch(err => {
+        console.error('حدث خطأ أثناء نسخ الرابط:', err);
+      });
+  };
+
+  const sharePage = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: statement?.title || 'كلمة الشيخ علي بن حاج',
+        text: statement?.excerpt || '',
+        url: window.location.href,
+      }).catch(err => {
+        console.error('حدث خطأ أثناء المشاركة:', err);
+        copyPageUrl();
+      });
+    } else {
+      copyPageUrl();
+    }
+  };
+
+  const speakText = (text: string, index: number) => {
+    if ('speechSynthesis' in window) {
+      if (audioRef.current) {
+        window.speechSynthesis.cancel();
+      }
+      
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ar';
+      
+      const voices = window.speechSynthesis.getVoices();
+      const arabicVoice = voices.find(voice => voice.lang.includes('ar'));
+      if (arabicVoice) {
+        utterance.voice = arabicVoice;
+      }
+      
+      utterance.onstart = () => {
+        setIsPlaying(true);
+        setHighlightedParagraphIndex(index);
+      };
+      
+      utterance.onend = () => {
+        setIsPlaying(false);
+        setHighlightedParagraphIndex(-1);
+      };
+      
+      window.speechSynthesis.speak(utterance);
+      audioRef.current = new Audio();
+    } else {
+      toast({
+        title: "غير مدعوم",
+        description: "متصفحك لا يدعم خاصية تحويل النص إلى صوت",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const stopSpeaking = () => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      setIsPlaying(false);
+      setHighlightedParagraphIndex(-1);
+    }
+  };
+
+  const speakTitle = () => {
+    if (statement) {
+      speakText(statement.title, -1);
+    }
+  };
+
+  const speakContent = () => {
+    if (statement) {
+      const fullText = statement.content;
+      speakText(fullText, 0);
+    }
+  };
+
+  const handleRating = (newRating: number) => {
+    setUserRating(newRating);
+    toast({
+      title: "شكراً لتقييمك",
+      description: `لقد قمت بتقييم المقال بـ ${newRating} نجوم`,
+    });
+  };
+
+  const downloadAsPDF = () => {
+    toast({
+      title: "جاري التحميل",
+      description: "سيتم تحميل المقال بصيغة PDF قريباً",
+    });
+    setTimeout(() => {
+      toast({
+        title: "تم التحميل",
+        description: "تم تحميل المقال بصيغة PDF بنجاح",
+      });
+    }, 1500);
+  };
+
+  useEffect(() => {
+    if (statement) {
+      const randomViews = Math.floor(Math.random() * 1000) + 500;
+      const randomRating = (Math.random() * 2) + 3;
+      setViewCount(randomViews);
+      setRating(randomRating);
+    }
+  }, [statement]);
+
+  useEffect(() => {
+    if (!statement) {
+      console.log('Statement not found');
+    }
+    
+    window.scrollTo(0, 0);
+  }, [statement]);
+
+  const handlePlayAudio = () => {
+    setShowAudioPlayer(true);
+  };
+
+  if (!statement) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-navy mb-4">الخبر غير موجود</h1>
+          <p className="text-gray-600 mb-6">لم يتم العثور على الخبر المطلوب</p>
+          <Link to="/statements" className="btn-primary">
+            العودة إلى أحدث كلمات الشيخ
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen">
+      {showAudioPlayer && (
+        <AudioPlayer 
+          text={statement.content} 
+          title={statement.title}
+          onClose={() => setShowAudioPlayer(false)}
+        />
+      )}
+      
+      <MetaTags statement={statement} isStatementPage={true} />
+      
+      <div className="relative bg-navy text-white py-16 overflow-hidden">
+        <div className="absolute inset-0 opacity-30">
+          <img 
+            src={statement.imageUrl} 
+            alt={statement.title} 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-navy/70 to-navy"></div>
+        </div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <Link to="/statements" className="inline-flex items-center text-gold hover:text-gold-light mb-6">
+            <ArrowLeft size={16} className="ml-1" />
+            العودة إلى أحدث كلمات الشيخ
+          </Link>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-relaxed md:leading-loose">
+            {statement.title}
+          </h1>
+          <div className="flex flex-wrap items-center text-gray-300 gap-4 mb-6">
+            <div className="flex items-center">
+              <Calendar size={16} className="ml-1" />
+              <span>{statement.date}</span>
+              {statement.hijriDate && (
+                <span className="mr-1">({statement.hijriDate})</span>
+              )}
+            </div>
+            <div className="flex items-center">
+              <span className="bg-gold/20 text-gold-light px-2 py-1 rounded-md text-xs font-medium">
+                {statement.category}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="flex justify-between items-center mb-6">
+          <ViewCounter id={statement.id} type="statement" />
+          <RatingControl id={statement.id} type="statement" />
+        </div>
+        
+        <div className="mb-8">
+          <img 
+            src={statement.imageUrl} 
+            alt={statement.title} 
+            className="w-full rounded-lg shadow-md"
+          />
+        </div>
+        
+        <div className="bg-gray-50 rounded-lg p-4 mb-8">
+          <div className="flex flex-wrap gap-3 mb-3">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={handlePlayAudio}
+            >
+              قراءة المحتوى صوتياً
+            </Button>
+            
+            <PdfDownloadButton
+              variant="outline"
+              size="sm"
+              onGenerate={() => generateStatementPDF(statement)}
+              filename={`كلمة-الشيخ-${statement.id}`}
+            >
+              تحميل PDF
+            </PdfDownloadButton>
+          </div>
+          
+          <Separator className="my-4" />
+          
+          <div className="mt-4">
+            <p className="text-sm text-gray-600 mb-2 text-center">مشاركة الكلمة:</p>
+            <ShareButtons 
+              url={window.location.href} 
+              title={statement.title} 
+              description={statement.excerpt} 
+            />
+          </div>
+        </div>
+        
+        <div className="prose prose-lg max-w-none">
+          {statement.content.split('\n\n').map((paragraph, index) => (
+            <p 
+              key={index}
+              className="mb-4 leading-relaxed md:leading-9 text-gray-800 text-base md:text-lg font-droid-kufi tracking-normal" 
+              style={{ lineHeight: '2.2' }}
+            >
+              {paragraph}
+            </p>
+          ))}
+        </div>
+        
+        {statement.videoId && (
+          <div className="mt-12">
+            <h3 className="text-xl font-bold mb-4 flex items-center leading-relaxed">
+              <Video size={20} className="ml-2 text-gold" />
+              شاهد الكلمة كاملة
+            </h3>
+            <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
+              <iframe
+                ref={iframeRef}
+                width="100%"
+                height="100%"
+                src={`https://www.youtube.com/embed/${statement.videoId}`}
+                title={statement.title}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+            
+            {hasTimeline() ? (
+              <div className="mt-8 bg-gray-50 rounded-lg p-4">
+                <div 
+                  className="flex items-center justify-between cursor-pointer" 
+                  onClick={() => setTimelineOpen(!timelineOpen)}
+                >
+                  <h3 className="font-bold text-navy flex items-center gap-2">
+                    <Clock size={18} />
+                    فهرس محتويات الكلمة
+                  </h3>
+                  <Button variant="ghost" size="sm">
+                    {timelineOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+                  </Button>
+                </div>
+                
+                {timelineOpen && (
+                  <div className="mt-4 space-y-2 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                    {getVideoTimeline().map((section) => (
+                      <div 
+                        key={section.id}
+                        className="p-2 rounded hover:bg-gray-100 cursor-pointer transition-colors"
+                        onClick={() => jumpToTime(section.startTime)}
+                      >
+                        <div className="flex justify-between items-center mb-1">
+                          <h4 className="font-semibold text-navy-dark">{section.title}</h4>
+                          <span className="text-sm text-gold bg-gold/10 px-2 py-1 rounded font-mono">
+                            {section.startTime} - {section.endTime}
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-600 font-droid-kufi">{section.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="mt-8 bg-gray-50 rounded-lg p-4">
+                <div className="text-center py-6">
+                  <h3 className="font-bold text-navy flex items-center gap-2 justify-center mb-2">
+                    <Clock size={18} />
+                    فهرس محتويات الكلمة
+                  </h3>
+                  <Separator className="my-4 mx-auto max-w-xs" />
+                  <p className="text-gray-500">غير متوفر بعد</p>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+        
+        <div className="mt-12 flex justify-between items-center border-t border-gray-200 pt-6">
+          <ShareButtons
+            url={window.location.href}
+            title={statement.title}
+            description={statement.excerpt}
+            className="justify-start"
+          />
+          <Link to="/statements" className="flex items-center text-gold hover:text-gold-dark transition-colors">
+            <BookOpen size={18} className="ml-2" />
+            المزيد من كلمات الشيخ
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const videoTimelineMarch22 = [
   { 
@@ -68,7 +446,7 @@ const videoTimelineMarch22 = [
     id: 9, 
     startTime: "00:28:55", 
     endTime: "00:32:04", 
-    title: "ازدواجية المعايير وفكك الأمة الإسلامية",
+    title: "ازدواجية المعايير وتفكك الأمة الإسلامية",
     description: "سقوط مفهوم الأمة الواحدة وحلول الوطنية الضيقة مكانها"
   },
   { 
@@ -89,7 +467,7 @@ const videoTimelineMarch22 = [
     id: 12, 
     startTime: "00:38:50", 
     endTime: "00:41:05", 
-    title: "لماذا لم يعد القرآن يحرك الم��لمين؟",
+    title: "لماذا لم يعد القرآن يحرك المسلمين؟",
     description: "التحذير من انفصال التلاوة عن العمل بالقرآن"
   },
   { 
@@ -194,7 +572,7 @@ const videoTimelineMarch22 = [
     id: 27, 
     startTime: "01:24:23", 
     endTime: "01:25:25", 
-    title: "دعم ا��حوثيين دفاعًا عن القضية المركزية",
+    title: "دعم الحوثيين دفاعًا عن القضية المركزية",
     description: "دفاع عن من يناصرون غزة مهما اختلفت مشاربهم"
   },
   { 
@@ -365,7 +743,7 @@ const videoTimelineMarch23 = [
     id: 16, 
     startTime: "47:31", 
     endTime: "50:24", 
-    title: "التربية تبدأ من الب��ت والمدرسة، والانفصام بين القيم والإعلام",
+    title: "التربية تبدأ من البيت والمدرسة، والانفصام بين القيم والإعلام",
     description: "التأكيد على أن التربية تبدأ من البيت والمدرسة، وانتقاد الانفصام بين القيم والإعلام"
   },
   { 
@@ -378,592 +756,4 @@ const videoTimelineMarch23 = [
   { 
     id: 18, 
     startTime: "51:30", 
-    endTime: "53:45", 
-    title: "التعددية السياسية لا تعني الإقصاء والتهميش",
-    description: "شرح أن التعددية السياسية الحقيقية لا تعني الإقصاء والتهميش"
-  },
-  { 
-    id: 19, 
-    startTime: "53:45", 
-    endTime: "56:02", 
-    title: "تأسيس الأحزاب ينبغي أن يتم بالإخطار وليس الترخيص",
-    description: "نقاش حول تأسيس الأحزاب وأنه ينبغي أن يتم بالإخطار وليس الترخيص"
-  },
-  { 
-    id: 20, 
-    startTime: "56:02", 
-    endTime: "58:11", 
-    title: "ملاحظات على اللقاء الصحفي لتبون، غياب الشفافية",
-    description: "تقديم ملاحظات على اللقاء الصحفي للرئيس تبون، وانتقاد غياب الشفافية"
-  },
-  { 
-    id: 21, 
-    startTime: "58:11", 
-    endTime: "59:18", 
-    title: "انتقادات لطريقة طرح الأسئلة الصحفية",
-    description: "توجيه انتقادات لطريقة طرح الأسئلة الصحفية في اللقاء"
-  },
-  { 
-    id: 22, 
-    startTime: "59:18", 
-    endTime: "1:02:23", 
-    title: "غياب حرية الصحافة، الإعلام موجه، غياب التعدد الإعلامي",
-    description: "انتقاد غياب حرية الصحافة، والإشارة إلى أن الإعلام موجه، وغياب التعدد الإعلامي"
-  },
-  { 
-    id: 23, 
-    startTime: "1:02:23", 
-    endTime: "1:06:26", 
-    title: "سيطرة الدولة العميقة على مؤسسات الدولة",
-    description: "الحديث عن سيطرة الدولة العميقة على مؤسسات الدولة وتأثيرها"
-  },
-  { 
-    id: 24, 
-    startTime: "1:06:26", 
-    endTime: "1:09:22", 
-    title: "استخدام اللغة الفرنسية في اللقاء وغياب العربية",
-    description: "انتقاد استخدام اللغة الفرنسية في اللقاء الصحفي وغياب اللغة العربية"
-  },
-  { 
-    id: 25, 
-    startTime: "1:09:22", 
-    endTime: "1:12:21", 
-    title: "أزمة الهوية وتهميش اللغة الأمازيغية تاريخياً",
-    description: "مناقشة أزمة الهوية وتهميش اللغة الأمازيغية عبر التاريخ"
-  },
-  { 
-    id: 26, 
-    startTime: "1:12:21", 
-    endTime: "1:16:12", 
-    title: "ازدواجية التعامل مع اللغات، تجاهل الدستور",
-    description: "انتقاد ازدواجية التعامل مع اللغات وتجاهل الدستور"
-  },
-  { 
-    id: 27, 
-    startTime: "1:16:12", 
-    endTime: "1:18:20", 
-    title: "المشاكل الداخلية غير مطروحة في الخطاب",
-    description: "الإشارة إلى أن المشاكل الداخلية غير مطروحة في الخطاب الرسمي"
-  },
-  { 
-    id: 28, 
-    startTime: "1:18:20", 
-    endTime: "1:21:36", 
-    title: "انتقاد السياسة الخارجية، خاصة تجاه فرنسا",
-    description: "توجيه انتقادات للسياسة الخارجية، خاصة العلاقة مع فرنسا"
-  },
-  { 
-    id: 29, 
-    startTime: "1:21:36", 
-    endTime: "1:27:46", 
-    title: "استخدام العش��ية السوداء لتبييض النظام الحالي، واستمرار القمع",
-    description: "انتقاد استخدام أحداث العشرية السوداء لتبييض النظام الحالي، والإشارة إلى استمرار القمع"
-  },
-  { 
-    id: 30, 
-    startTime: "1:27:46", 
-    endTime: "1:30:59", 
-    title: "ضرورة محاسبة الرئيس على مخالفة الدستور باستخدام الفرنسية",
-    description: "المطالبة بمحاسبة الرئيس على مخالفة الدستور باستخدامه اللغة الفرنسية"
-  },
-  { 
-    id: 31, 
-    startTime: "1:30:59", 
-    endTime: "1:34:08", 
-    title: "ضرورة التحرر من الدولة العميقة، وعدم الشفافية في الحكم",
-    description: "التأكيد على ضرورة التحرر من الدولة العميقة، وانتقاد عدم الشفافية في الحكم"
-  },
-  { 
-    id: 32, 
-    startTime: "1:34:08", 
-    endTime: "1:38:20", 
-    title: "التلاعب بلغة الخطاب لإرضاء فرنسا، تغييب الصحافة الحقيقية",
-    description: "انتقاد التلاعب بلغة الخطاب لإرضاء فرنسا، والإشارة إلى تغييب الصحافة الحقيقية"
-  },
-  { 
-    id: 33, 
-    startTime: "1:38:20", 
-    endTime: "1:42:39", 
-    title: "مهاجمة ماكرون وفضح ازدواجية العلاقات مع فرنسا",
-    description: "مهاجمة الرئيس الفرنسي ماكرون وفضح ازدواجية العلاقات الرسمية مع فرنسا"
-  },
-  { 
-    id: 34, 
-    startTime: "1:42:39", 
-    endTime: "1:46:45", 
-    title: "الصمت عن أمريكا وإسرائيل، النفاق السياسي",
-    description: "انتقاد الصمت الرسمي عن أمريكا وإسرائيل، والإشارة إلى النفاق السياسي"
-  },
-  { 
-    id: 35, 
-    startTime: "1:46:45", 
-    endTime: "1:51:02", 
-    title: "منع التظاهر وتكميم الأفواه، تسييس الخطاب ��لإعلامي",
-    description: "انتقاد منع التظاهر وتكميم الأفواه، والإشارة إلى تسييس الخطاب الإعلامي"
-  },
-  { 
-    id: 36, 
-    startTime: "1:51:02", 
-    endTime: "1:56:03", 
-    title: "العدالة الانتقائية، التلاعب بالقضاء، تجارب الدول الأخرى",
-    description: "الحديث عن العدالة الانتقائية والتلاعب بالقضاء، ومقارنة ذلك بتجارب الدول الأخرى"
-  },
-  { 
-    id: 37, 
-    startTime: "1:56:03", 
-    endTime: "1:58:16", 
-    title: "قصة عثمان النيسابوري ومراعاة مشاعر زوجته",
-    description: "سرد قصة عثمان النيسابوري ومراعاته لمشاعر زوجته كمثال على الأخلاق الإسلامية"
-  },
-  { 
-    id: 38, 
-    startTime: "1:58:16", 
-    endTime: "2:01:13", 
-    title: "اختلال معايير الطلاق في المجتمع، تدهور العلاقات الأسرية",
-    description: "الحديث عن اختلال معايير الطلاق في المجتمع وتدهور العلاقات الأسرية"
-  },
-  { 
-    id: 39, 
-    startTime: "2:01:13", 
-    endTime: "2:02:23", 
-    title: "تمجيد النظام للمتورطين في قضايا قديمة وتناسي الضحايا",
-    description: "انتقاد تمجيد النظام للمتورطين في قضايا قديمة وتناسي الضحايا"
-  },
-  { 
-    id: 40, 
-    startTime: "2:02:23", 
-    endTime: "2:05:00", 
-    title: "دعوة للتوثيق الشخصي للانتهاكات، ونقد سياسات الصمت والتطبيع",
-    description: "تقديم دعوة للتوثيق الشخصي للانتهاكات، وانتقاد سياسات الصمت والتطبيع"
-  }
-];
-
-const StatementDetails = () => {
-  const { statementId } = useParams<{ statementId: string }>();
-  const [statement, setStatement] = useState(statementsData.find(s => s.id === statementId));
-  const [timelineOpen, setTimelineOpen] = useState(true);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [viewCount, setViewCount] = useState(0);
-  const [rating, setRating] = useState(0);
-  const [userRating, setUserRating] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [highlightedParagraphIndex, setHighlightedParagraphIndex] = useState(-1);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const paragraphRefs = useRef<Array<HTMLParagraphElement | null>>([]);
-
-  const timeToSeconds = (timeStr: string) => {
-    const parts = timeStr.split(':').map(Number);
-    if (parts.length === 3) {
-      return parts[0] * 3600 + parts[1] * 60 + parts[2];
-    } else if (parts.length === 2) {
-      return parts[0] * 60 + parts[1];
-    }
-    return 0;
-  };
-
-  const getVideoTimeline = () => {
-    if (!statement || !statement.videoId) return [];
-    
-    if (statement.videoId === "XS7jF85h9TY") {
-      return videoTimelineMarch22;
-    } else if (statement.videoId === "57X7fzssUQY") {
-      return videoTimelineMarch23;
-    }
-    
-    return [];
-  };
-
-  const hasTimeline = () => {
-    return getVideoTimeline().length > 0;
-  };
-
-  const jumpToTime = (timeStr: string) => {
-    const seconds = timeToSeconds(timeStr);
-    if (iframeRef.current && iframeRef.current.src) {
-      const currentSrc = iframeRef.current.src;
-      const baseUrl = currentSrc.split('?')[0];
-      iframeRef.current.src = `${baseUrl}?start=${seconds}&autoplay=1`;
-    }
-  };
-
-  const copyPageUrl = () => {
-    navigator.clipboard.writeText(window.location.href)
-      .then(() => {
-        toast({
-          title: "تم نسخ الرابط",
-          description: "تم نسخ رابط الصفحة بنجاح",
-        });
-      })
-      .catch(err => {
-        console.error('حدث خطأ أثناء نسخ الرابط:', err);
-      });
-  };
-
-  const sharePage = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: statement?.title || 'كلمة الشيخ علي بن حاج',
-        text: statement?.excerpt || '',
-        url: window.location.href,
-      }).catch(err => {
-        console.error('حدث خطأ أثناء المشاركة:', err);
-        copyPageUrl();
-      });
-    } else {
-      copyPageUrl();
-    }
-  };
-
-  const speakText = (text: string, index: number) => {
-    if ('speechSynthesis' in window) {
-      if (audioRef.current) {
-        window.speechSynthesis.cancel();
-      }
-      
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'ar';
-      
-      const voices = window.speechSynthesis.getVoices();
-      const arabicVoice = voices.find(voice => voice.lang.includes('ar'));
-      if (arabicVoice) {
-        utterance.voice = arabicVoice;
-      }
-      
-      utterance.onstart = () => {
-        setIsPlaying(true);
-        setHighlightedParagraphIndex(index);
-      };
-      
-      utterance.onend = () => {
-        setIsPlaying(false);
-        setHighlightedParagraphIndex(-1);
-      };
-      
-      window.speechSynthesis.speak(utterance);
-      audioRef.current = new Audio();
-    } else {
-      toast({
-        title: "غير مدعوم",
-        description: "متصفحك لا يدعم خاصية تحويل النص إلى صوت",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const stopSpeaking = () => {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      setIsPlaying(false);
-      setHighlightedParagraphIndex(-1);
-    }
-  };
-
-  const speakTitle = () => {
-    if (statement) {
-      speakText(statement.title, -1);
-    }
-  };
-
-  const speakContent = () => {
-    if (statement) {
-      const fullText = statement.content;
-      speakText(fullText, 0);
-    }
-  };
-
-  const handleRating = (newRating: number) => {
-    setUserRating(newRating);
-    toast({
-      title: "شكراً لتقييمك",
-      description: `لقد قمت بتقييم المقال بـ ${newRating} نجوم`,
-    });
-  };
-
-  const downloadAsPDF = () => {
-    toast({
-      title: "جاري التحميل",
-      description: "سيتم تحميل المقال بصيغة PDF قريباً",
-    });
-    setTimeout(() => {
-      toast({
-        title: "تم التحميل",
-        description: "تم تحميل المقال بصيغة PDF بنجاح",
-      });
-    }, 1500);
-  };
-
-  useEffect(() => {
-    if (statement) {
-      const randomViews = Math.floor(Math.random() * 1000) + 500;
-      const randomRating = (Math.random() * 2) + 3;
-      setViewCount(randomViews);
-      setRating(randomRating);
-    }
-  }, [statement]);
-
-  useEffect(() => {
-    if (!statement) {
-      console.log('Statement not found');
-    }
-    
-    window.scrollTo(0, 0);
-  }, [statement]);
-
-  if (!statement) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-navy mb-4">الخبر غير موجود</h1>
-          <p className="text-gray-600 mb-6">لم يتم العثور على الخبر المطلوب</p>
-          <Link to="/statements" className="btn-primary">
-            العودة إلى أحدث كلمات الشيخ
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen">
-      <MetaTags statement={statement} isStatementPage={true} />
-      
-      <div className="relative bg-navy text-white py-16 overflow-hidden">
-        <div className="absolute inset-0 opacity-30">
-          <img 
-            src={statement.imageUrl} 
-            alt={statement.title} 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-navy/70 to-navy"></div>
-        </div>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <Link to="/statements" className="inline-flex items-center text-gold hover:text-gold-light mb-6">
-            <ArrowLeft size={16} className="ml-1" />
-            العودة إلى أحدث كلمات الشيخ
-          </Link>
-          <h1 
-            className={`text-3xl md:text-4xl font-bold mb-4 leading-relaxed md:leading-loose ${highlightedParagraphIndex === -1 && isPlaying ? 'bg-gold/20 px-2 py-1 rounded' : ''}`}
-          >
-            {statement.title}
-          </h1>
-          <div className="flex flex-wrap items-center text-gray-300 gap-4 mb-6">
-            <div className="flex items-center">
-              <Calendar size={16} className="ml-1" />
-              <span>{statement.date}</span>
-              {statement.hijriDate && (
-                <span className="mr-1">({statement.hijriDate})</span>
-              )}
-            </div>
-            <div className="flex items-center">
-              <span className="bg-gold/20 text-gold-light px-2 py-1 rounded-md text-xs font-medium">
-                {statement.category}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex items-center text-gray-600">
-            <Eye size={16} className="ml-1" />
-            <span className="text-sm">{viewCount} مشاهدة</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center space-x-1 space-x-reverse">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <button
-                  key={star}
-                  className="focus:outline-none"
-                  onClick={() => handleRating(star)}
-                >
-                  <Star
-                    size={16}
-                    className={star <= userRating ? "fill-gold text-gold" : "text-gray-300"}
-                  />
-                </button>
-              ))}
-            </div>
-            <span className="text-sm text-gold font-medium">{rating.toFixed(1)}</span>
-          </div>
-        </div>
-        
-        <div className="mb-8">
-          <img 
-            src={statement.imageUrl} 
-            alt={statement.title} 
-            className="w-full rounded-lg shadow-md"
-          />
-        </div>
-        
-        <div className="bg-gray-50 rounded-lg p-4 mb-8">
-          <div className="flex items-center justify-between gap-2 mb-3">
-            <div className="flex space-x-2 space-x-reverse">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={isPlaying ? stopSpeaking : speakTitle}
-              >
-                {isPlaying && highlightedParagraphIndex === -1 ? 
-                  <VolumeX size={16} className="ml-2" /> : 
-                  <Volume2 size={16} className="ml-2" />
-                }
-                {isPlaying && highlightedParagraphIndex === -1 ? "إيقاف قراءة العنوان" : "قراءة العنوان"}
-              </Button>
-              
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={isPlaying && highlightedParagraphIndex !== -1 ? stopSpeaking : speakContent}
-              >
-                {isPlaying && highlightedParagraphIndex !== -1 ? 
-                  <VolumeX size={16} className="ml-2" /> : 
-                  <Volume2 size={16} className="ml-2" />
-                }
-                {isPlaying && highlightedParagraphIndex !== -1 ? "إيقاف قراءة المحتوى" : "قراءة المحتوى"}
-              </Button>
-            </div>
-            
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={downloadAsPDF}
-            >
-              <FileText size={16} className="ml-2" />
-              تحميل PDF
-            </Button>
-          </div>
-          
-          <div className="flex justify-center space-x-3 space-x-reverse">
-            <button 
-              className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors"
-              onClick={() => shareOnSocial("facebook")}
-              aria-label="مشاركة على فيسبوك"
-            >
-              <Facebook size={18} />
-            </button>
-            <button 
-              className="p-2 bg-sky-500 text-white rounded-full hover:bg-sky-600 transition-colors"
-              onClick={() => shareOnSocial("twitter")}
-              aria-label="مشاركة على تويتر"
-            >
-              <Twitter size={18} />
-            </button>
-            <button 
-              className="p-2 bg-blue-700 text-white rounded-full hover:bg-blue-800 transition-colors"
-              onClick={() => shareOnSocial("linkedin")}
-              aria-label="مشاركة على لينكد إن"
-            >
-              <Linkedin size={18} />
-            </button>
-            <button 
-              className="p-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-colors"
-              onClick={() => shareOnSocial("copy")}
-              aria-label="نسخ الرابط"
-            >
-              <Share2 size={18} />
-            </button>
-          </div>
-        </div>
-        
-        <div className="prose prose-lg max-w-none">
-          {statement.content.split('\n\n').map((paragraph, index) => (
-            <p 
-              key={index} 
-              ref={el => paragraphRefs.current[index] = el}
-              className={`mb-4 leading-relaxed md:leading-9 text-gray-800 text-base md:text-lg font-droid-kufi tracking-normal ${highlightedParagraphIndex === index && isPlaying ? 'bg-gold/20 px-2 py-1 rounded' : ''}`} 
-              style={{ lineHeight: '2.2' }}
-            >
-              {paragraph}
-            </p>
-          ))}
-        </div>
-        
-        {statement.videoId && (
-          <div className="mt-12">
-            <h3 className="text-xl font-bold mb-4 flex items-center leading-relaxed">
-              <Video size={20} className="ml-2 text-gold" />
-              شاهد الكلمة كاملة
-            </h3>
-            <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
-              <iframe
-                ref={iframeRef}
-                width="100%"
-                height="100%"
-                src={`https://www.youtube.com/embed/${statement.videoId}`}
-                title={statement.title}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            </div>
-            
-            {hasTimeline() ? (
-              <div className="mt-8 bg-gray-50 rounded-lg p-4">
-                <div 
-                  className="flex items-center justify-between cursor-pointer" 
-                  onClick={() => setTimelineOpen(!timelineOpen)}
-                >
-                  <h3 className="font-bold text-navy flex items-center gap-2">
-                    <Clock size={18} />
-                    فهرس محتويات الكلمة
-                  </h3>
-                  <Button variant="ghost" size="sm">
-                    {timelineOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
-                  </Button>
-                </div>
-                
-                {timelineOpen && (
-                  <div className="mt-4 space-y-2 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
-                    {getVideoTimeline().map((section) => (
-                      <div 
-                        key={section.id}
-                        className="p-2 rounded hover:bg-gray-100 cursor-pointer transition-colors"
-                        onClick={() => jumpToTime(section.startTime)}
-                      >
-                        <div className="flex justify-between items-center mb-1">
-                          <h4 className="font-semibold text-navy-dark">{section.title}</h4>
-                          <span className="text-sm text-gold bg-gold/10 px-2 py-1 rounded font-mono">
-                            {section.startTime} - {section.endTime}
-                          </span>
-                        </div>
-                        <p className="text-sm text-gray-600 font-droid-kufi">{section.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="mt-8 bg-gray-50 rounded-lg p-4">
-                <div className="text-center py-6">
-                  <h3 className="font-bold text-navy flex items-center gap-2 justify-center mb-2">
-                    <Clock size={18} />
-                    فهرس محتويات الكلمة
-                  </h3>
-                  <Separator className="my-4 mx-auto max-w-xs" />
-                  <p className="text-gray-500">غير متوفر بعد</p>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-        
-        <div className="mt-12 flex justify-between items-center border-t border-gray-200 pt-6">
-          <button 
-            className="flex items-center text-navy hover:text-gold transition-colors"
-            onClick={sharePage}
-          >
-            <Share2 size={18} className="ml-2" />
-            مشاركة هذه الكلمة
-          </button>
-          <Link to="/statements" className="flex items-center text-gold hover:text-gold-dark transition-colors">
-            <BookOpen size={18} className="ml-2" />
-            المزيد من كلمات الشيخ
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default StatementDetails;
+    endTime: "53

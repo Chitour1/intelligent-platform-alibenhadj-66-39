@@ -5,11 +5,9 @@ import { Statement } from '../utils/statementsData';
 interface MetaTagsProps {
   statement?: Statement;
   isStatementPage?: boolean;
-  title?: string;
-  description?: string;
 }
 
-const MetaTags = ({ statement, isStatementPage = false, title, description }: MetaTagsProps) => {
+const MetaTags = ({ statement, isStatementPage = false }: MetaTagsProps) => {
   // القيم الإفتراضية
   const defaultTitle = "الشيخ علي بن حاج";
   const defaultDescription = "آخر أخبار وكلمات وبيانات الشيخ علي بن حاج";
@@ -17,12 +15,12 @@ const MetaTags = ({ statement, isStatementPage = false, title, description }: Me
   const baseUrl = window.location.origin;
 
   // إذا كنا في صفحة تفاصيل الخبر نستخدم بيانات المقال لتحسين عنوان الصفحة
-  let pageTitle = title || defaultTitle;
+  let title = defaultTitle;
   if (isStatementPage && statement) {
-    pageTitle = `${statement.title}`;
+    title = `${statement.title}`;
   }
   
-  const pageDescription = description || (isStatementPage && statement ? statement.excerpt : defaultDescription);
+  const description = isStatementPage && statement ? statement.excerpt : defaultDescription;
   const image = isStatementPage && statement && statement.imageUrl ? statement.imageUrl : defaultImage;
   const url = isStatementPage && statement ? `${baseUrl}/statements/${statement.id}` : baseUrl;
   
@@ -35,14 +33,14 @@ const MetaTags = ({ statement, isStatementPage = false, title, description }: Me
   return (
     <Helmet prioritizeSeoTags>
       {/* العلامات الأساسية */}
-      <title>{pageTitle}</title>
-      <meta name="description" content={pageDescription} />
+      <title>{title}</title>
+      <meta name="description" content={description} />
 
       {/* علامات Open Graph / Facebook */}
       <meta property="og:type" content={isStatementPage ? "article" : "website"} />
       <meta property="og:url" content={url} />
-      <meta property="og:title" content={pageTitle} />
-      <meta property="og:description" content={pageDescription} />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
       <meta property="og:image" content={fullImageUrl} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
@@ -52,8 +50,8 @@ const MetaTags = ({ statement, isStatementPage = false, title, description }: Me
       {/* علامات Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:url" content={url} />
-      <meta name="twitter:title" content={pageTitle} />
-      <meta name="twitter:description" content={pageDescription} />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={fullImageUrl} />
       
       {/* علامات إضافية للمشاركة */}

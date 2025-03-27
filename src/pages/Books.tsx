@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, Search, BookOpen, CalendarDays, FileText } from "lucide-react";
@@ -289,4 +290,187 @@ export const booksData: BookType[] = [
   },
   {
     id: 8,
-    title: "التذكير بوجوب وحدة الدول الإسلامية والتحذير من
+    title: "التذكير بوجوب وحدة الدول الإسلامية والتحذير من الفرقة",
+    author: "أبو عبد الفتاح علي بن حاج",
+    cover: "/lovable-uploads/b70984a3-8bb6-413d-8e5d-d0647fb60cb6.png",
+    downloadUrl: "https://web.archive.org/web/20130807055101/http://alibenhadj.net/ebooks/attathkir.rar",
+    year: "٢٠١٠",
+    pages: "١١",
+    description: "رسالة قصيرة تعالج أهمية الوحدة الإسلامية، وتحذر من المشاريع التفتيتية للأمة، وتقدم معالم الطريق الصحيح للتضامن الإسلامي.",
+    tags: ["الفكر الإسلامي", "السياسة الشرعية", "الوحدة الإسلامية"],
+  },
+  {
+    id: 9,
+    title: "بيان: الأدلة الشرعية في وجوب الدفاع عن الأموال العامة للرعية",
+    author: "أبو عبد الفتاح علي بن حاج",
+    cover: "/lovable-uploads/059d09a5-d92d-4fc6-92ab-b44da1b6e909.png",
+    downloadUrl: "https://web.archive.org/web/20131008025335/http://alibenhadj.net/upload/ebook/adilla.rar",
+    year: "٢٠٠٩",
+    publicationDate: "٢٠ جويلية ٢٠٠٩",
+    pages: "١٩",
+    description: "بيان شرعي في موضوع المال العام وأهمية الحفاظ عليه، وموقف الشرع من تبديده وإهداره.",
+    tags: ["الفكر الإسلامي", "السياسة الشرعية", "الإصلاح", "الأموال العامة", "الفساد"],
+    fullDescription: `الرسالة التي بين أيدينا بعنوان "الأدلـــة الشرعيـــة فـي وجـــوب الدفاع عن الأموال العامة للرعية" كتبها الشيخ علي بن حاج يوم 27 رجب 1430 هـ الموافق لـ 20 جويلية 2009 م، وهي عبارة عن بيان من  (حوالي 19 صفحة). نُشر في سياق احتجاجه على ما اعتبره تبديدًا للمال العام في الجزائر، لا سيما في تمويل مهرجان أفريقيا الذي بلغت تكلفته – حسب ما ورد في الرسالة – أكثر من 800 مليار سنتيم جزائري، دون مراعاة لمعاناة الشعب والفقراء والمرضى والعاطلين.
+
+يتناول الشيخ في هذه الرسالة قضية المال العام في الدولة الإسلامية من منظور شرعي وسياسي، وينطلق من جملة من الآيات القرآنية والأحاديث النبوية وأقوال العلماء، ليؤسس لموقف شرعي واضح يحمّل فيه الحكام مسؤولية التفريط في أموال الأمة. ويؤكد الشيخ أن المال العام أمانة في عنق ولي الأمر، لا يجوز التصرف فيه حسب الهوى، وإنما وفق ما يحقق المصلحة العامة وفق الشريعة.
+
+يفتتح البيان بعرض لقائه مع مجموعة من الشباب الغاضبين من تبديد المال في المهرجانات، ويبرر موقفه بعدم توفر المنابر للتعبير، لكنه يصر في الوقت ذاته على أن الأمر بالمعروف والنهي عن المنكر واجب على كل مسلم، وليس مقتصرًا على العلماء فقط.
+
+ثم يفصّل في قسم مطوّل بعنوان "السياسة الشرعية لتصريف الأموال العامة"، مستعرضًا نماذج من علماء الإسلام الذين ألّفوا كتبًا في هذا الباب، مثل الإمام أبي يوسف في "الخراج"، وتقي الدين البلاطنسي في "تحرير المقال"، والحافظ السخاوي في "السر المكتوم"، وبيّنوا بدقة شروط التصرف في بيت المال.
+
+كما يورد مقارنة مطوّلة بين واقع الحكام اليوم ومواقف الخلفاء الراشدين من المال العام، مستشهدًا بمواقف لعمر بن الخطاب وعثمان بن عفان وعلي بن أبي طالب، وسيرة عمر بن عبد العزيز الذي جعل من المال العام وسيلة لرعاية الأرامل والمساكين والمسافرين والغارمين والأسرى.
+
+ويخصص الشيخ جزءًا كبيرًا من الرسالة لانتقاد مشاريع الفساد المالي في الجزائر، معدّدًا فيها العشرات من ملفات النهب والاختلاس والصفقات المشبوهة، ومبينًا أن البرلمان والعدالة عاجزان عن المحاسبة، بسبب تحوّلهما إلى أدوات بيد السلطة، في حين يبقى المواطن وحده من يدفع الثمن، ويُضرب بالعقوبات الثقيلة على مخالفات بسيطة، بينما يفرّ الفاسدون الكبار من أي مساءلة.
+
+ويختم الشيخ رسالته بالدعوة إلى موقف سلمي وشعبي واسع، تقوده النخب والعلماء والدعاة، من أجل استرجاع المال العام، وضمان أن يتولى شأنه "كل حفيظ عليم"، مستشهدًا بقول يوسف عليه السلام: "اجعلني على خزائن الأرض إني حفيظ عليم".
+
+هذه الرسالة تعكس توجهًا إسلاميًا سياسيًا ناقدًا بحدة لممارسات الحكم، وتطرح رؤية بديلة لإدارة المال العام مبنية على السياسة الشرعية والعدالة الاجتماعية، وتأتي في سياق الحراك الشعبي والاحتجاج على الفساد المالي في الجزائر خلال فترة ما بعد أحداث التسعينيات.`
+  }
+];
+
+const Books = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+
+  // Filter books based on search term and selected tag
+  const filteredBooks = booksData.filter((book) => {
+    const matchesSearch = searchTerm === "" || 
+      book.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      book.author.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesTag = selectedTag === null || book.tags.includes(selectedTag);
+    
+    return matchesSearch && matchesTag;
+  });
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Page Header */}
+      <div className="bg-navy text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <h1 className="text-3xl font-bold mb-4">المكتبة</h1>
+          <p className="text-lg opacity-80">
+            تصفح الكتب والمؤلفات لفضيلة الشيخ علي بن حاج
+          </p>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Search */}
+            <div className="card p-4">
+              <div className="relative">
+                <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                <input
+                  type="text"
+                  className="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy focus:border-transparent"
+                  placeholder="بحث..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Tags */}
+            <div className="card p-4">
+              <h3 className="font-bold text-lg mb-3">المواضيع</h3>
+              <div className="space-y-2">
+                <button
+                  onClick={() => setSelectedTag(null)}
+                  className={cn(
+                    "block w-full text-right py-1 px-2 rounded hover:bg-gray-100 transition-colors",
+                    selectedTag === null ? "bg-navy/10 text-navy font-medium" : "text-gray-700"
+                  )}
+                >
+                  جميع المواضيع
+                </button>
+                {bookTags.map((tag) => (
+                  <button
+                    key={tag}
+                    onClick={() => setSelectedTag(tag)}
+                    className={cn(
+                      "block w-full text-right py-1 px-2 rounded hover:bg-gray-100 transition-colors",
+                      selectedTag === tag ? "bg-navy/10 text-navy font-medium" : "text-gray-700"
+                    )}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Main Content */}
+          <div>
+            <h2 className="text-xl font-bold mb-6">
+              {selectedTag ? `الكتب في موضوع: ${selectedTag}` : "جميع الكتب"}
+              <span className="text-gray-500 mr-2">({filteredBooks.length})</span>
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredBooks.map((book) => (
+                <Link 
+                  to={`/publications/books/${book.id}`} 
+                  key={book.id}
+                  className="card hover:shadow-md transition-all group overflow-hidden"
+                >
+                  <div className="aspect-[3/4] relative">
+                    <img 
+                      src={book.cover} 
+                      alt={book.title} 
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
+                      <p className="text-white text-sm line-clamp-3">{book.description}</p>
+                    </div>
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-bold text-navy-dark group-hover:text-gold transition-colors mb-2 line-clamp-2">
+                      {book.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 mb-3">{book.author}</p>
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {book.tags.slice(0, 2).map((tag) => (
+                        <span key={tag} className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">
+                          {tag}
+                        </span>
+                      ))}
+                      {book.tags.length > 2 && (
+                        <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">
+                          +{book.tags.length - 2}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center justify-between text-sm text-gray-500">
+                      <div className="flex items-center">
+                        <CalendarDays size={14} className="ml-1" />
+                        {book.year}
+                      </div>
+                      <div className="flex items-center">
+                        <FileText size={14} className="ml-1" />
+                        {book.pages} صفحة
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {filteredBooks.length === 0 && (
+              <div className="text-center py-16">
+                <BookOpen size={48} className="mx-auto text-gray-300 mb-4" />
+                <h3 className="text-xl font-bold text-gray-700 mb-2">لا توجد كتب</h3>
+                <p className="text-gray-500">لم يتم العثور على كتب مطابقة للبحث</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Books;

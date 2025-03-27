@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import Hero from '../components/Hero';
 import NewsCard from '../components/NewsCard';
@@ -215,7 +216,7 @@ const Index = () => {
         </div>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <div className="text-6xl font-arabic text-gold mb-6">❝</div>
-          <blockquote className="text-2xl md:text-3xl font-arabic mb-6">
+          <blockquote className="text-2xl md:text-3xl font-arabic mb-6 leading-relaxed md:leading-loose">
             {currentQuote.text}
           </blockquote>
           <p className="text-gold text-xl">- الشيخ علي بن حاج</p>

@@ -1,8 +1,10 @@
+
 import { useState, useEffect } from 'react';
 import Hero from '../components/Hero';
 import NewsCard from '../components/NewsCard';
 import ArticleCard from '../components/ArticleCard';
 import BookCard from '../components/BookCard';
+import NewsTicker from '../components/NewsTicker';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, BookOpen, Video, Mic, Calendar, FileText, Book } from 'lucide-react';
 import { recentMediaItems } from '../utils/youtubeUtils';
@@ -78,6 +80,9 @@ const Index = () => {
   
   return (
     <div className="min-h-screen">
+      {/* إضافة شريط الأخبار المتحرك */}
+      <NewsTicker />
+      
       <Hero />
       
       {/* Main Feature Section */}

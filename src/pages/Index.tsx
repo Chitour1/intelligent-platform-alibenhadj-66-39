@@ -4,7 +4,6 @@ import Hero from '../components/Hero';
 import NewsCard from '../components/NewsCard';
 import ArticleCard from '../components/ArticleCard';
 import BookCard from '../components/BookCard';
-import NewsTicker from '../components/NewsTicker';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, BookOpen, Video, Mic, Calendar, FileText, Book } from 'lucide-react';
 import { recentMediaItems } from '../utils/youtubeUtils';
@@ -80,9 +79,6 @@ const Index = () => {
   
   return (
     <div className="min-h-screen">
-      {/* إضافة شريط الأخبار المتحرك */}
-      <NewsTicker />
-      
       <Hero />
       
       {/* Main Feature Section */}
@@ -113,23 +109,6 @@ const Index = () => {
             <div className="bg-gradient-to-r from-gold/10 to-gold/5 p-6 rounded-xl border border-gold/20">
               <h3 className="text-xl font-bold mb-4 text-navy">أحدث الإصدارات</h3>
               <div className="space-y-4">
-                {books.slice(0, 2).map(book => (
-                  <Link to={`/publications/books/${book.id}`} key={book.id} className="flex items-start group">
-                    <div className="relative w-16 h-20 flex-shrink-0 overflow-hidden rounded mr-3 bg-gray-50">
-                      <img 
-                        src={book.cover} 
-                        alt={book.title} 
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-navy-dark line-clamp-2 group-hover:text-gold transition-colors duration-300">
-                        {book.title}
-                      </h4>
-                      <p className="text-xs text-gray-500">{book.year}</p>
-                    </div>
-                  </Link>
-                ))}
               </div>
               <Link to="/publications/books" className="mt-4 inline-flex items-center text-sm font-medium text-gold hover:text-gold-dark">
                 عرض جميع المؤلفات
@@ -140,38 +119,8 @@ const Index = () => {
             <div className="bg-gradient-to-r from-navy/10 to-navy/5 p-6 rounded-xl border border-navy/20">
               <h3 className="text-xl font-bold mb-4 text-navy">الظهور الإعلامي</h3>
               <div className="space-y-4">
-                {mediaItems.slice(0, 2).map(item => (
-                  <Link 
-                    key={item.id} 
-                    to={getVideoLink(item)}
-                    className="flex items-start group"
-                  >
-                    <div className="relative w-16 h-10 flex-shrink-0 overflow-hidden rounded mr-3">
-                      <img 
-                        src={item.imageUrl || `https://img.youtube.com/vi/${item.videoId}/mqdefault.jpg`} 
-                        alt={item.title}
-                        className="w-full h-full object-cover" 
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-6 h-6 rounded-full bg-gold/80 flex items-center justify-center">
-                          {item.type === 'video' ? (
-                            <Video size={12} className="text-navy" />
-                          ) : (
-                            <Mic size={12} className="text-navy" />
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-navy-dark text-sm line-clamp-2 group-hover:text-navy transition-colors duration-300">
-                        {item.title}
-                      </h4>
-                      <p className="text-xs text-gray-500">{item.date}</p>
-                    </div>
-                  </Link>
-                ))}
               </div>
-              <Link to="/media" className="mt-4 inline-flex items-center text-sm font-medium text-navy hover:text-navy-light">
+              <Link to="/publications/tv-appearances" className="mt-4 inline-flex items-center text-sm font-medium text-navy hover:text-navy-light">
                 جميع المداخلات التلفزيونية
                 <ArrowLeft size={14} className="mr-1" />
               </Link>

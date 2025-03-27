@@ -1,6 +1,6 @@
 
 import { useState, useRef, useEffect } from 'react';
-import { Play, Pause, SkipForward, SkipBack, Volume2, VolumeX } from 'lucide-react';
+import { Play, Pause, SkipForward, SkipBack, Volume2, VolumeX, Music } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { toast } from "@/components/ui/use-toast";
@@ -9,10 +9,11 @@ interface AudioPlayerProps {
   title: string;
   content: string;
   onPlayingChange?: (isPlaying: boolean) => void;
-  onPlayingProgress?: (index: number, word: string) => void;
+  onPlayingProgress?: (index: number, word?: string) => void;
+  floating?: boolean;
 }
 
-const AudioPlayer = ({ title, content, onPlayingChange, onPlayingProgress }: AudioPlayerProps) => {
+const AudioPlayer = ({ title, content, onPlayingChange, onPlayingProgress, floating = false }: AudioPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -21,6 +22,7 @@ const AudioPlayer = ({ title, content, onPlayingChange, onPlayingProgress }: Aud
   const [volume, setVolume] = useState(80);
   const [isLoading, setIsLoading] = useState(false);
   const [currentWordIndex, setCurrentWordIndex] = useState<number | null>(null);
+  const [isExpanded, setIsExpanded] = useState(!floating);
   
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const intervalRef = useRef<number | null>(null);
@@ -293,82 +295,118 @@ const AudioPlayer = ({ title, content, onPlayingChange, onPlayingProgress }: Aud
     setCurrentWordIndex(null);
   };
 
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  if (floating && !isPlaying && !isExpanded) {
+    return (
+      <Button 
+        onClick={togglePlay}
+        className="flex items-center gap-2 h-12 shadow-lg bg-navy hover:bg-navy-light text-white transition-colors"
+      >
+        <Music size={18} />
+        <span className="text-sm">تشغيل القراءة الصوتية</span>
+      </Button>
+    );
+  }
+
   return (
-    <div className="bg-gray-50 rounded-lg p-3 mb-4">
+    <div className={`bg-gray-50 rounded-lg p-3 ${floating ? 'shadow-lg border border-gray-200' : 'mb-4'}`}>
       <div className="flex flex-col">
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center">
-            <Button 
-              variant="outline" 
-              size="icon" 
-              className="h-8 w-8 ml-2"
-              onClick={togglePlay}
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-400 border-t-navy"></div>
-              ) : isPlaying ? (
-                <Pause className="h-4 w-4" />
-              ) : (
-                <Play className="h-4 w-4" />
-              )}
-            </Button>
+        {floating && (
+          <div className="flex justify-between items-center mb-2">
+            <div className="font-bold text-navy-dark text-sm truncate">
+              {title}
+            </div>
             <Button 
               variant="ghost" 
-              size="icon" 
-              className="h-8 w-8"
-              onClick={skipBackward}
+              size="sm" 
+              onClick={toggleExpand}
+              className="h-6 w-6 p-0"
             >
-              <SkipBack className="h-4 w-4" />
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="h-8 w-8"
-              onClick={skipForward}
-            >
-              <SkipForward className="h-4 w-4" />
+              {isExpanded ? 'ـ' : '+'}
             </Button>
           </div>
-          
-          <div className="text-xs text-gray-500">
-            {formatTime(currentTime)} / {formatTime(duration)}
-          </div>
-          
-          <div className="flex items-center">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="h-8 w-8 ml-1"
-              onClick={toggleMute}
-            >
-              {isMuted ? (
-                <VolumeX className="h-4 w-4" />
-              ) : (
-                <Volume2 className="h-4 w-4" />
-              )}
-            </Button>
-            <div className="w-20">
-              <Slider
-                value={[isMuted ? 0 : volume]}
-                min={0}
-                max={100}
-                step={1}
-                onValueChange={handleVolumeChange}
-              />
+        )}
+        
+        {isExpanded && (
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center">
+              <Button 
+                variant="outline" 
+                size="icon" 
+                className="h-8 w-8 ml-2"
+                onClick={togglePlay}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-400 border-t-navy"></div>
+                ) : isPlaying ? (
+                  <Pause className="h-4 w-4" />
+                ) : (
+                  <Play className="h-4 w-4" />
+                )}
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="h-8 w-8"
+                onClick={skipBackward}
+              >
+                <SkipBack className="h-4 w-4" />
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="h-8 w-8"
+                onClick={skipForward}
+              >
+                <SkipForward className="h-4 w-4" />
+              </Button>
+            </div>
+            
+            <div className="text-xs text-gray-500">
+              {formatTime(currentTime)} / {formatTime(duration)}
+            </div>
+            
+            <div className="flex items-center">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="h-8 w-8 ml-1"
+                onClick={toggleMute}
+              >
+                {isMuted ? (
+                  <VolumeX className="h-4 w-4" />
+                ) : (
+                  <Volume2 className="h-4 w-4" />
+                )}
+              </Button>
+              <div className="w-20">
+                <Slider
+                  value={[isMuted ? 0 : volume]}
+                  min={0}
+                  max={100}
+                  step={1}
+                  onValueChange={handleVolumeChange}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        )}
         
-        <div className="w-full">
-          <Slider
-            value={[progress]}
-            min={0}
-            max={100}
-            step={0.1}
-            onValueChange={handleProgressChange}
-          />
-        </div>
+        {isExpanded && (
+          <div className="w-full">
+            <Slider
+              value={[progress]}
+              min={0}
+              max={100}
+              step={0.1}
+              onValueChange={handleProgressChange}
+            />
+          </div>
+        )}
         
         <audio 
           ref={audioRef}

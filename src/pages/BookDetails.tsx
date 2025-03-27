@@ -1,5 +1,6 @@
+
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { ArrowRight, BookOpen, CalendarDays, FileText, Download, ChevronLeft, FileDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { booksData } from "../pages/Books";
@@ -15,6 +16,18 @@ const BookDetails = () => {
   const [highlightedWordIndex, setHighlightedWordIndex] = useState<number | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const [showFloatingPlayer, setShowFloatingPlayer] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show floating player when scrolled past the main player
+      const scrollPosition = window.scrollY;
+      setShowFloatingPlayer(scrollPosition > 500);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   if (!book) {
     return (
@@ -37,14 +50,6 @@ const BookDetails = () => {
   
   const handlePlayingProgress = (index: number) => {
     setHighlightedWordIndex(index);
-    
-    // Auto-scroll to keep the highlighted word in view
-    if (contentRef.current && index > 20) {
-      const words = contentRef.current.querySelectorAll('.content-word');
-      if (words[index]) {
-        words[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    }
   };
   
   const handlePlayingChange = (playing: boolean) => {
@@ -140,7 +145,7 @@ const BookDetails = () => {
               ))}
             </div>
             
-            {/* Audio Player */}
+            {/* Main Audio Player */}
             <AudioPlayer 
               title={book.title}
               content={fullContent}
@@ -199,6 +204,19 @@ const BookDetails = () => {
           </div>
         </div>
       </div>
+
+      {/* Floating Audio Player */}
+      {showFloatingPlayer && (
+        <div className="fixed bottom-4 right-4 z-50 animate-fade-in">
+          <AudioPlayer 
+            title={book.title}
+            content={fullContent}
+            onPlayingChange={handlePlayingChange}
+            onPlayingProgress={handlePlayingProgress}
+            floating={true}
+          />
+        </div>
+      )}
     </div>
   );
 };

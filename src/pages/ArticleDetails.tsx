@@ -1,5 +1,6 @@
+
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Calendar, ArrowRight, FileDown } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import ContentStats from "@/components/ContentStats";
@@ -54,7 +55,19 @@ const ArticleDetails = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [highlightedWordIndex, setHighlightedWordIndex] = useState<number | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const [showFloatingPlayer, setShowFloatingPlayer] = useState(false);
   
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show floating player when scrolled past the main player
+      const scrollPosition = window.scrollY;
+      setShowFloatingPlayer(scrollPosition > 500);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   // Find the article by ID
   const article = articlesList.find(article => article.id.toString() === articleId);
   
@@ -80,14 +93,6 @@ const ArticleDetails = () => {
   
   const handlePlayingProgress = (index: number) => {
     setHighlightedWordIndex(index);
-    
-    // Auto-scroll to keep the highlighted word in view
-    if (contentRef.current && index > 20) {
-      const words = contentRef.current.querySelectorAll('.content-word');
-      if (words[index]) {
-        words[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    }
   };
   
   const handlePlayingChange = (playing: boolean) => {
@@ -146,6 +151,7 @@ const ArticleDetails = () => {
           />
         </div>
         
+        {/* Main Audio Player */}
         <AudioPlayer 
           title={article.title}
           content={article.content}
@@ -184,6 +190,19 @@ const ArticleDetails = () => {
           </div>
         </article>
       </div>
+
+      {/* Floating Audio Player */}
+      {showFloatingPlayer && (
+        <div className="fixed bottom-4 right-4 z-50 animate-fade-in">
+          <AudioPlayer 
+            title={article.title}
+            content={article.content}
+            onPlayingChange={handlePlayingChange}
+            onPlayingProgress={handlePlayingProgress}
+            floating={true}
+          />
+        </div>
+      )}
     </div>
   );
 };

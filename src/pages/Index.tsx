@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import Hero from '../components/Hero';
 import NewsCard from '../components/NewsCard';
@@ -10,7 +9,6 @@ import { recentMediaItems } from '../utils/youtubeUtils';
 import { statementsData } from '../utils/statementsData';
 import { getRandomQuote } from '../utils/quotesData';
 
-// Import the books data from the Books page
 import { booksData } from '../pages/Books';
 
 const Index = () => {
@@ -22,11 +20,9 @@ const Index = () => {
     interviews: false
   });
   
-  // حالة لتخزين الاقتباس المعروض
   const [currentQuote, setCurrentQuote] = useState({ id: 0, text: "" });
 
   useEffect(() => {
-    // تحديد اقتباس عشوائي عند تحميل الصفحة
     setCurrentQuote(getRandomQuote());
     
     const observer = new IntersectionObserver((entries) => {
@@ -52,22 +48,17 @@ const Index = () => {
     };
   }, []);
 
-  // Sort books by publication date (most recent first) then take the latest 4
   const books = [...booksData]
     .sort((a, b) => {
-      // If publication date exists, sort by it, otherwise use ID as fallback
       if (a.publicationDate && b.publicationDate) {
-        // Simple string comparison for Arabic dates (since they're formatted consistently)
         return a.publicationDate > b.publicationDate ? -1 : 1;
       }
-      // Sort by ID (most recent first) as fallback
       return b.id - a.id;
     })
     .slice(0, 4);
   
   const mediaItems = recentMediaItems.slice(0, 4);
   
-  // Helper function to get the correct video link
   const getVideoLink = (item) => {
     if (item.type === 'video' && item.videoId) {
       return `/media/friday-meetings-video?videoId=${item.videoId}`;
@@ -81,7 +72,6 @@ const Index = () => {
     <div className="min-h-screen">
       <Hero />
       
-      {/* Main Feature Section */}
       <section className="section-container">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           <div className="lg:col-span-3 bg-navy p-6 rounded-xl text-white relative overflow-hidden">
@@ -109,6 +99,23 @@ const Index = () => {
             <div className="bg-gradient-to-r from-gold/10 to-gold/5 p-6 rounded-xl border border-gold/20">
               <h3 className="text-xl font-bold mb-4 text-navy">أحدث الإصدارات</h3>
               <div className="space-y-4">
+                {books[0] && (
+                  <Link to={`/publications/books/${books[0].id}`} className="flex gap-3 group">
+                    <div className="w-16 h-20 flex-shrink-0 overflow-hidden rounded">
+                      <img 
+                        src={books[0].cover} 
+                        alt={books[0].title} 
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-navy group-hover:text-gold transition-colors duration-300">
+                        {books[0].title}
+                      </h4>
+                      <p className="text-xs text-gray-500">{books[0].year}</p>
+                    </div>
+                  </Link>
+                )}
               </div>
               <Link to="/publications/books" className="mt-4 inline-flex items-center text-sm font-medium text-gold hover:text-gold-dark">
                 عرض جميع المؤلفات
@@ -119,9 +126,38 @@ const Index = () => {
             <div className="bg-gradient-to-r from-navy/10 to-navy/5 p-6 rounded-xl border border-navy/20">
               <h3 className="text-xl font-bold mb-4 text-navy">الظهور الإعلامي</h3>
               <div className="space-y-4">
+                {mediaItems[0] && (
+                  <Link 
+                    to={getVideoLink(mediaItems[0])} 
+                    className="flex gap-3 group"
+                  >
+                    <div className="w-16 h-12 flex-shrink-0 overflow-hidden rounded relative">
+                      <img 
+                        src={mediaItems[0].imageUrl || `https://img.youtube.com/vi/${mediaItems[0].videoId}/mqdefault.jpg`} 
+                        alt={mediaItems[0].title} 
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-6 h-6 rounded-full bg-gold/80 flex items-center justify-center">
+                          {mediaItems[0].type === 'video' ? (
+                            <Video size={12} className="text-navy" />
+                          ) : (
+                            <Mic size={12} className="text-navy" />
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-navy text-sm line-clamp-2 group-hover:text-gold transition-colors duration-300">
+                        {mediaItems[0].title}
+                      </h4>
+                      <p className="text-xs text-gray-500">{mediaItems[0].date}</p>
+                    </div>
+                  </Link>
+                )}
               </div>
-              <Link to="/publications/tv-appearances" className="mt-4 inline-flex items-center text-sm font-medium text-navy hover:text-navy-light">
-                جميع المداخلات التلفزيونية
+              <Link to="/media" className="mt-4 inline-flex items-center text-sm font-medium text-navy hover:text-navy-light">
+                جميع المقاطع الإعلامية
                 <ArrowLeft size={14} className="mr-1" />
               </Link>
             </div>
@@ -129,7 +165,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Books Section */}
       <section id="books" className={`section-container observe-section transition-all duration-1000 ${isVisible.books ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         <div className="mb-8 flex justify-between items-center">
           <h2 className="section-title">كتب الشيخ</h2>
@@ -155,7 +190,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Media Section */}
       <section id="media" className={`section-container observe-section transition-all duration-1000 ${isVisible.media ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         <div className="mb-8 flex justify-between items-center">
           <h2 className="section-title">المكتبة الإعلامية</h2>
@@ -209,7 +243,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Quote Section */}
       <section className="py-20 bg-navy text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-pattern opacity-30"></div>
@@ -223,7 +256,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Call to Action */}
       <section className="section-container text-center">
         <h2 className="text-3xl font-bold mb-4">تابع آخر أخبار ومستجدات الشيخ علي بن حاج</h2>
         <p className="text-gray-600 max-w-2xl mx-auto mb-8">

@@ -58,7 +58,7 @@ const Index = () => {
     title: "تفقيه الشرفاء في كيفية الرّد لزجر السفهاء",
     author: "علي بن حاج",
     cover: "/lovable-uploads/7e12e898-9eb0-467f-8185-2ec569d9ced5.png",
-    pages: 29,
+    pages: "29", // Convert to string to match BookCard's expected type
     year: "2006",
     publicationDate: "2006",
     description: "رسالة مختصرة تؤسس لمنهج شرعي في الردّ على المخالفين والطاعنين، يقوم على التفريق بين الردّ المبدئي المشروع وبين المهاترات والانتصار للنفس.",

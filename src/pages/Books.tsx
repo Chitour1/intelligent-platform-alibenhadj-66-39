@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, Search, BookOpen, CalendarDays, FileText } from "lucide-react";
@@ -288,4 +289,170 @@ export const booksData: BookType[] = [
 يمثل هذا الكتاب مرجعًا هامًا في الفقه السياسي الإسلامي المعاصر، ويدعو إلى الخروج من الخطاب الدفاعي الانهزامي إلى فقه القوة الرشيدة، القائم على قواعد الشريعة ومصالح الأمة وكرامة الشعوب.`
   },
   {
-    id: 8
+    id: 8,
+    title: "الدمغة القوية لنسف عقيدة الديمقراطية",
+    author: "أبو عبد الفتاح علي بن حاج",
+    cover: "/lovable-uploads/ae88d01e-47e7-404a-a37e-e83fb4f1b8c9.jpeg",
+    downloadUrl: "https://web.archive.org/web/20130806214752/http://alibenhadj.net/ebooks/ali.1.zip",
+    year: "١٩٩٠",
+    publicationDate: "١٤ سبتمبر ١٩٩٠",
+    pages: "١٩",
+    description: "رسالة فكرية عقدية تفند الديمقراطية الغربية بمنهجية عقدية مستندة إلى القرآن والسنة وأقوال علماء السلف.",
+    tags: ["الفكر الإسلامي", "العقيدة", "السياسة الشرعية"],
+    fullDescription: `الدمغة القوية لنسف عقيدة الديمقراطية هي رسالة فكرية عقدية كتبها الشيخ علي بن حاج، نُشرت على صفحات جريدة المنقذ الناطقة باسم الجبهة الإسلامية للإنقاذ في عددين متتاليين بتاريخ 24 و25 صفر 1411 هـ الموافق لـ 14 و15 سبتمبر 1990 م، وأعيد نشرها لاحقًا في كتيب مستقل يقع في 19 صفحة. وتُعد من أوائل النصوص الإسلامية الجزائرية التي تُفند الديمقراطية الغربية بمنهجية عقدية مستندة إلى القرآن والسنة وأقوال علماء السلف.
+
+جاءت هذه الرسالة في سياق فكري وسياسي خاص، حيث كانت الجبهة الإسلامية للإنقاذ في أوج صعودها الجماهيري بعد اكتساحها للانتخابات المحلية في جوان 1990، وفي خضم جدل سياسي متصاعد حول مدى التزامها أو رفضها للمفاهيم الغربية، وعلى رأسها "الديمقراطية". وقد جاءت الرسالة لتؤكد، بوضوح لا لبس فيه، الرفض المبدئي لعقيدة الديمقراطية باعتبارها "مذهبًا وضعيًا كافرًا مناقضًا لحاكمية الله، ومبنيًا على أصول شركية".
+
+المحاور الكبرى التي تناولتها الرسالة:
+1. تعريف الديمقراطية ومصدرها الغربي
+استهلت الرسالة بتعريف الديمقراطية على أنها "حكم الشعب بالشعب وللشعب"، وبيّنت أنها ليست مجرد آلية أو وسيلة انتخابية، بل هي عقيدة سياسية كاملة نشأت في بيئة فلسفية وثنية، ثم تبلورت في سياق علماني مادي يُقصي الدين من الحياة العامة.
+
+2. مفهوم الحاكمية ونفي السيادة الشعبية
+تؤكد الرسالة أن الإسلام يقوم على حاكمية الله المطلقة، وأنه لا يجوز للبشر أن يشرّعوا لأنفسهم ما لم يأذن به الله. واستشهدت بآيات صريحة مثل: "إن الحكم إلا لله"، "ولا يشرك في حكمه أحدًا". واعتبرت أن الديمقراطية تُنازع الله في حقه في التشريع، وهو ما يجعلها - بحسب الرسالة - صورة من صور الشرك السياسي.
+
+3. نقض مبدأ "رأي الأغلبية"
+هاجمت الرسالة مبدأ "الأغلبية" بوصفه قاعدة فاسدة، وذكّرت بأن "الكثرة" ليست دليلًا على الحق، مستندة إلى عشرات الآيات التي تذم الأكثرية مثل: "وإن تطع أكثر من في الأرض يضلوك عن سبيل الله"، و*"وما أكثر الناس ولو حرصت بمؤمنين"*. وبيّنت أن الحق في الإسلام يُعرف بالدليل لا بعدد المؤيدين.
+
+4. الديمقراطية بين التنظير والحقيقة
+قدّمت الرسالة نقدًا عمليًا للديمقراطية الغربية، ووصفتها بأنها خدعة تُلبس الاستبداد ثوب الحرية. وأكدت أن ما يُسمى بـ"الإرادة الشعبية" ليس إلا غطاء لتحكم قلة من النخب الاقتصادية والسياسية، تتحكم في الإعلام والقوانين، وتفرض نمطًا واحدًا من الحياة يُقصي الدين والأخلاق.
+
+5. الموقف من التشبه بالغرب
+خصصت الرسالة فصلًا مطولًا للتحذير من التبعية الفكرية والتشريعية للغرب، وذكّرت بوجوب مخالفة الكفار، وبخطورة استيراد نظمهم السياسية، مستشهدة بكلام ابن تيمية في "اقتضاء الصراط المستقيم" وفتاوى علماء كبار حول تحكيم غير شريعة الله.
+
+6. موقف مفكري الغرب والمسلمين من الديمقراطية
+أوردت الرسالة مقتطفات من أقوال مفكرين غربيين ينتقدون الديمقراطية، مثل "جان جاك روسو"، و"بارثمي"، باعتبارها نظامًا غير واقعي وفاسد في جوهره. كما استشهدت بكتابات مفكرين مسلمين مثل المودودي، وفتحي الدريني، ومالك بن نبي، وغيرهم ممن انتقدوا الشكلانية الديمقراطية وانفصالها عن القيم العليا.
+
+7. الديمقراطية والانحلال الأخلاقي
+ربطت الرسالة بين الديمقراطية والعلمانية والانحلال الخلقي، مشيرة إلى أن المجتمعات الديمقراطية الغربية أصبحت مرتعًا للرذائل، حيث تُسن القوانين التي تُبيح الزنا، والشذوذ، والتبرج، والربا، والمسكرات باسم الحرية الفردية.
+
+8. موقف الجبهة الإسلامية للإنقاذ
+في فقرة بارزة، توضح الرسالة أن تبني بعض أطراف الجبهة لمصطلح "الديمقراطية" هو من باب الاجتهاد السياسي المرحلي، وليس قبولًا بمضمونها العقدي، وتُذكّر بضرورة العودة إلى المصطلحات الإسلامية الأصيلة مثل: الشورى، الحاكمية، الخلافة، البيعة.
+
+أسلوب الرسالة:
+الرسالة مكتوبة بلغة دعوية خطابية، تعتمد على التكرار والتوكيد، وتخاطب جمهور الصحوة الإسلامية. وهي تُصنّف ضمن أدبيات السلفية الحركية، التي تدمج بين رفض التغريب، والدعوة للتمكين السياسي الإسلامي، مع رفض قاطع لأي تسوية فكرية مع النظم الغربية.
+
+القيمة المرجعية:
+تمثل هذه الرسالة واحدة من أوضح الوثائق الفكرية التي تُعبّر عن الموقف العقدي للشيخ علي بن حاج من الديمقراطية، وتُعد مرجعًا أساسيًا لفهم الطرح العقدي والسياسي للجبهة الإسلامية للإنقاذ في بداياتها.`
+  }
+];
+
+const Books = () => {
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Filter books based on selected tags and search query
+  const filteredBooks = booksData.filter((book) => {
+    const matchesTags = selectedTags.length === 0 || selectedTags.some(tag => book.tags.includes(tag));
+    const matchesSearch = book.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                         book.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         book.description.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesTags && matchesSearch;
+  });
+
+  const handleTagClick = (tag: string) => {
+    setSelectedTags(prev => 
+      prev.includes(tag) 
+        ? prev.filter(t => t !== tag) 
+        : [...prev, tag]
+    );
+  };
+
+  return (
+    <div className="container mx-auto py-8 px-4 md:px-8">
+      <div className="mb-8 flex items-center">
+        <Link to="/" className="flex items-center text-gray-600 hover:text-gray-900 mb-4 md:mb-0">
+          <ChevronLeft className="h-4 w-4 ml-2" />
+          <span>العودة للرئيسية</span>
+        </Link>
+        <h1 className="text-3xl font-bold text-center flex-grow">كتب الشيخ علي بن حاج</h1>
+      </div>
+
+      {/* Search and filter */}
+      <div className="mb-8">
+        <div className="relative mb-6">
+          <input
+            type="text"
+            placeholder="ابحث عن كتاب..."
+            className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+        </div>
+
+        <div className="flex flex-wrap gap-2 justify-center">
+          {bookTags.map((tag) => (
+            <button
+              key={tag}
+              onClick={() => handleTagClick(tag)}
+              className={cn(
+                "px-3 py-1 rounded-full text-sm transition-colors",
+                selectedTags.includes(tag)
+                  ? "bg-primary text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              )}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Books grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {filteredBooks.map((book) => (
+          <Link 
+            to={`/publications/books/${book.id}`} 
+            key={book.id}
+            className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden flex flex-col"
+          >
+            <div className="h-[300px] overflow-hidden">
+              <img 
+                src={book.cover} 
+                alt={book.title} 
+                className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+              />
+            </div>
+            <div className="p-4 flex-1 flex flex-col">
+              <h2 className="text-xl font-bold line-clamp-2 mb-2">{book.title}</h2>
+              <div className="flex items-center text-gray-600 mb-3 text-sm">
+                <BookOpen className="h-4 w-4 ml-1" />
+                <span>{book.pages} صفحة</span>
+                <span className="mx-2">•</span>
+                <CalendarDays className="h-4 w-4 ml-1" />
+                <span>{book.year}</span>
+              </div>
+              <p className="text-gray-600 line-clamp-3 mb-4 text-sm flex-grow">
+                {book.description}
+              </p>
+              <div className="flex flex-wrap gap-1 mt-auto">
+                {book.tags.slice(0, 3).map((tag) => (
+                  <span key={tag} className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
+                    {tag}
+                  </span>
+                ))}
+                {book.tags.length > 3 && (
+                  <span className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
+                    +{book.tags.length - 3}
+                  </span>
+                )}
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      {filteredBooks.length === 0 && (
+        <div className="text-center py-12">
+          <FileText className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+          <h3 className="text-xl font-semibold mb-2">لا توجد كتب</h3>
+          <p className="text-gray-500">
+            لم يتم العثور على كتب تطابق معايير البحث الخاصة بك. جرب تعديل البحث أو إزالة التصفية.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Books;

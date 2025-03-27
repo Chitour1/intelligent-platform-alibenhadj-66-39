@@ -5,41 +5,16 @@ import NewsCard from '../components/NewsCard';
 import ArticleCard from '../components/ArticleCard';
 import BookCard from '../components/BookCard';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, BookOpen, Video, Mic, Calendar, FileText } from 'lucide-react';
-import { recentMediaItems, MediaItem as YoutubeMediaItem } from '../utils/youtubeUtils';
+import { ArrowLeft, BookOpen, Video, Mic, Calendar, FileText, Book } from 'lucide-react';
+import { recentMediaItems } from '../utils/youtubeUtils';
 import { statementsData } from '../utils/statementsData';
 import { getRandomQuote } from '../utils/quotesData';
 
-// استيراد بيانات الكتب من صفحة Books
+// Import the books data from the Books page
 import { booksData } from '../pages/Books';
 
-// تعريف نوع التحققات
-interface Visibility {
-  news: boolean;
-  articles: boolean;
-  books: boolean;
-  media: boolean;
-  interviews: boolean;
-}
-
-// تعريف نوع الاقتباس
-interface Quote {
-  id: number;
-  text: string;
-}
-
-// تعريف نوع عنصر الوسائط
-interface MediaItem {
-  id: number;
-  title: string;
-  type: string;
-  videoId?: string;
-  date: string;
-  imageUrl?: string;
-}
-
 const Index = () => {
-  const [isVisible, setIsVisible] = useState<Visibility>({
+  const [isVisible, setIsVisible] = useState({
     news: false,
     articles: false,
     books: false,
@@ -48,7 +23,7 @@ const Index = () => {
   });
   
   // حالة لتخزين الاقتباس المعروض
-  const [currentQuote, setCurrentQuote] = useState<Quote>({ id: 0, text: "" });
+  const [currentQuote, setCurrentQuote] = useState({ id: 0, text: "" });
 
   useEffect(() => {
     // تحديد اقتباس عشوائي عند تحميل الصفحة
@@ -59,7 +34,7 @@ const Index = () => {
         if (entry.isIntersecting) {
           setIsVisible(prev => ({
             ...prev,
-            [entry.target.id as keyof Visibility]: true
+            [entry.target.id]: true
           }));
         }
       });
@@ -77,23 +52,23 @@ const Index = () => {
     };
   }, []);
 
-  // فرز الكتب حسب تاريخ النشر (الأحدث أولاً) ثم أخذ آخر 4 كتب
+  // Sort books by publication date (most recent first) then take the latest 4
   const books = [...booksData]
     .sort((a, b) => {
-      // إذا كان تاريخ النشر موجودًا، فرزه حسبه، وإلا استخدم المعرف كملجأ أخير
+      // If publication date exists, sort by it, otherwise use ID as fallback
       if (a.publicationDate && b.publicationDate) {
-        // مقارنة بسيطة للتواريخ العربية (نظرًا لأنها منسقة بشكل متسق)
+        // Simple string comparison for Arabic dates (since they're formatted consistently)
         return a.publicationDate > b.publicationDate ? -1 : 1;
       }
-      // الفرز حسب المعرف (الأحدث أولاً) كملجأ أخير
+      // Sort by ID (most recent first) as fallback
       return b.id - a.id;
     })
     .slice(0, 4);
   
   const mediaItems = recentMediaItems.slice(0, 4);
   
-  // وظيفة مساعدة للحصول على رابط الفيديو الصحيح
-  const getVideoLink = (item: YoutubeMediaItem) => {
+  // Helper function to get the correct video link
+  const getVideoLink = (item) => {
     if (item.type === 'video' && item.videoId) {
       return `/media/friday-meetings-video?videoId=${item.videoId}`;
     } else if (item.type === 'audio') {
@@ -106,7 +81,7 @@ const Index = () => {
     <div className="min-h-screen">
       <Hero />
       
-      {/* قسم الميزة الرئيسية */}
+      {/* Main Feature Section */}
       <section className="section-container">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           <div className="lg:col-span-3 bg-navy p-6 rounded-xl text-white relative overflow-hidden">
@@ -154,7 +129,7 @@ const Index = () => {
         </div>
       </section>
       
-      {/* قسم الكتب */}
+      {/* Books Section */}
       <section id="books" className={`section-container observe-section transition-all duration-1000 ${isVisible.books ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         <div className="mb-8 flex justify-between items-center">
           <h2 className="section-title">كتب الشيخ</h2>
@@ -180,7 +155,7 @@ const Index = () => {
         </div>
       </section>
       
-      {/* قسم الوسائط */}
+      {/* Media Section */}
       <section id="media" className={`section-container observe-section transition-all duration-1000 ${isVisible.media ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         <div className="mb-8 flex justify-between items-center">
           <h2 className="section-title">المكتبة الإعلامية</h2>
@@ -234,7 +209,7 @@ const Index = () => {
         </div>
       </section>
       
-      {/* قسم الاقتباس */}
+      {/* Quote Section */}
       <section className="py-20 bg-navy text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-pattern opacity-30"></div>
@@ -248,7 +223,7 @@ const Index = () => {
         </div>
       </section>
       
-      {/* دعوة للعمل */}
+      {/* Call to Action */}
       <section className="section-container text-center">
         <h2 className="text-3xl font-bold mb-4">تابع آخر أخبار ومستجدات الشيخ علي بن حاج</h2>
         <p className="text-gray-600 max-w-2xl mx-auto mb-8">

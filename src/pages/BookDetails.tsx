@@ -1,8 +1,8 @@
+
 import { useParams, Link } from "react-router-dom";
-import { ArrowRight, BookOpen, CalendarDays, FileText, Download, Tag } from "lucide-react";
+import { ArrowRight, BookOpen, CalendarDays, FileText, Download, Tag, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { booksData } from "../pages/Books";
-import { BookType } from "@/types/books";
 
 const BookDetails = () => {
   const { bookId } = useParams<{ bookId: string }>();
@@ -23,14 +23,14 @@ const BookDetails = () => {
     );
   }
 
-  // الكتب ذات الصلة (باستثناء الكتاب الحالي)
+  // Related books (excluding current book)
   const relatedBooks = booksData
     .filter((b) => b.id !== book.id && b.tags.some((tag) => book.tags.includes(tag)))
     .slice(0, 3);
 
   return (
     <div className="min-h-screen">
-      {/* زر الرجوع */}
+      {/* Back Button */}
       <div className="bg-gray-50 border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <Link to="/publications/books" className="inline-flex items-center text-navy hover:text-gold transition-colors">
@@ -40,10 +40,10 @@ const BookDetails = () => {
         </div>
       </div>
 
-      {/* تفاصيل الكتاب */}
+      {/* Book Details */}
       <div className="section-container">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* غلاف الكتاب */}
+          {/* Book Cover */}
           <div className="md:col-span-1">
             <div className="sticky top-8">
               <div className="relative aspect-[3/4] rounded-lg overflow-hidden shadow-lg mb-4 bg-gray-100">
@@ -72,7 +72,7 @@ const BookDetails = () => {
             </div>
           </div>
 
-          {/* معلومات الكتاب */}
+          {/* Book Info */}
           <div className="md:col-span-2">
             <h1 className="text-3xl font-bold text-navy-dark mb-2">{book.title}</h1>
             <p className="text-xl text-gray-600 mb-4">{book.author}</p>
@@ -97,7 +97,7 @@ const BookDetails = () => {
               }
             </div>
             
-            {/* الكتب ذات الصلة */}
+            {/* Related Books */}
             {relatedBooks.length > 0 && (
               <div className="mt-12">
                 <h3 className="text-xl font-bold mb-6">كتب ذات صلة</h3>

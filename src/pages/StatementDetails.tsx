@@ -8,6 +8,7 @@ import AudioPlayer from '@/components/AudioPlayer';
 import ContentStats from '@/components/ContentStats';
 import SocialShareButtons from '@/components/SocialShareButtons';
 import { generateContentPdf } from '@/utils/pdfUtils';
+import MetaTags from '@/components/MetaTags';
 
 const StatementDetails = () => {
   const { statementId } = useParams();
@@ -71,13 +72,19 @@ const StatementDetails = () => {
     );
   };
   
-  // Find related statements based on tags
+  // Find related statements based on tags - make sure tags are defined
   const relatedStatements = statementsData
-    .filter(s => s.id !== statement.id && s.tags.some(tag => statement.tags.includes(tag)))
+    .filter(s => s.id !== statement.id && 
+                 s.tags && 
+                 statement.tags && 
+                 s.tags.some(tag => statement.tags.includes(tag)))
     .slice(0, 3);
   
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Add MetaTags for better SEO */}
+      <MetaTags statement={statement} isStatementPage={true} />
+      
       <div className="bg-navy text-white py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Button 
@@ -149,13 +156,16 @@ const StatementDetails = () => {
             )}
           </div>
           
-          <div className="flex flex-wrap gap-2 mt-6">
-            {statement.tags.map((tag) => (
-              <span key={tag} className="bg-navy/10 text-navy px-3 py-1 rounded-full text-sm">
-                {tag}
-              </span>
-            ))}
-          </div>
+          {/* Only render tags if they exist */}
+          {statement.tags && statement.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-6">
+              {statement.tags.map((tag) => (
+                <span key={tag} className="bg-navy/10 text-navy px-3 py-1 rounded-full text-sm">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
         </article>
         
         {/* Related Statements */}

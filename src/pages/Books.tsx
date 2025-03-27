@@ -5,7 +5,7 @@ import { ChevronLeft, Search, BookOpen, CalendarDays, FileText } from "lucide-re
 import { cn } from "@/lib/utils";
 import { BookType } from "../types/books";
 
-const bookTags = ["الفكر الإسلامي", "السياسة الشرعية", "الفقه", "العقيدة", "الإصلاح", "التربية", "التاريخ", "الاحتجاج السلمي", "العلاقات الدولية", "الأمن القومي", "الوحدة الإسلامية", "السيادة الوطنية", "الاستعمار", "حوار الأديان", "الأموال العامة", "الفساد", "الرقابة الشرعية"];
+const bookTags = ["الفكر الإسلامي", "السياسة الشرعية", "الفقه", "العقيدة", "الإصلاح", "التربية", "التاريخ", "الاحتجاج السلمي", "العلاقات الدولية", "الأمن القومي", "الوحدة الإسلامية", "السيادة الوطنية", "الاستعمار", "حوار الأديان"];
 
 // Export booksData so it can be used in other components
 export const booksData: BookType[] = [
@@ -172,7 +172,7 @@ export const booksData: BookType[] = [
 
 تحذّر الرسالة من خطورة القبول بما يسمى "الشرعية الدولية" على حساب المرجعية الشرعية، وتؤكد أن التنازل عن السيادة باسم المعاهدات والمواثيق يُعد خيانة للهوية والعقيدة، خاصة إذا كانت تلك القوانين تتناقض مع أحكام الإسلام في مجالات العقوبات، والسياسة، والأحوال الشخصية، والاقتصاد، والسيادة التشريعية.
 
-وتعرض الرسالة نماذج واقعية تُظهر كيف تم استخدام القانون الدولي لتبرير احتلال فلسطين، وغزو العراق وأفغانستان، ودعم الأنظمة العسكرية في العالم الإسلامي، والتغطية على انتهاكات صارخة لحقوق الشعوب، بينما تُقابل مقاومة الشعوب بوصفها "إرهابًا"، وتُجرَّم كل محاولة للخروج على الواقع الفاسد بحجة "المشروعية الدولية".
+وت��رض الرسالة نماذج واقعية تُظهر كيف تم استخدام القانون الدولي لتبرير احتلال فلسطين، وغزو العراق وأفغانستان، ودعم الأنظمة العسكرية في العالم الإسلامي، والتغطية على انتهاكات صارخة لحقوق الشعوب، بينما تُقابل مقاومة الشعوب بوصفها "إرهابًا"، وتُجرَّم كل محاولة للخروج على الواقع الفاسد بحجة "المشروعية الدولية".
 
 كما تنتقد الرسالة التبعية الفكرية والسياسية للنخب الحاكمة، التي لا ترى بأسًا في تعديل الدساتير، وفرض قوانين مدنية دخيلة، وتهميش الشريعة، بدعوى "الالتزام بالاتفاقات الدولية"، في ظل صمت كثير من العلماء والفقهاء أو تواطئهم.
 
@@ -185,7 +185,7 @@ export const booksData: BookType[] = [
     title: "النظرة الموضوعية الكفيلة بحل جذور الأزمة الجزائرية",
     author: "أبو عبد الفتاح علي بن حاج",
     cover: "/lovable-uploads/c057df63-ad64-4878-aaab-3be2e8411d4d.png",
-    downloadUrl: "https://web.archive.org/web/20130806221842/http://alibenhadj.net/ebooks/elnadra.rar",
+    downloadUrl: "https://web.archive.org/web/20130806221842/http://alibenhadj.net/upload/ebook/elnadra.rar",
     year: "٢٠١٠",
     publicationDate: "٢٢ نوفمبر ٢٠١٠",
     pages: "١٥",
@@ -252,7 +252,7 @@ export const booksData: BookType[] = [
 ويختم المؤلف بجملة من التنبيهات العلمية الدقيقة، ويورد أكثر من عشرين "فائدة فقهية" تتعلق بفقه الاحتجاج، وحقوق الشعوب، وواجبات العلماء، منها:
 
 • مشروعية نقد الحاكم جهرًا.
-• الفرق بين الفتوى المنقولة والمستنبطة.
+• الفرق بين الفتوى ��لمنقولة والمستنبطة.
 • التحذير من تحريف النصوص لتبرير الظلم.
 • خطر علماء السوء وفتاواهم المعلّبة.
 
@@ -290,185 +290,220 @@ export const booksData: BookType[] = [
   },
   {
     id: 8,
-    title: "التذكير بوجوب وحدة الدول الإسلامية والتحذير من الفرقة",
+    title: "التذكير بوجوب وحدة الدول الإسلامية والتحذير من مخاطر الحركات الانفصالية",
     author: "أبو عبد الفتاح علي بن حاج",
-    cover: "/lovable-uploads/b70984a3-8bb6-413d-8e5d-d0647fb60cb6.png",
-    downloadUrl: "https://web.archive.org/web/20130807055101/http://alibenhadj.net/ebooks/attathkir.rar",
-    year: "٢٠١٠",
-    pages: "١١",
-    description: "رسالة قصيرة تعالج أهمية الوحدة الإسلامية، وتحذر من المشاريع التفتيتية للأمة، وتقدم معالم الطريق الصحيح للتضامن الإسلامي.",
-    tags: ["الفكر الإسلامي", "السياسة الشرعية", "الوحدة الإسلامية"],
+    cover: "/lovable-uploads/70d5685f-4c56-4c99-b394-a1e96adb95c5.png",
+    downloadUrl: "https://web.archive.org/web/20130119101012/http://alibenhadj.net/upload/ebook/tadkire.rar",
+    year: "٢٠١٣",
+    pages: "٦١",
+    description: "كتاب يعالج قضية وحدة الأمة الإسلامية من منظور شرعي وسياسي، محذرًا من النزعات الانفصالية التي تهدد الكيانات الإسلامية المعاصرة.",
+    tags: ["الفكر الإسلامي", "السياسة الشرعية", "الوحدة الإسلامية", "الإصلاح"],
+    fullDescription: `يعالج الشيخ علي بن حاج في كتاب "التذكير بوجوب وحدة الدول الإسلامية والتحذير من مخاطر الحركات الانفصالية"، قضية وحدة الأمة الإسلامية من منظور شرعي وسياسي، محذرًا من النزعات الانفصالية التي تهدد الكيانات الإسلامية المعاصرة، ويعتبرها من أخطر ما يهدد كيان الأمة في هذا ��لعصر، سواء أتت هذه النزعات بدوافع عرقية، طائفية، لغوية، أو إقليمية.
+
+يرتكز الكتاب الذي هو في الأصل بيان أصدره الشيخ علي بن حاج، ويقع في 61 صفحة. على قاعدة شرعية كبرى مفادها أن الأصل في الإسلام هو الوحدة لا الفرقة، وأن الدعوات الانفصالية هي من جنس "الفتنة" التي أمر الله باجتنابها. يبدأ المؤلف بتذكير الأمة بوجوب الاعتصام بحبل الله جميعًا، مستشهدًا بنصوص من القرآن الكريم والسنة النبوية، وأقوال علماء الأمة الذين حذروا من مخاطر التمزق والاحتراب الداخلي.
+
+ينتقل الكتاب بعد ذلك إلى استعراض عدد من النماذج التاريخية التي تظهر كيف أدت النزعات الانفصالية إلى إضعاف المسلمين، وضياع سيادتهم، وتمكين الاستعمار الغربي من السيطرة على أراضيهم وثرواتهم. ويخصص فصولًا قصيرة لمناقشة الأبعاد السياسية والاستراتيجية التي تستغلها القوى الكبرى لتغذية النزاعات داخل الدول الإسلامية، من أجل تنفيذ مشاريع "التفتيت والتقسيم" تحت غطاء الفيدرالية أو حق تقرير المصير أو الخصوصية الثقافية.
+
+كما يهاجم المؤلف بشدة ما يسميه التوظيف الدولي للنزعات الانفصالية، سواء كان في العراق، أو السودان، أو ليبيا، أو في بعض المناطق الحساسة من الجزائر والعالم الإسلامي، ويؤكد أن كثيرًا من الحركات التي تدّعي المظلومية ما هي إلا أدوات في يد مشاريع استعمارية جديدة، تتخفى خلف شعارات الحرية والهوية.
+
+يدعو الشيخ إلى أن تكون هناك مرجعية إسلامية جامعة تبتّ في هذه القضايا المصيرية، بدل أن تترك للشعوب الغاضبة أو الأقليات المحتقنة أو الأنظمة المستبدة، لأن القرار في مثل هذه النوازل يجب أن يكون مبنيًا على فقه المصالح والمفاسد، وليس على الانفعالات الآنية أو ردات الفعل.
+
+ويؤكد الكتاب أن الإسلام لم يمنع التعدد الثقافي أو التنوع اللغوي أو الخصوصيات المحلية، لكنه في الوقت ذاته أرسى مبدأ وحدة الدين والأمة والسيادة العامة، محذرًا من أن التنازع حول الهويات الجزئية هو أقصر طريق إلى انهيار الدولة والمجتمع.
+
+في خاتمته، يناشد الشيخ النخب الإسلامية والعلماء والمصلحين والسياسيين إلى إطلاق مشروع وحدة فكرية قبل أن تكون سياسية، يُبنى على العقيدة الإسلامية، والتاريخ المشترك، والتحديات الراهنة، لمواجهة مشاريع التفتيت الممنهج الذي بات يُدار إقليميًا ودوليًا تحت شعارات خادعة.
+
+الكتاب يُعد مرافعة شرعية وسياسية، تستحضر النصوص والمقاصد، والتجارب، والتحذيرات الواقعية، من أجل تثبيت مفهوم الوحدة، وإدانة كل مشاريع التشظي التي تمزق الأمة من الداخل، سواء بجهل أبنائها أو بمكر أعدائها.`
   },
   {
     id: 9,
-    title: "بيان: الأدلة الشرعية في وجوب الدفاع عن الأموال العامة للرعية",
+    title: "المشكاة في تذكير الأئمة الوشاة وتنبيه الأئمة الهداة",
     author: "أبو عبد الفتاح علي بن حاج",
-    cover: "/lovable-uploads/059d09a5-d92d-4fc6-92ab-b44da1b6e909.png",
-    downloadUrl: "https://web.archive.org/web/20131008025335/http://alibenhadj.net/upload/ebook/adilla.rar",
+    cover: "/lovable-uploads/08507013-dc25-4b8a-9827-bc7bf45f574d.png",
+    downloadUrl: "https://web.archive.org/web/20131008001022/http://alibenhadj.net/upload/ebook/mishekhate.rar",
     year: "٢٠٠٩",
-    publicationDate: "٢٠ جويلية ٢٠٠٩",
-    pages: "١٩",
-    description: "بيان شرعي في موضوع المال العام وأهمية الحفاظ عليه، وموقف الشرع من تبديده وإهداره.",
-    tags: ["الفكر الإسلامي", "السياسة الشرعية", "الإصلاح", "الأموال العامة", "الفساد"],
-    fullDescription: `الرسالة التي بين أيدينا بعنوان "الأدلـــة الشرعيـــة فـي وجـــوب الدفاع عن الأموال العامة للرعية" كتبها الشيخ علي بن حاج يوم 27 رجب 1430 هـ الموافق لـ 20 جويلية 2009 م، وهي عبارة عن بيان من  (حوالي 19 صفحة). نُشر في سياق احتجاجه على ما اعتبره تبديدًا للمال العام في الجزائر، لا سيما في تمويل مهرجان أفريقيا الذي بلغت تكلفته – حسب ما ورد في الرسالة – أكثر من 800 مليار سنتيم جزائري، دون مراعاة لمعاناة الشعب والفقراء والمرضى والعاطلين.
+    publicationDate: "٠٩ سبتمبر ٢٠٠٩",
+    pages: "٣٥",
+    description: "يتناول الكتاب قضية موقف العلماء والأئمة والدعاة من الظلم السياسي، والواجب الشرعي تجاه الحكام الجائرين، في ضوء النصوص الشرعية والمواقف التاريخية.",
+    tags: ["الفكر الإسلامي", "السياسة الشرعية", "العقيدة", "الإصلاح"],
+    fullDescription: `يتناول كتاب "المشكاة في تذكير الأئمة الوشاة وتنبيه الأئمة الهداة"، الذي كُتب في الجزائر بتاريخ 19 رمضان 1430 هـ الموافق لـ 09 سبتمبر 2009 م، قضية موقف العلماء والأئمة والدعاة من الظلم السياسي، والواجب الشرعي تجاه الحكام الجائرين، في ضوء النصوص الشرعية والمواقف التاريخية. يقع الكتاب في 35 صفحة، ويتسم بأسلوبه الحاد والصريح، ويعكس خطابًا توجيهيًا مباشرًا للأئمة والخطباء والعلماء داخل الجزائر وخارجها.
 
-يتناول الشيخ في هذه الرسالة قضية المال العام في الدولة الإسلامية من منظور شرعي وسياسي، وينطلق من جملة من الآيات القرآنية والأحاديث النبوية وأقوال العلماء، ليؤسس لموقف شرعي واضح يحمّل فيه الحكام مسؤولية التفريط في أموال الأمة. ويؤكد الشيخ أن المال العام أمانة في عنق ولي الأمر، لا يجوز التصرف فيه حسب الهوى، وإنما وفق ما يحقق المصلحة العامة وفق الشريعة.
+يركّز المؤلف الشيخ علي بن حاج على إدانة ظاهرة الصمت أو التواطؤ أو التبرير التي يمارسها بعض الأئمة تجاه الاستبداد والفساد، ويبيّن أن هذا الموقف لا يليق بمن يحمل رسالة الأنبياء، ولا يُرضي الله، ولا يخدم الأمة، بل يُعد من أعظم الخيانات. ويستعرض نصوصًا كثيرة من القرآن الكريم والحديث النبوي الشريف التي تؤكد على وجوب قول الحق، والأمر بالمعروف والنهي عن المنكر، وعدم الخوف إلا من الله.
 
-يفتتح البيان بعرض لقائه مع مجموعة من الشباب الغاضبين من تبديد المال في المهرجانات، ويبرر موقفه بعدم توفر المنابر للتعبير، لكنه يصر في الوقت ذاته على أن الأمر بالمعروف والنهي عن المنكر واجب على كل مسلم، وليس مقتصرًا على العلماء فقط.
+ينطلق الشيخ من تذكير الأئمة بمسؤوليتهم الكبرى أمام الله والتاريخ، محذرًا من أن السكوت على الباطل مشاركة فيه، وخيانة لأمانة العلم والدين. ويشدد على أن وظيفة الإمام والداعية لا تقتصر على الوعظ الروحي أو تعليم الطهارة والعبادات، بل تشمل مواجهة الظلم السياسي، والقيام بواجب البلاغ والنصح للأمة والحاكم.
 
-ثم يفصّل في قسم مطوّل بعنوان "السياسة الشرعية لتصريف الأموال العامة"، مستعرضًا نماذج من علماء الإسلام الذين ألّفوا كتبًا في هذا الباب، مثل الإمام أبي يوسف في "الخراج"، وتقي الدين البلاطنسي في "تحرير المقال"، والحافظ السخاوي في "السر المكتوم"، وبيّنوا بدقة شروط التصرف في بيت المال.
+يعرض الكتاب جملة من النماذج التاريخية من سيرة الصحابة والسلف الصالح الذين لم يسكتوا على جور الحكام، ويستدل بمواقف أمثال أبي ذر الغفاري، وسعيد بن جبير، والإمام مالك، والإمام أحمد، وغيرهم، مبيّنًا أن العلماء الربانيين هم من يُعارضون المنكر علنًا، لا من يتذرعون بالفتنة أو المصلحة لتبرير الجبن أو الخنوع.
 
-كما يورد مقارنة مطوّلة بين واقع الحكام اليوم ومواقف الخلفاء الراشدين من المال العام، مستشهدًا بمواقف لعمر بن الخطاب وعثمان بن عفان وعلي بن أبي طالب، وسيرة عمر بن عبد العزيز الذي جعل من المال العام وسيلة لرعاية الأرامل والمساكين والمسافرين والغارمين والأسرى.
+وفي جانب آخر من الرسالة، يخصص الشيخ نقدًا لاذعًا للأئمة الذين يستغلون المنابر لتجميل صورة الأنظمة المستبدة، أو لإدانة المعارضين والدعاة والمجاهدين، واصفًا إياهم بـ"الأئمة الوشاة"، ومؤكدًا أنهم أضرّوا بالإسلام أكثر من خصومه الظاهرين.
 
-ويخصص الشيخ جزءًا كبيرًا من الرسالة لانتقاد مشاريع الفساد المالي في الجزائر، معدّدًا فيها العشرات من ملفات النهب والاختلاس والصفقات المشبوهة، ومبينًا أن البرلمان والعدالة عاجزان عن المحاسبة، بسبب تحوّلهما إلى أدوات بيد السلطة، في حين يبقى المواطن وحده من يدفع الثمن، ويُضرب بالعقوبات الثقيلة على مخالفات بسيطة، بينما يفرّ الفاسدون الكبار من أي مساءلة.
+كما يُبرز أن انحراف كثير من الأئمة يعود إلى هيمنة وزارة الشؤون الدينية عليهم، وتحويلهم إلى موظفين إداريين تابعين للسلطة، لا يملكون الجرأة على مخالفة التعليمات، ولا الشجاعة على نصرة المظلوم أو الوقوف مع الحق.
 
-ويختم الشيخ رسالته بالدعوة إلى موقف سلمي وشعبي واسع، تقوده النخب والعلماء والدعاة، من أجل استرجاع المال العام، وضمان أن يتولى شأنه "كل حفيظ عليم"، مستشهدًا بقول يوسف عليه السلام: "اجعلني على خزائن الأرض إني حفيظ عليم".
+ويختم الشيخ الكتاب بنداء مفتوح إلى جميع العلماء والدعاة والخطباء، بأن يتقوا الله في دينهم، ويكونوا شهداء لله بالقسط، لا يخافون في الله لومة لائم، وأن يراجعوا مواقفهم، ويعيدوا الاعتبار للمنبر الإسلامي كمنبر هداية لا منبر دعاية، وكصوت للأمة لا بوق للسلطة.
 
-هذه الرسالة تعكس توجهًا إسلاميًا سياسيًا ناقدًا بحدة لممارسات الحكم، وتطرح رؤية بديلة لإدارة المال العام مبنية على السياسة الشرعية والعدالة الاجتماعية، وتأتي في سياق الحراك الشعبي والاحتجاج على الفساد المالي في الجزائر خلال فترة ما بعد أحداث التسعينيات.`
+يمثل هذا الكتاب وثيقة حية في سياق إحياء فقه البلاغ الجريء، ومقاومة تديين الاستبداد، وتحريض العلماء على التحرر من سلطان الدولة، وهو يُخاطب الأئمة من داخل موقعهم ومسؤوليتهم، بلغة مباشرة وقوية، مفعمة بالنصوص الشرعية والشواهد التاريخية.`
+  },
+  {
+    id: 10,
+    title: "الرد على تحريف السفهاء لقوله تعالى: \"تعالوا إلى كلمة سواء\"",
+    author: "أبو عبد الفتاح علي بن حاج",
+    cover: "/lovable-uploads/93dc1642-071e-4c05-8724-ac26bf1fef55.png",
+    downloadUrl: "https://web.archive.org/web/20131008080931/http://alibenhadj.net/upload/ebook/elrade.rar",
+    year: "٢٠٠٩",
+    publicationDate: "١٧ ماي ٢٠٠٩",
+    pages: "٧٢",
+    description: "ينتقد الشيخ علي بن حاج في هذه الرسالة ظاهرة ليّ أعناق النصوص الشرعية واستعمالها في غير مواضعها، لا سيما الآية الكريمة: \"تعالوا إلى كلمة سواء بيننا وبينكم...\"، التي يُستدل بها لترويج مفاهيم خاطئة عن حوار الأديان والتقارب العقائدي مع غير المسلمين.",
+    tags: ["الفكر الإسلامي", "العقيدة", "حوار الأديان"],
+    fullDescription: `ينتقد الشيخ علي بن حاج في رسالته "الرد على تحريف السفهاء لقوله تعالى: تعالوا إلى كلمة سواء"، التي كُتبت بتاريخ 21 جمادى الأولى 1430 هـ، الموافق لـ 17 ماي 2009 م، ظاهرة ليّ أعناق النصوص الشرعية واستعمالها في غير مواضعها، لا سيما الآية الكريمة: "تعالوا إلى كلمة سواء بيننا وبينكم..."، التي يُستدل بها – كما يرى – من طرف بعض الساسة والدعاة والمثقفين لترويج مفاهيم خاطئة عن حوار الأديان والتقارب العقائدي مع غير المسلمين.
+
+تقع الرسالة في 72 صفحة، وتتناول بالنقد والتفنيد ما يصفه بـ التحريف المعنوي للآية، حين تُستخدم لتبرير الاعتراف باليهود والنصارى كأديان صحيحة موازية للإسلام، أو لتبرير مشاريع الحوار المدعومة من أنظمة علمانية ومنظمات دولية ذات أهداف مشبوهة، وهو ما يعتبره الشيخ خروجًا عن مقاصد النص، وتضليلًا للأمة، وتفريطًا في العقيدة.
+
+يؤكد المؤلف أن الآية جاءت في سياق دعوة أهل الكتاب إلى ترك الشرك والدخول في التوحيد الخالص، لا لإضفاء الشرعية على معتقداتهم، أو لفتح المجال أمام مشاريع "الديانة الإبراهيمية" أو "التسامح الديني" بصيغتها الغربية الحديثة. كما يحذر من خطورة تسخير النصوص لدعم خيارات سياسية أو دبلوماسية تهدف إلى تمييع الحدود العقائدية بين الإسلام وغيره من الأديان.
+
+ويُبَيِّن من خلال النصوص التفسيرية للآية، وسياقها في سورة آل عمران، أن "كلمة سواء" تعني عبادة الله وحده، ورفض اتخاذ الأحبار والرهبان أربابًا من دون الله، لا دعوة للمساواة بين الأديان أو التغاضي عن العقائد الباطلة.
+
+كما يرد على نماذج واقعية لخطابات صادرة من بعض العلماء أو المسؤولين الذين يوظفون الآية لتبرير مشاريع سياسية مثل الاعتراف بالكيان الصهيوني، أو التعايش مع الاحتلال، أو فتح المجال أمام الكنائس في بلاد المسلمين.
+
+تُعد هذه الرسالة وثيقة عقدية وموقفًا شرعيًا صريحًا، تحذر من التنازل عن الثوابت، وتدعو إلى الصدق في البلاغ عن الله، وعدم التلبيس على الأمة باسم الحوار أو الوحدة الإنسانية، متمسكة بمفهوم الولاء والبراء، والاعتزاز بعقيدة الإسلام كخاتمة الرسالات وناسخة لما قبلها.`
   }
 ];
 
 const Books = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
-  // Filter books based on search term and selected tag
-  const filteredBooks = booksData.filter((book) => {
-    const matchesSearch = searchTerm === "" || 
-      book.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      book.author.toLowerCase().includes(searchTerm.toLowerCase());
+  // Sort books by publication date (most recent first)
+  const sortedBooks = [...booksData].sort((a, b) => {
+    // If publication date exists, sort by it, otherwise use ID as fallback
+    if (a.publicationDate && b.publicationDate) {
+      // Simple string comparison for Arabic dates (since they're formatted consistently)
+      return a.publicationDate > b.publicationDate ? -1 : 1;
+    }
+    // Sort by ID (most recent first) as fallback
+    return b.id - a.id;
+  });
+
+  const filteredBooks = sortedBooks.filter((book) => {
+    const matchesSearch = book.title.includes(searchQuery) || 
+                         book.author.includes(searchQuery) || 
+                         book.description.includes(searchQuery);
     
-    const matchesTag = selectedTag === null || book.tags.includes(selectedTag);
+    const matchesTag = selectedTag ? book.tags.includes(selectedTag) : true;
     
     return matchesSearch && matchesTag;
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Page Header */}
-      <div className="bg-navy text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h1 className="text-3xl font-bold mb-4">المكتبة</h1>
-          <p className="text-lg opacity-80">
-            تصفح الكتب والمؤلفات لفضيلة الشيخ علي بن حاج
-          </p>
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="bg-navy text-white py-16 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0 bg-pattern opacity-30"></div>
         </div>
-      </div>
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">كتب الشيخ علي بن حاج</h1>
+            <p className="text-xl text-gray-200 mb-6">
+              مجموعة من المؤلفات الفكرية والشرعية التي تتناول قضايا الأمة وسبل الإصلاح
+            </p>
+          </div>
+        </div>
+      </section>
 
-      {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Search */}
-            <div className="card p-4">
-              <div className="relative">
-                <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                <input
-                  type="text"
-                  className="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy focus:border-transparent"
-                  placeholder="بحث..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
+      {/* Filters Section */}
+      <section className="bg-gray-50 border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="relative w-full md:w-64">
+              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <Search size={18} className="text-gray-400" />
               </div>
+              <input
+                type="text"
+                className="bg-white w-full pr-10 pl-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent"
+                placeholder="ابحث عن كتاب..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
-
-            {/* Tags */}
-            <div className="card p-4">
-              <h3 className="font-bold text-lg mb-3">المواضيع</h3>
-              <div className="space-y-2">
+            
+            <div className="flex flex-wrap gap-2">
+              <button
+                className={cn(
+                  "px-3 py-1 text-sm rounded-full border transition-colors",
+                  !selectedTag
+                    ? "bg-gold text-navy border-gold"
+                    : "bg-white text-gray-600 border-gray-300 hover:bg-gray-100"
+                )}
+                onClick={() => setSelectedTag(null)}
+              >
+                الكل
+              </button>
+              {bookTags.map((tag) => (
                 <button
-                  onClick={() => setSelectedTag(null)}
+                  key={tag}
                   className={cn(
-                    "block w-full text-right py-1 px-2 rounded hover:bg-gray-100 transition-colors",
-                    selectedTag === null ? "bg-navy/10 text-navy font-medium" : "text-gray-700"
+                    "px-3 py-1 text-sm rounded-full border transition-colors",
+                    selectedTag === tag
+                      ? "bg-gold text-navy border-gold"
+                      : "bg-white text-gray-600 border-gray-300 hover:bg-gray-100"
                   )}
+                  onClick={() => setSelectedTag(tag)}
                 >
-                  جميع المواضيع
+                  {tag}
                 </button>
-                {bookTags.map((tag) => (
-                  <button
-                    key={tag}
-                    onClick={() => setSelectedTag(tag)}
-                    className={cn(
-                      "block w-full text-right py-1 px-2 rounded hover:bg-gray-100 transition-colors",
-                      selectedTag === tag ? "bg-navy/10 text-navy font-medium" : "text-gray-700"
-                    )}
-                  >
-                    {tag}
-                  </button>
-                ))}
-              </div>
+              ))}
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Main Content */}
-          <div>
-            <h2 className="text-xl font-bold mb-6">
-              {selectedTag ? `الكتب في موضوع: ${selectedTag}` : "جميع الكتب"}
-              <span className="text-gray-500 mr-2">({filteredBooks.length})</span>
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredBooks.map((book) => (
-                <Link 
-                  to={`/publications/books/${book.id}`} 
-                  key={book.id}
-                  className="card hover:shadow-md transition-all group overflow-hidden"
-                >
-                  <div className="aspect-[3/4] relative">
+      {/* Books Grid */}
+      <section className="section-container">
+        {filteredBooks.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredBooks.map((book) => (
+              <Link to={`/publications/books/${book.id}`} key={book.id} className="card group hover:shadow-lg transition-all">
+                <div className="flex md:flex-col lg:flex-row gap-4 p-4">
+                  <div className="relative w-1/3 md:w-full lg:w-1/3 aspect-[3/4] overflow-hidden rounded-md shadow-md">
                     <img 
                       src={book.cover} 
                       alt={book.title} 
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
-                      <p className="text-white text-sm line-clamp-3">{book.description}</p>
-                    </div>
                   </div>
-                  <div className="p-4">
-                    <h3 className="font-bold text-navy-dark group-hover:text-gold transition-colors mb-2 line-clamp-2">
+                  <div className="w-2/3 md:w-full lg:w-2/3">
+                    <h3 className="text-lg font-bold text-navy-dark mb-2 group-hover:text-gold transition-colors">
                       {book.title}
                     </h3>
-                    <p className="text-sm text-gray-600 mb-3">{book.author}</p>
-                    <div className="flex flex-wrap gap-2 mb-3">
-                      {book.tags.slice(0, 2).map((tag) => (
-                        <span key={tag} className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">
-                          {tag}
-                        </span>
-                      ))}
-                      {book.tags.length > 2 && (
-                        <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">
-                          +{book.tags.length - 2}
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex items-center justify-between text-sm text-gray-500">
+                    <p className="text-sm text-gray-500 mb-2">{book.author}</p>
+                    <div className="flex items-center gap-3 text-gray-500 text-sm mb-2">
                       <div className="flex items-center">
-                        <CalendarDays size={14} className="ml-1" />
-                        {book.year}
+                        <CalendarDays size={14} className="ml-1" aria-label="سنة الإصدار" />
+                        <span>{book.year}</span>
                       </div>
                       <div className="flex items-center">
                         <FileText size={14} className="ml-1" />
                         {book.pages} صفحة
                       </div>
                     </div>
+                    {book.publicationDate && (
+                      <div className="text-xs text-gold mb-2">
+                        تاريخ النشر: {book.publicationDate}
+                      </div>
+                    )}
+                    <p className="text-sm text-gray-600 line-clamp-2">{book.description}</p>
                   </div>
-                </Link>
-              ))}
-            </div>
-
-            {filteredBooks.length === 0 && (
-              <div className="text-center py-16">
-                <BookOpen size={48} className="mx-auto text-gray-300 mb-4" />
-                <h3 className="text-xl font-bold text-gray-700 mb-2">لا توجد كتب</h3>
-                <p className="text-gray-500">لم يتم العثور على كتب مطابقة للبحث</p>
-              </div>
-            )}
+                </div>
+              </Link>
+            ))}
           </div>
-        </div>
-      </div>
+        ) : (
+          <div className="text-center py-12">
+            <BookOpen size={64} className="mx-auto text-gray-300 mb-4" />
+            <h3 className="text-xl font-bold text-gray-700 mb-2">لا توجد نتائج</h3>
+            <p className="text-gray-500">لم يتم العثور على كتب تطابق معايير البحث</p>
+          </div>
+        )}
+      </section>
     </div>
   );
 };

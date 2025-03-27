@@ -3,6 +3,24 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 
+// تعريف نوع البيانات للقائمة الفرعية
+interface SubMenuItem {
+  name: string;
+  path: string;
+}
+
+// تعريف نوع البيانات لعناصر القائمة
+interface MenuItem {
+  name: string;
+  path: string;
+  submenu?: SubMenuItem[];
+}
+
+// تعريف نوع البيانات للمكون NavItem
+interface NavItemProps {
+  item: MenuItem;
+}
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -29,7 +47,7 @@ const Navbar = () => {
     setIsOpen(false);
   }, [location]);
 
-  const menuItems = [
+  const menuItems: MenuItem[] = [
     { name: 'الصفحة الرئيسة', path: '/' },
     { name: 'الأخـبـــار', path: '/news' },
     { name: 'مقالات الشيخ', path: '/articles' },
@@ -60,16 +78,16 @@ const Navbar = () => {
     }
   ];
 
-  const NavItem = ({ item }) => {
+  const NavItem = ({ item }: NavItemProps) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const dropdownRef = useRef(null);
-    const timeoutRef = useRef(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const timeoutRef = useRef<number | null>(null);
     
     useEffect(() => {
       if (!dropdownOpen) return;
       
-      const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
           setDropdownOpen(false);
         }
       };
@@ -89,7 +107,7 @@ const Navbar = () => {
     };
 
     const handleMouseLeave = () => {
-      timeoutRef.current = setTimeout(() => {
+      timeoutRef.current = window.setTimeout(() => {
         setDropdownOpen(false);
       }, 300);
     };

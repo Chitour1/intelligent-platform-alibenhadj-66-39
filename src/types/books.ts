@@ -1,4 +1,5 @@
 
+
 export interface BookType {
   id: number;
   title: string;
@@ -12,3 +13,4 @@ export interface BookType {
   tags: string[];
   fullDescription?: string;
 }
+

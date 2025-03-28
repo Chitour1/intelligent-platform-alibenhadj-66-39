@@ -18,6 +18,7 @@ import Books from "./pages/Books";
 import BookDetails from "./pages/BookDetails";
 import LatestStatements from "./pages/LatestStatements";
 import StatementDetails from "./pages/StatementDetails";
+import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +45,7 @@ const App = () => (
                 <Route path="/publications/books/:bookId" element={<BookDetails />} />
                 <Route path="/statements" element={<LatestStatements />} />
                 <Route path="/statements/:statementId" element={<StatementDetails />} />
+                <Route path="/admin" element={<AdminDashboard />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

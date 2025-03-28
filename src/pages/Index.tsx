@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import Hero from '../components/Hero';
 import NewsCard from '../components/NewsCard';
@@ -51,8 +52,25 @@ const Index = () => {
     };
   }, []);
 
+  // Define the new book
+  const newBook = {
+    id: 100,
+    title: "تفقيه الشرفاء في كيفية الرّد لزجر السفهاء",
+    author: "علي بن حاج",
+    cover: "/lovable-uploads/7e12e898-9eb0-467f-8185-2ec569d9ced5.png",
+    pages: "29", // Ensure pages is a string, not a number
+    year: "2006",
+    publicationDate: "2006",
+    description: "رسالة مختصرة تؤسس لمنهج شرعي في الردّ على المخالفين والطاعنين، يقوم على التفريق بين الردّ المبدئي المشروع وبين المهاترات والانتصار للنفس.",
+    downloadLink: "https://web.archive.org/web/20121015045021/http://alibenhadj.net/upload/ebook/tafkihe.rar",
+    categories: ["فكر إسلامي", "أخلاق"]
+  };
+
+  // Add the new book to the beginning of the sorted books array
+  const allBooks = [...booksData, newBook];
+  
   // Sort books by publication date (most recent first) then take the latest 4
-  const books = [...booksData]
+  const books = allBooks
     .sort((a, b) => {
       // If publication date exists, sort by it, otherwise use ID as fallback
       if (a.publicationDate && b.publicationDate) {
@@ -108,6 +126,7 @@ const Index = () => {
             <div className="bg-gradient-to-r from-gold/10 to-gold/5 p-6 rounded-xl border border-gold/20">
               <h3 className="text-xl font-bold mb-4 text-navy">أحدث الإصدارات</h3>
               <div className="space-y-4">
+                {/* قد تحتوي على معلومات عن أحدث الإصدارات */}
               </div>
               <Link to="/publications/books" className="mt-4 inline-flex items-center text-sm font-medium text-gold hover:text-gold-dark">
                 عرض جميع المؤلفات
@@ -118,6 +137,7 @@ const Index = () => {
             <div className="bg-gradient-to-r from-navy/10 to-navy/5 p-6 rounded-xl border border-navy/20">
               <h3 className="text-xl font-bold mb-4 text-navy">الظهور الإعلامي</h3>
               <div className="space-y-4">
+                {/* قد تحتوي على معلومات عن الظهور الإعلامي */}
               </div>
               <Link to="/publications/tv-appearances" className="mt-4 inline-flex items-center text-sm font-medium text-navy hover:text-navy-light">
                 جميع المداخلات التلفزيونية
@@ -147,7 +167,7 @@ const Index = () => {
               cover={book.cover}
               year={book.year}
               publicationDate={book.publicationDate}
-              pages={book.pages ? book.pages.toString() : ''}
+              pages={book.pages}
               description={book.description}
             />
           ))}

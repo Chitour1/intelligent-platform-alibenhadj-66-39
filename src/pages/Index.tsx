@@ -147,7 +147,7 @@ const Index = () => {
               cover={book.cover}
               year={book.year}
               publicationDate={book.publicationDate}
-              pages={book.pages}
+              pages={book.pages ? book.pages.toString() : ''}
               description={book.description}
             />
           ))}

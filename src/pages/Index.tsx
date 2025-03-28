@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import Hero from '../components/Hero';
 import NewsCard from '../components/NewsCard';
@@ -8,6 +9,8 @@ import { ArrowLeft, BookOpen, Video, Mic, Calendar, FileText, Book } from 'lucid
 import { recentMediaItems } from '../utils/youtubeUtils';
 import { statementsData } from '../utils/statementsData';
 import { getRandomQuote } from '../utils/quotesData';
+
+// Import the books data from the Books page
 import { booksData } from '../pages/Books';
 
 const Index = () => {
@@ -19,9 +22,11 @@ const Index = () => {
     interviews: false
   });
   
+  // حالة لتخزين الاقتباس المعروض
   const [currentQuote, setCurrentQuote] = useState({ id: 0, text: "" });
 
   useEffect(() => {
+    // تحديد اقتباس عشوائي عند تحميل الصفحة
     setCurrentQuote(getRandomQuote());
     
     const observer = new IntersectionObserver((entries) => {
@@ -47,12 +52,13 @@ const Index = () => {
     };
   }, []);
 
+  // Define the new book
   const newBook = {
     id: 100,
     title: "تفقيه الشرفاء في كيفية الرّد لزجر السفهاء",
     author: "علي بن حاج",
     cover: "/lovable-uploads/7e12e898-9eb0-467f-8185-2ec569d9ced5.png",
-    pages: "29",
+    pages: "29", // Ensure pages is a string, not a number
     year: "2006",
     publicationDate: "2006",
     description: "رسالة مختصرة تؤسس لمنهج شرعي في الردّ على المخالفين والطاعنين، يقوم على التفريق بين الردّ المبدئي المشروع وبين المهاترات والانتصار للنفس.",
@@ -60,19 +66,25 @@ const Index = () => {
     categories: ["فكر إسلامي", "أخلاق"]
   };
 
+  // Add the new book to the beginning of the sorted books array
   const allBooks = [...booksData, newBook];
   
+  // Sort books by publication date (most recent first) then take the latest 4
   const books = allBooks
     .sort((a, b) => {
+      // If publication date exists, sort by it, otherwise use ID as fallback
       if (a.publicationDate && b.publicationDate) {
+        // Simple string comparison for Arabic dates (since they're formatted consistently)
         return a.publicationDate > b.publicationDate ? -1 : 1;
       }
+      // Sort by ID (most recent first) as fallback
       return b.id - a.id;
     })
     .slice(0, 4);
   
   const mediaItems = recentMediaItems.slice(0, 4);
   
+  // Helper function to get the correct video link
   const getVideoLink = (item) => {
     if (item.type === 'video' && item.videoId) {
       return `/media/friday-meetings-video?videoId=${item.videoId}`;
@@ -86,6 +98,7 @@ const Index = () => {
     <div className="min-h-screen">
       <Hero />
       
+      {/* Main Feature Section */}
       <section className="section-container">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           <div className="lg:col-span-3 bg-navy p-6 rounded-xl text-white relative overflow-hidden">
@@ -135,6 +148,7 @@ const Index = () => {
         </div>
       </section>
       
+      {/* Books Section */}
       <section id="books" className={`section-container observe-section transition-all duration-1000 ${isVisible.books ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         <div className="mb-8 flex justify-between items-center">
           <h2 className="section-title">كتب الشيخ</h2>
@@ -160,6 +174,7 @@ const Index = () => {
         </div>
       </section>
       
+      {/* Media Section */}
       <section id="media" className={`section-container observe-section transition-all duration-1000 ${isVisible.media ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         <div className="mb-8 flex justify-between items-center">
           <h2 className="section-title">المكتبة الإعلامية</h2>
@@ -213,6 +228,7 @@ const Index = () => {
         </div>
       </section>
       
+      {/* Quote Section */}
       <section className="py-20 bg-navy text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-pattern opacity-30"></div>
@@ -226,6 +242,7 @@ const Index = () => {
         </div>
       </section>
       
+      {/* Call to Action */}
       <section className="section-container text-center">
         <h2 className="text-3xl font-bold mb-4">تابع آخر أخبار ومستجدات الشيخ علي بن حاج</h2>
         <p className="text-gray-600 max-w-2xl mx-auto mb-8">

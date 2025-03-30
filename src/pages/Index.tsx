@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import Hero from '../components/Hero';
 import NewsCard from '../components/NewsCard';
@@ -52,25 +51,11 @@ const Index = () => {
     };
   }, []);
 
-  // Define the new book
-  const newBook = {
-    id: 100,
-    title: "تفقيه الشرفاء في كيفية الرّد لزجر السفهاء",
-    author: "علي بن حاج",
-    cover: "/lovable-uploads/7e12e898-9eb0-467f-8185-2ec569d9ced5.png",
-    pages: "29", // Ensure pages is a string, not a number
-    year: "2006",
-    publicationDate: "2006",
-    description: "رسالة مختصرة تؤسس لمنهج شرعي في الردّ على المخالفين والطاعنين، يقوم على التفريق بين الردّ المبدئي المشروع وبين المهاترات والانتصار للنفس.",
-    downloadLink: "https://web.archive.org/web/20121015045021/http://alibenhadj.net/upload/ebook/tafkihe.rar",
-    categories: ["فكر إسلامي", "أخلاق"]
-  };
-
-  // Add the new book to the beginning of the sorted books array
-  const allBooks = [...booksData, newBook];
+  // Define the new book from the Books.tsx data
+  // Changed to use the books directly from booksData
   
   // Sort books by publication date (most recent first) then take the latest 4
-  const books = allBooks
+  const books = booksData
     .sort((a, b) => {
       // If publication date exists, sort by it, otherwise use ID as fallback
       if (a.publicationDate && b.publicationDate) {

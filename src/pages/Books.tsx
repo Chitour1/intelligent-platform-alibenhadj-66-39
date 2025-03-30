@@ -506,66 +506,42 @@ const Books = () => {
         </div>
       </section>
 
-      {/* Books Grid - Enhanced Design */}
-      <section className="section-container py-10">
+      {/* Books Grid */}
+      <section className="section-container">
         {filteredBooks.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredBooks.map((book) => (
-              <Link to={`/publications/books/${book.id}`} key={book.id} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full group">
-                <div className="relative overflow-hidden bg-gray-100 pt-[120%]">
-                  <img 
-                    src={book.cover} 
-                    alt={book.title} 
-                    className="absolute inset-0 w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  <div className="absolute bottom-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span className="bg-gold text-navy text-sm font-bold py-1 px-3 rounded-full">
-                      عرض التفاصيل
-                    </span>
+              <Link to={`/publications/books/${book.id}`} key={book.id} className="card group hover:shadow-lg transition-all">
+                <div className="flex md:flex-col lg:flex-row gap-4 p-4">
+                  <div className="relative w-1/3 md:w-full lg:w-1/3 aspect-[3/4] overflow-hidden rounded-md shadow-md">
+                    <img 
+                      src={book.cover} 
+                      alt={book.title} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
                   </div>
-                </div>
-                <div className="p-5">
-                  <h3 className="text-xl font-bold text-navy line-clamp-2 mb-2 group-hover:text-gold transition-colors">
-                    {book.title}
-                  </h3>
-                  <p className="text-sm text-gray-500 mb-3">{book.author}</p>
-                  
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center text-gray-500 text-sm">
-                      <CalendarDays size={14} className="ml-1" />
-                      <span>{book.year}</span>
+                  <div className="w-2/3 md:w-full lg:w-2/3">
+                    <h3 className="text-lg font-bold text-navy-dark mb-2 group-hover:text-gold transition-colors">
+                      {book.title}
+                    </h3>
+                    <p className="text-sm text-gray-500 mb-2">{book.author}</p>
+                    <div className="flex items-center gap-3 text-gray-500 text-sm mb-2">
+                      <div className="flex items-center">
+                        <CalendarDays size={14} className="ml-1" aria-label="سنة الإصدار" />
+                        <span>{book.year}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <FileText size={14} className="ml-1" />
+                        {book.pages} صفحة
+                      </div>
                     </div>
-                    <div className="flex items-center text-gray-500 text-sm">
-                      <FileText size={14} className="ml-1" />
-                      <span>{book.pages} صفحة</span>
-                    </div>
+                    {book.publicationDate && (
+                      <div className="text-xs text-gold mb-2">
+                        تاريخ النشر: {book.publicationDate}
+                      </div>
+                    )}
+                    <p className="text-sm text-gray-600 line-clamp-2">{book.description}</p>
                   </div>
-                  
-                  {book.publicationDate && (
-                    <div className="text-xs text-gold mb-2">
-                      تاريخ النشر: {book.publicationDate}
-                    </div>
-                  )}
-                  
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-600 line-clamp-3">{book.description}</p>
-                  </div>
-                  
-                  {book.tags && book.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-1 mt-3">
-                      {book.tags.slice(0, 2).map((tag, index) => (
-                        <span key={index} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
-                          {tag}
-                        </span>
-                      ))}
-                      {book.tags.length > 2 && (
-                        <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
-                          +{book.tags.length - 2}
-                        </span>
-                      )}
-                    </div>
-                  )}
                 </div>
               </Link>
             ))}
